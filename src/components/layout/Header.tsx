@@ -41,7 +41,10 @@ export default function Header() {
     e.preventDefault();
     setMenuOpen(false);
     if (pathname === '/') {
-      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+      // Delay scrolling until the mobile menu collapse animation (200ms) finishes
+      setTimeout(() => {
+        document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+      }, 250);
       return;
     }
     sessionStorage.setItem('scroll-target', targetId);
