@@ -9,7 +9,7 @@ export const bio = {
 };
 
 export const stats: Stat[] = [
-  { label: 'MCGA', value: 3.5, suffix: ' / 4.3', decimals: 1 },
+  { label: 'MCGA', value: 3.52, suffix: ' / 4.3', decimals: 2 },
   { label: 'Projects', value: 10, suffix: '+' },
   { label: 'Years Coding', value: 4, suffix: '+' },
 ];
