@@ -34,7 +34,7 @@ export function Projects() {
   }, [query, selectedTags]);
 
   return (
-    <section id="projects" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="projects" className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <div className="container mx-auto max-w-7xl">
         <SectionHeading
           title="Projects"

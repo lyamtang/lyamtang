@@ -7,10 +7,10 @@ import { bio, stats } from '@/data/about';
 
 export function About() {
   return (
-    <section id="about" className="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8">
+    <section id="about" className="bg-muted/30 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <div className="container mx-auto max-w-7xl">
         <SectionHeading title="About Me" />
-        <div className="grid gap-12 lg:grid-cols-[3fr_2fr]">
+        <div className="grid gap-8 lg:grid-cols-[3fr_2fr]">
           {/* Bio */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}

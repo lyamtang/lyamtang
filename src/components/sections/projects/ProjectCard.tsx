@@ -25,7 +25,7 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
               <h3 className="text-lg font-semibold leading-tight">{project.title}</h3>
               <p className="mt-0.5 text-xs text-muted-foreground">{project.year}</p>
             </div>
-            <div className="flex shrink-0 gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="flex shrink-0 gap-2">
               {project.githubUrl && (
                 <a
                   href={project.githubUrl}
@@ -62,7 +62,7 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
           </div>
           <Link
             href={`/projects/${project.slug}`}
-            className="inline-flex items-center gap-1 text-sm font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100"
+            className="inline-flex items-center gap-1 text-sm font-medium text-primary"
           >
             View details <ArrowRight className="h-3.5 w-3.5" />
           </Link>

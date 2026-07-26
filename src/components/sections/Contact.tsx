@@ -6,7 +6,7 @@ import { contactLinks } from '@/data/contact';
 
 export function Contact() {
   return (
-    <section id="contact" className="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8">
+    <section id="contact" className="bg-muted/30 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <div className="container mx-auto max-w-4xl text-center">
         <SectionHeading
           title="Get In Touch"
@@ -20,7 +20,7 @@ export function Contact() {
               href={link.href}
               target={link.icon !== 'email' ? '_blank' : undefined}
               rel={link.icon !== 'email' ? 'noopener noreferrer' : undefined}
-              className="flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground sm:w-auto"
             >
               {link.icon === 'email' && <Mail className="h-4 w-4" aria-hidden="true" />}
               {link.icon === 'linkedin' && (

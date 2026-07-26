@@ -7,7 +7,7 @@ import { experience } from '@/data/experience';
 
 export function Experience() {
   return (
-    <section id="experience" className="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8">
+    <section id="experience" className="bg-muted/30 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <div className="container mx-auto max-w-4xl">
         <SectionHeading title="Experience" />
         <div className="space-y-10">
@@ -21,7 +21,7 @@ export function Experience() {
               className="relative border-l-2 border-primary/30 pl-6"
             >
               <div className="absolute -left-[9px] top-2 h-4 w-4 rounded-full border-2 border-primary bg-background" />
-              <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
                 <div>
                   <h3 className="text-xl font-semibold">{entry.role}</h3>
                   <p className="font-medium text-primary">{entry.company}</p>
