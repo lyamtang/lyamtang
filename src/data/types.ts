@@ -17,6 +17,13 @@ export interface EducationEntry {
   highlights: string[];
 }
 
+export interface CertificationEntry {
+  name: string;
+  organisation: string;
+  issueDate: string;
+  verificationUrl: string;
+}
+
 export interface ExperienceEntry {
   company: string;
   role: string;
