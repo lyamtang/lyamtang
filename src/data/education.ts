@@ -7,7 +7,7 @@ export const education: EducationEntry[] = [
     field: 'Computer Science',
     startYear: 2022,
     endYear: 2026,
-    gpa: 3.5,
+    gpa: 3.37,
     maxGpa: 4.3,
     location: 'Clear Water Bay, Hong Kong',
     highlights: [
