@@ -2,14 +2,46 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { ModeToggle } from '@/components/ui/ModeToggle';
 
 export default function Header() {
+  const pathname = usePathname();
+  const router = useRouter();
+
   const navLinks = [
     { name: 'About', href: '#about' },
+    { name: 'Education', href: '#education' },
+    { name: 'Experience', href: '#experience' },
     { name: 'Projects', href: '#projects' },
     { name: 'Contact', href: '#contact' },
   ];
+
+  useEffect(() => {
+    if (pathname !== '/') return;
+    const targetId = sessionStorage.getItem('scroll-target');
+    if (!targetId) return;
+    sessionStorage.removeItem('scroll-target');
+    requestAnimationFrame(() => {
+      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+    });
+  }, [pathname]);
+
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
+    if (!href.startsWith('#')) return;
+
+    const targetId = href.slice(1);
+    e.preventDefault();
+
+    if (pathname === '/') {
+      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    sessionStorage.setItem('scroll-target', targetId);
+    router.push('/');
+  };
 
   return (
     <motion.header
@@ -39,7 +71,8 @@ export default function Header() {
               transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
             >
               <Link
-                href={link.href}
+                href={pathname === '/' ? link.href : '/'}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 <motion.span
