@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
+import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function Hero() {
@@ -94,19 +95,7 @@ export default function Hero() {
             className="inline-flex flex-col items-center gap-2 text-muted-foreground"
           >
             <span className="text-sm">Scroll to explore</span>
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              />
-            </svg>
+            <ArrowDown className="h-6 w-6" />
           </motion.div>
         </motion.div>
       </div>
