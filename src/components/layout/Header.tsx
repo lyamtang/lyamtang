@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
+import { ModeToggle } from '@/components/ui/ModeToggle';
 
 export default function Header() {
   const navLinks = [
@@ -15,14 +16,14 @@ export default function Header() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="sticky top-0 z-50 w-full border-b border-white/10 bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/90"
+      className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90"
     >
       <nav className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <motion.span
             whileHover={{ scale: 1.05 }}
-            className="text-xl font-bold text-white"
+            className="text-xl font-bold text-foreground"
           >
             Lyam Tang
           </motion.span>
@@ -39,7 +40,7 @@ export default function Header() {
             >
               <Link
                 href={link.href}
-                className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 <motion.span
                   whileHover={{ scale: 1.1 }}
@@ -51,6 +52,7 @@ export default function Header() {
               </Link>
             </motion.div>
           ))}
+          <ModeToggle />
         </div>
       </nav>
     </motion.header>

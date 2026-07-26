@@ -45,11 +45,11 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="w-full border-t border-white/10 bg-gray-950">
+    <footer className="w-full border-t border-border bg-background">
       <div className="container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           {/* Copyright */}
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Lyam Tang. All rights reserved.
           </p>
 
@@ -59,7 +59,7 @@ export default function Footer() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-gray-400 transition-colors hover:text-white"
+                className="text-muted-foreground transition-colors hover:text-foreground"
                 aria-label={link.name}
               >
                 <motion.div
