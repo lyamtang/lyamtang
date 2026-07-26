@@ -30,7 +30,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-5xl font-bold text-transparent sm:text-6xl lg:text-7xl"
+          className="mb-8 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text pb-1 text-5xl font-bold leading-[1.15] text-transparent sm:text-6xl lg:text-7xl"
         >
           I'm Lyam Tang
         </motion.h1>
@@ -48,9 +48,6 @@ export default function Hero() {
           </p>
           <p className="text-lg text-muted-foreground">
             Currently transitioning into software product management.
-          </p>
-          <p className="text-base text-muted-foreground">
-            I build with Next.js, TypeScript, and modern web technologies.
           </p>
         </motion.div>
 

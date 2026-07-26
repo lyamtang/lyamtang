@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lyam Tang | Portfolio",
+  title: "Lyam Tang",
   description: "HKUST Computer Science graduate transitioning into software product management. Building with Next.js, TypeScript, and modern web technologies.",
 };
 
