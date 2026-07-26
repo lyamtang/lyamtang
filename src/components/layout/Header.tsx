@@ -35,6 +35,14 @@ export default function Header() {
     });
   }, [pathname]);
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    // On other pages, let the Link navigate to '/' naturally (renders from top)
+  };
+
   const handleNavClick = (e: React.MouseEvent, href: string) => {
     if (!href.startsWith('#')) return;
     const targetId = href.slice(1);
@@ -60,7 +68,7 @@ export default function Header() {
     >
       <nav className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
+        <Link href="/" onClick={handleLogoClick} className="flex items-center space-x-2">
           <motion.span whileHover={{ scale: 1.05 }} className="text-xl font-bold text-foreground">
             Lyam Tang
           </motion.span>
