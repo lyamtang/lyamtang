@@ -49,9 +49,6 @@ export default function Hero() {
           <p className="text-lg text-muted-foreground">
             Currently transitioning into software product management.
           </p>
-          <p className="text-base text-muted-foreground">
-            I build with Next.js, TypeScript, and modern web technologies.
-          </p>
         </motion.div>
 
         {/* CTA Buttons */}
