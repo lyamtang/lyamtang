@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="#0f172a"/>
+  <ellipse cx="800" cy="450" rx="520" ry="360" fill="url(#glow)"/>
+
+  <!-- Navigation -->
+  <rect width="1600" height="60" fill="#0f172a" fill-opacity="0.9"/>
+  <line x1="0" y1="60" x2="1600" y2="60" stroke="#1e293b" stroke-width="1"/>
+  <text x="64" y="38" font-family="system-ui,sans-serif" font-size="18" fill="#f8fafc" font-weight="800">LT</text>
+  <text x="1080" y="36" font-family="system-ui,sans-serif" font-size="13" fill="#94a3b8">About</text>
+  <text x="1180" y="36" font-family="system-ui,sans-serif" font-size="13" fill="#94a3b8">Experience</text>
+  <text x="1318" y="36" font-family="system-ui,sans-serif" font-size="13" fill="#94a3b8">Projects</text>
+  <text x="1446" y="36" font-family="system-ui,sans-serif" font-size="13" fill="#94a3b8">Contact</text>
+  <!-- Mode toggle -->
+  <rect x="1530" y="18" width="48" height="24" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <circle cx="1546" cy="30" r="8" fill="#334155"/>
+
+  <!-- Hero section -->
+  <text x="800" y="290" font-family="system-ui,sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle" letter-spacing="3">HELLO, I'M</text>
+  <text x="800" y="380" font-family="system-ui,sans-serif" font-size="80" fill="#f8fafc" font-weight="800" text-anchor="middle">Lyam Tang</text>
+
+  <!-- Animated underline bar -->
+  <rect x="676" y="392" width="248" height="4" rx="2" fill="#7c3aed"/>
+
+  <text x="800" y="444" font-family="system-ui,sans-serif" font-size="24" fill="#a78bfa" text-anchor="middle" font-weight="500">Software Developer &amp; Product Manager</text>
+  <text x="800" y="490" font-family="system-ui,sans-serif" font-size="15" fill="#64748b" text-anchor="middle">Building products at the intersection of technology and human experience.</text>
+  <text x="800" y="514" font-family="system-ui,sans-serif" font-size="15" fill="#64748b" text-anchor="middle">Currently at HKUST.</text>
+
+  <!-- CTA Buttons -->
+  <rect x="648" y="552" width="168" height="48" rx="10" fill="#7c3aed"/>
+  <text x="732" y="582" font-family="system-ui,sans-serif" font-size="14" fill="#fff" font-weight="600" text-anchor="middle">View Projects</text>
+
+  <rect x="836" y="552" width="168" height="48" rx="10" fill="transparent" stroke="#334155" stroke-width="1.5"/>
+  <text x="920" y="582" font-family="system-ui,sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">Get in Touch</text>
+
+  <!-- Tech stack pills -->
+  <text x="800" y="650" font-family="system-ui,sans-serif" font-size="12" fill="#475569" text-anchor="middle">Built with</text>
+
+  <rect x="552" y="666" width="80" height="26" rx="13" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="592" y="683" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Next.js 16</text>
+
+  <rect x="646" y="666" width="96" height="26" rx="13" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="694" y="683" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Tailwind CSS v4</text>
+
+  <rect x="756" y="666" width="88" height="26" rx="13" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="800" y="683" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Framer Motion</text>
+
+  <rect x="858" y="666" width="72" height="26" rx="13" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="894" y="683" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">shadcn/ui</text>
+
+  <rect x="944" y="666" width="104" height="26" rx="13" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="996" y="683" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">TypeScript</text>
+
+  <!-- Scroll indicator -->
+  <text x="800" y="790" font-family="system-ui,sans-serif" font-size="12" fill="#475569" text-anchor="middle">scroll to explore</text>
+  <line x1="800" y1="798" x2="800" y2="850" stroke="#334155" stroke-width="1" stroke-dasharray="3,4"/>
+  <circle cx="800" cy="856" r="4" fill="#334155"/>
+
+  <!-- Subtle grid background decoration -->
+  <line x1="0" y1="200" x2="1600" y2="200" stroke="#1e293b" stroke-width="0.5" stroke-opacity="0.5"/>
+  <line x1="0" y1="700" x2="1600" y2="700" stroke="#1e293b" stroke-width="0.5" stroke-opacity="0.5"/>
+</svg>

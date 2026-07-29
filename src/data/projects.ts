@@ -13,6 +13,65 @@ export const projects: Project[] = [
     featured: true,
     category: ['Web', 'Frontend'],
     year: 2026,
+    details: {
+      role: 'Designer & Developer',
+      duration: '4 weeks',
+      team: 'Solo',
+      gallery: [
+        {
+          src: '/images/projects/personal-website/01.svg',
+          alt: 'Hero section',
+          caption: 'Hero section with animated entrance and dark/light theme toggling',
+        },
+        {
+          src: '/images/projects/personal-website/02.svg',
+          alt: 'Projects section',
+          caption: 'Searchable, filterable project grid with tech-stack tag filters',
+        },
+      ],
+      timeline: [
+        {
+          phase: 'Planning & Design',
+          description:
+            'Defined the site structure, selected the tech stack, and established the visual language and component system.',
+        },
+        {
+          phase: 'Development',
+          description:
+            'Built the Next.js App Router structure with static export, integrated Tailwind CSS v4 and shadcn/ui, and implemented Framer Motion scroll animations.',
+        },
+        {
+          phase: 'Content & Polish',
+          description:
+            'Authored all project and experience content, refined animations and spacing, and deployed to production.',
+        },
+      ],
+      techniques: [
+        {
+          name: 'Next.js App Router with static export',
+          reason:
+            'RSC-first rendering with full SSG enables zero cold starts and instant page loads without a running server.',
+          contribution: 'Configured the static export pipeline and structured all routes under the App Router paradigm.',
+        },
+        {
+          name: 'Framer Motion whileInView',
+          reason:
+            'Scroll-triggered animations create a polished feel without impacting initial page load performance.',
+          contribution: 'Designed and implemented all entrance and hover animation variants across the site.',
+        },
+        {
+          name: 'Tailwind CSS v4 with CSS variables',
+          reason:
+            'Theme-aware design system with dark/light mode support driven entirely by CSS custom properties.',
+          contribution: 'Built the full token system and dark/light mode switching via next-themes.',
+        },
+      ],
+      outcomes: [
+        'Delivered a fully functional personal portfolio with dark/light theming and smooth scroll animations.',
+        'Built and deployed the entire site solo in under 4 weeks.',
+        'Used as the primary portfolio artifact for recruiting and professional networking.',
+      ],
+    },
   },
   {
     slug: 'aiot-smart-eldercare',
@@ -26,6 +85,109 @@ export const projects: Project[] = [
     featured: true,
     category: ['Web', 'Full Stack', 'Product Management'],
     year: 2026,
+    details: {
+      role: 'Full-Stack Developer & Product Manager',
+      duration: '6 months',
+      team: '5 members',
+      gallery: [
+        {
+          src: '/images/projects/aiot-smart-eldercare/01.svg',
+          alt: 'Health monitoring dashboard',
+          caption: 'Real-time dashboard showing patient vitals, alerts, and 24-hour heart rate trend',
+        },
+        {
+          src: '/images/projects/aiot-smart-eldercare/02.svg',
+          alt: 'Caregiver mobile app',
+          caption: 'Cross-platform React Native app — patient list and vitals detail view',
+        },
+        {
+          src: '/images/projects/aiot-smart-eldercare/03.svg',
+          alt: 'System architecture diagram',
+          caption: 'End-to-end architecture: IoT sensors → Go service → PostgreSQL → WebSocket → apps',
+        },
+      ],
+      timeline: [
+        {
+          phase: 'Discovery & Requirements',
+          description:
+            'Interviewed caregivers and elderly users to identify core monitoring needs, alert thresholds, and UX pain points.',
+        },
+        {
+          phase: 'Architecture Design',
+          description:
+            'Designed a microservices system with WebSocket for real-time streaming and PostgreSQL for time-series health data storage.',
+        },
+        {
+          phase: 'Hardware Integration',
+          description:
+            'Integrated IoT sensors with the backend via a high-throughput Go service for concurrent device data ingestion.',
+        },
+        {
+          phase: 'Mobile & Web Development',
+          description:
+            'Built the React Native caregiver app and web dashboard with live health metrics, alerts, and patient history views.',
+        },
+        {
+          phase: 'Testing & Iteration',
+          description:
+            'Conducted user testing sessions with caregivers, refining alert sensitivity and UI clarity based on direct feedback.',
+        },
+      ],
+      painPoints: [
+        {
+          problem:
+            'WebSocket connections dropped frequently under poor mobile network conditions, causing missed health alerts.',
+          approach:
+            'Implemented reconnection logic with exponential back-off and a local offline queue that syncs on reconnect.',
+          outcome: 'Reduced alert delivery failures to near zero in simulated poor-connectivity tests.',
+        },
+        {
+          problem:
+            'Early prototype generated too many false positive alerts, leading to caregiver alert fatigue and distrust.',
+          approach:
+            'Built a per-patient threshold calibration system that adjusts sensitivity based on caregiver feedback.',
+          outcome: 'Reduced false positive alerts by approximately 40% in internal testing.',
+        },
+        {
+          problem:
+            'The React Native app and web dashboard developed diverging UI patterns, increasing maintenance cost.',
+          approach: 'Extracted a shared design token set and component library used across both platforms.',
+          outcome: 'Halved UI bug count and significantly reduced cross-platform feature parity effort.',
+        },
+      ],
+      techniques: [
+        {
+          name: 'WebSocket (real-time streaming)',
+          reason:
+            'Low-latency bidirectional communication is critical for health monitoring — HTTP polling would introduce unacceptable delays for alerts.',
+          contribution: 'Designed the event schema and the reconnection protocol.',
+        },
+        {
+          name: 'Go microservice',
+          reason:
+            "Go's concurrency model and minimal memory footprint make it ideal for handling thousands of simultaneous IoT sensor connections.",
+          contribution: 'Built and optimised the data ingestion service from the ground up.',
+        },
+        {
+          name: 'PostgreSQL with time-series indexing',
+          reason:
+            'Reliable ACID-compliant storage for health records with efficient range queries for trend analysis over days and weeks.',
+          contribution: 'Designed the schema and indexing strategy for time-series health metrics.',
+        },
+        {
+          name: 'React Native',
+          reason:
+            'Single codebase for iOS and Android caregiver apps with native performance and access to push notification APIs.',
+          contribution: 'Led front-end architecture and implemented the real-time alert notification system.',
+        },
+      ],
+      outcomes: [
+        'Reduced simulated caregiver response time by 60% through real-time push alert notifications.',
+        'Successfully monitored 10+ concurrent health metrics across multiple patients in testing.',
+        'Presented to 3 healthcare organisations for potential pilot program consideration.',
+        'Delivered a fully functional cross-platform prototype within the 6-month timeline.',
+      ],
+    },
   },
   {
     slug: 'predictive-behavioral-safety-app',

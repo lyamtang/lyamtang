@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="900" fill="#0f172a"/>
+
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="224" height="900" fill="#1e293b"/>
+  <rect x="16" y="20" width="192" height="40" rx="8" fill="#0ea5e9" fill-opacity="0.15"/>
+  <circle cx="40" cy="40" r="12" fill="#38bdf8"/>
+  <text x="60" y="45" font-family="system-ui,sans-serif" font-size="13" fill="#f8fafc" font-weight="700">AIoT Eldercare</text>
+  <rect x="12" y="76" width="200" height="36" rx="6" fill="#0ea5e9" fill-opacity="0.2"/>
+  <text x="40" y="99" font-family="system-ui,sans-serif" font-size="13" fill="#38bdf8" font-weight="600">Dashboard</text>
+  <text x="40" y="140" font-family="system-ui,sans-serif" font-size="13" fill="#64748b">Patients</text>
+  <text x="40" y="180" font-family="system-ui,sans-serif" font-size="13" fill="#64748b">Alerts</text>
+  <text x="40" y="220" font-family="system-ui,sans-serif" font-size="13" fill="#64748b">Analytics</text>
+  <text x="40" y="260" font-family="system-ui,sans-serif" font-size="13" fill="#64748b">Settings</text>
+  <rect x="12" y="840" width="200" height="44" rx="6" fill="#334155"/>
+  <circle cx="36" cy="862" r="12" fill="#475569"/>
+  <text x="56" y="858" font-family="system-ui,sans-serif" font-size="12" fill="#e2e8f0">Caregiver</text>
+  <text x="56" y="874" font-family="system-ui,sans-serif" font-size="11" fill="#22c55e">● Online</text>
+
+  <!-- Top bar -->
+  <rect x="224" y="0" width="1376" height="56" fill="#1e293b"/>
+  <text x="248" y="34" font-family="system-ui,sans-serif" font-size="18" fill="#f8fafc" font-weight="700">Dashboard</text>
+  <text x="400" y="34" font-family="system-ui,sans-serif" font-size="13" fill="#64748b">Real-time health monitoring</text>
+  <rect x="1382" y="14" width="112" height="28" rx="14" fill="#14532d"/>
+  <circle cx="1402" cy="28" r="5" fill="#22c55e"/>
+  <text x="1414" y="33" font-family="system-ui,sans-serif" font-size="12" fill="#86efac">3 Active</text>
+
+  <!-- Metric cards -->
+  <rect x="244" y="74" width="312" height="124" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="268" y="102" font-family="system-ui,sans-serif" font-size="10" fill="#64748b" letter-spacing="1.5">HEART RATE</text>
+  <text x="268" y="148" font-family="system-ui,sans-serif" font-size="44" fill="#f8fafc" font-weight="700">72</text>
+  <text x="328" y="148" font-family="system-ui,sans-serif" font-size="14" fill="#64748b">bpm</text>
+  <rect x="268" y="160" width="58" height="20" rx="10" fill="#14532d"/>
+  <text x="297" y="174" font-family="system-ui,sans-serif" font-size="10" fill="#86efac" text-anchor="middle">Normal</text>
+
+  <rect x="572" y="74" width="312" height="124" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="596" y="102" font-family="system-ui,sans-serif" font-size="10" fill="#64748b" letter-spacing="1.5">BLOOD PRESSURE</text>
+  <text x="596" y="148" font-family="system-ui,sans-serif" font-size="44" fill="#f8fafc" font-weight="700">118</text>
+  <text x="672" y="148" font-family="system-ui,sans-serif" font-size="14" fill="#64748b">/76</text>
+  <rect x="596" y="160" width="58" height="20" rx="10" fill="#14532d"/>
+  <text x="625" y="174" font-family="system-ui,sans-serif" font-size="10" fill="#86efac" text-anchor="middle">Normal</text>
+
+  <rect x="900" y="74" width="312" height="124" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="924" y="102" font-family="system-ui,sans-serif" font-size="10" fill="#64748b" letter-spacing="1.5">OXYGEN (SpO2)</text>
+  <text x="924" y="148" font-family="system-ui,sans-serif" font-size="44" fill="#f8fafc" font-weight="700">98</text>
+  <text x="980" y="148" font-family="system-ui,sans-serif" font-size="14" fill="#64748b">%</text>
+  <rect x="924" y="160" width="58" height="20" rx="10" fill="#14532d"/>
+  <text x="953" y="174" font-family="system-ui,sans-serif" font-size="10" fill="#86efac" text-anchor="middle">Normal</text>
+
+  <rect x="1228" y="74" width="340" height="124" rx="10" fill="#7f1d1d" fill-opacity="0.3" stroke="#ef4444" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="1252" y="102" font-family="system-ui,sans-serif" font-size="10" fill="#fca5a5" letter-spacing="1.5">BLOOD PRESSURE (P.A)</text>
+  <text x="1252" y="148" font-family="system-ui,sans-serif" font-size="44" fill="#fca5a5" font-weight="700">142</text>
+  <text x="1338" y="148" font-family="system-ui,sans-serif" font-size="14" fill="#fca5a5">/90</text>
+  <rect x="1252" y="160" width="50" height="20" rx="10" fill="#7f1d1d"/>
+  <text x="1277" y="174" font-family="system-ui,sans-serif" font-size="10" fill="#fca5a5" text-anchor="middle">Alert</text>
+
+  <!-- Chart -->
+  <rect x="244" y="218" width="810" height="330" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="268" y="250" font-family="system-ui,sans-serif" font-size="13" fill="#f1f5f9" font-weight="600">Heart Rate — Last 24 Hours · Patient A</text>
+
+  <!-- Grid lines -->
+  <line x1="296" y1="508" x2="1030" y2="508" stroke="#334155" stroke-width="1"/>
+  <line x1="296" y1="468" x2="1030" y2="468" stroke="#334155" stroke-width="1"/>
+  <line x1="296" y1="428" x2="1030" y2="428" stroke="#334155" stroke-width="1"/>
+  <line x1="296" y1="388" x2="1030" y2="388" stroke="#334155" stroke-width="1"/>
+  <line x1="296" y1="348" x2="1030" y2="348" stroke="#334155" stroke-width="1"/>
+  <line x1="296" y1="308" x2="1030" y2="308" stroke="#334155" stroke-width="1"/>
+
+  <!-- Y labels -->
+  <text x="288" y="512" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="end">50</text>
+  <text x="288" y="472" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="end">60</text>
+  <text x="288" y="432" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="end">70</text>
+  <text x="288" y="392" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="end">80</text>
+  <text x="288" y="352" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="end">90</text>
+  <text x="288" y="312" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="end">100</text>
+
+  <!-- Area + Line: 12 pts across x=296..1030, bpm=68,65,64,66,72,75,74,73,71,70,72,69 mapped to y -->
+  <!-- y = 508 - ((bpm-50)/50)*200: 68→436,65→450,64→456,66→444,72→416,75→400,74→406,73→412,71→424,70→430,72→416,69→442 -->
+  <!-- x spaced by 67px: 296,363,430,497,564,631,698,765,832,899,966,1030 -->
+  <path d="M296,436 L363,450 L430,456 L497,444 L564,416 L631,400 L698,406 L765,412 L832,424 L899,430 L966,416 L1030,442 L1030,508 L296,508 Z" fill="url(#chart-fill)"/>
+  <polyline points="296,436 363,450 430,456 497,444 564,416 631,400 698,406 765,412 832,424 899,430 966,416 1030,442" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="631" cy="400" r="4" fill="#38bdf8"/>
+
+  <!-- X labels -->
+  <text x="296" y="526" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="middle">00:00</text>
+  <text x="430" y="526" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="middle">04:00</text>
+  <text x="564" y="526" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="middle">08:00</text>
+  <text x="698" y="526" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="middle">12:00</text>
+  <text x="832" y="526" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="middle">16:00</text>
+  <text x="966" y="526" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="middle">20:00</text>
+  <text x="1030" y="526" font-family="system-ui,sans-serif" font-size="10" fill="#475569" text-anchor="middle">24:00</text>
+
+  <!-- Alerts panel -->
+  <rect x="1074" y="218" width="492" height="330" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="1098" y="250" font-family="system-ui,sans-serif" font-size="13" fill="#f1f5f9" font-weight="600">Alerts</text>
+  <rect x="1398" y="232" width="56" height="24" rx="4" fill="#7f1d1d"/>
+  <text x="1426" y="248" font-family="system-ui,sans-serif" font-size="11" fill="#fca5a5" text-anchor="middle">2 new</text>
+
+  <rect x="1094" y="264" width="450" height="68" rx="8" fill="#7f1d1d" fill-opacity="0.2"/>
+  <rect x="1094" y="264" width="4" height="68" rx="2" fill="#ef4444"/>
+  <text x="1112" y="284" font-family="system-ui,sans-serif" font-size="10" fill="#fca5a5" font-weight="700" letter-spacing="1.2">HIGH PRIORITY</text>
+  <text x="1112" y="306" font-family="system-ui,sans-serif" font-size="12" fill="#e2e8f0">Patient A — Blood pressure 142/90 mmHg</text>
+  <text x="1112" y="324" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">2 minutes ago</text>
+
+  <rect x="1094" y="344" width="450" height="68" rx="8" fill="#78350f" fill-opacity="0.2"/>
+  <rect x="1094" y="344" width="4" height="68" rx="2" fill="#f59e0b"/>
+  <text x="1112" y="364" font-family="system-ui,sans-serif" font-size="10" fill="#fcd34d" font-weight="700" letter-spacing="1.2">MEDIUM</text>
+  <text x="1112" y="386" font-family="system-ui,sans-serif" font-size="12" fill="#e2e8f0">Patient B — Irregular heart rate detected</text>
+  <text x="1112" y="404" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">15 minutes ago</text>
+
+  <rect x="1094" y="424" width="450" height="68" rx="8" fill="#1e293b"/>
+  <rect x="1094" y="424" width="4" height="68" rx="2" fill="#22c55e"/>
+  <text x="1112" y="444" font-family="system-ui,sans-serif" font-size="10" fill="#86efac" font-weight="700" letter-spacing="1.2">RESOLVED</text>
+  <text x="1112" y="466" font-family="system-ui,sans-serif" font-size="12" fill="#94a3b8">Patient C — SpO2 returned to 98%</text>
+  <text x="1112" y="484" font-family="system-ui,sans-serif" font-size="10" fill="#475569">32 minutes ago</text>
+
+  <!-- Patient table -->
+  <rect x="244" y="568" width="1322" height="292" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="268" y="600" font-family="system-ui,sans-serif" font-size="13" fill="#f1f5f9" font-weight="600">Active Patients</text>
+
+  <!-- Table header -->
+  <text x="284" y="632" font-family="system-ui,sans-serif" font-size="10" fill="#475569" letter-spacing="1.2">PATIENT</text>
+  <text x="500" y="632" font-family="system-ui,sans-serif" font-size="10" fill="#475569" letter-spacing="1.2">AGE</text>
+  <text x="600" y="632" font-family="system-ui,sans-serif" font-size="10" fill="#475569" letter-spacing="1.2">HEART RATE</text>
+  <text x="810" y="632" font-family="system-ui,sans-serif" font-size="10" fill="#475569" letter-spacing="1.2">BLOOD PRESSURE</text>
+  <text x="1060" y="632" font-family="system-ui,sans-serif" font-size="10" fill="#475569" letter-spacing="1.2">SpO2</text>
+  <text x="1180" y="632" font-family="system-ui,sans-serif" font-size="10" fill="#475569" letter-spacing="1.2">STATUS</text>
+  <line x1="268" y1="640" x2="1540" y2="640" stroke="#334155" stroke-width="1"/>
+
+  <text x="284" y="670" font-family="system-ui,sans-serif" font-size="13" fill="#e2e8f0">Patient A</text>
+  <text x="500" y="670" font-family="system-ui,sans-serif" font-size="13" fill="#94a3b8">78</text>
+  <text x="600" y="670" font-family="system-ui,sans-serif" font-size="13" fill="#e2e8f0">84 bpm</text>
+  <text x="810" y="670" font-family="system-ui,sans-serif" font-size="13" fill="#fca5a5">142/90 mmHg</text>
+  <text x="1060" y="670" font-family="system-ui,sans-serif" font-size="13" fill="#e2e8f0">97%</text>
+  <rect x="1180" y="656" width="60" height="22" rx="11" fill="#7f1d1d"/>
+  <text x="1210" y="671" font-family="system-ui,sans-serif" font-size="11" fill="#fca5a5" text-anchor="middle">Alert</text>
+  <line x1="268" y1="684" x2="1540" y2="684" stroke="#334155" stroke-width="0.5"/>
+
+  <text x="284" y="718" font-family="system-ui,sans-serif" font-size="13" fill="#e2e8f0">Patient B</text>
+  <text x="500" y="718" font-family="system-ui,sans-serif" font-size="13" fill="#94a3b8">65</text>
+  <text x="600" y="718" font-family="system-ui,sans-serif" font-size="13" fill="#fcd34d">91 bpm</text>
+  <text x="810" y="718" font-family="system-ui,sans-serif" font-size="13" fill="#e2e8f0">128/82 mmHg</text>
+  <text x="1060" y="718" font-family="system-ui,sans-serif" font-size="13" fill="#e2e8f0">96%</text>
+  <rect x="1180" y="704" width="72" height="22" rx="11" fill="#78350f"/>
+  <text x="1216" y="719" font-family="system-ui,sans-serif" font-size="11" fill="#fcd34d" text-anchor="middle">Warning</text>
+  <line x1="268" y1="732" x2="1540" y2="732" stroke="#334155" stroke-width="0.5"/>
+
+  <text x="284" y="766" font-family="system-ui,sans-serif" font-size="13" fill="#e2e8f0">Patient C</text>
+  <text x="500" y="766" font-family="system-ui,sans-serif" font-size="13" fill="#94a3b8">71</text>
+  <text x="600" y="766" font-family="system-ui,sans-serif" font-size="13" fill="#e2e8f0">68 bpm</text>
+  <text x="810" y="766" font-family="system-ui,sans-serif" font-size="13" fill="#e2e8f0">118/76 mmHg</text>
+  <text x="1060" y="766" font-family="system-ui,sans-serif" font-size="13" fill="#e2e8f0">98%</text>
+  <rect x="1180" y="752" width="62" height="22" rx="11" fill="#14532d"/>
+  <text x="1211" y="767" font-family="system-ui,sans-serif" font-size="11" fill="#86efac" text-anchor="middle">Normal</text>
+</svg>

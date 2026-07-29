@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+
+  <!-- Page header -->
+  <text x="80" y="72" font-family="system-ui,sans-serif" font-size="28" fill="#f8fafc" font-weight="700">Caregiver Mobile App</text>
+  <text x="80" y="100" font-family="system-ui,sans-serif" font-size="14" fill="#64748b">React Native — iOS &amp; Android · Real-time vitals and alert management</text>
+
+  <!-- Phone 1: Patient List -->
+  <rect x="80" y="130" width="340" height="720" rx="36" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <rect x="96" y="148" width="308" height="684" rx="28" fill="#0f172a"/>
+  <!-- Notch -->
+  <rect x="196" y="148" width="108" height="24" rx="12" fill="#1e293b"/>
+
+  <!-- Screen content: patient list -->
+  <text x="250" y="210" font-family="system-ui,sans-serif" font-size="16" fill="#f8fafc" font-weight="700" text-anchor="middle">My Patients</text>
+  <text x="250" y="232" font-family="system-ui,sans-serif" font-size="11" fill="#64748b" text-anchor="middle">3 active · 2 alerts</text>
+
+  <!-- Patient card 1 - Alert -->
+  <rect x="104" y="248" width="292" height="88" rx="12" fill="#7f1d1d" fill-opacity="0.25" stroke="#ef4444" stroke-width="1" stroke-opacity="0.4"/>
+  <circle cx="132" cy="278" r="16" fill="#475569"/>
+  <text x="132" y="283" font-family="system-ui,sans-serif" font-size="11" fill="#f8fafc" text-anchor="middle">PA</text>
+  <text x="158" y="272" font-family="system-ui,sans-serif" font-size="13" fill="#f8fafc" font-weight="600">Patient A, 78</text>
+  <text x="158" y="291" font-family="system-ui,sans-serif" font-size="11" fill="#fca5a5">⚠  BP Alert: 142/90 mmHg</text>
+  <text x="158" y="326" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">Last updated 2 min ago</text>
+
+  <!-- Patient card 2 - Warning -->
+  <rect x="104" y="348" width="292" height="88" rx="12" fill="#78350f" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.3"/>
+  <circle cx="132" cy="378" r="16" fill="#475569"/>
+  <text x="132" y="383" font-family="system-ui,sans-serif" font-size="11" fill="#f8fafc" text-anchor="middle">PB</text>
+  <text x="158" y="372" font-family="system-ui,sans-serif" font-size="13" fill="#f8fafc" font-weight="600">Patient B, 65</text>
+  <text x="158" y="391" font-family="system-ui,sans-serif" font-size="11" fill="#fcd34d">!  Heart rate irregular: 91 bpm</text>
+  <text x="158" y="426" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">Last updated 15 min ago</text>
+
+  <!-- Patient card 3 - Normal -->
+  <rect x="104" y="448" width="292" height="88" rx="12" fill="#1e293b"/>
+  <circle cx="132" cy="478" r="16" fill="#475569"/>
+  <text x="132" y="483" font-family="system-ui,sans-serif" font-size="11" fill="#f8fafc" text-anchor="middle">PC</text>
+  <text x="158" y="472" font-family="system-ui,sans-serif" font-size="13" fill="#f8fafc" font-weight="600">Patient C, 71</text>
+  <text x="158" y="491" font-family="system-ui,sans-serif" font-size="11" fill="#86efac">✓  All vitals normal</text>
+  <text x="158" y="526" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">Last updated 5 min ago</text>
+
+  <!-- Bottom nav -->
+  <rect x="96" y="790" width="308" height="42" fill="#1e293b"/>
+  <text x="152" y="816" font-family="system-ui,sans-serif" font-size="11" fill="#38bdf8" text-anchor="middle">Patients</text>
+  <text x="250" y="816" font-family="system-ui,sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Alerts</text>
+  <text x="348" y="816" font-family="system-ui,sans-serif" font-size="11" fill="#64748b" text-anchor="middle">History</text>
+
+  <!-- Phone 2: Patient Detail -->
+  <rect x="500" y="130" width="340" height="720" rx="36" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <rect x="516" y="148" width="308" height="684" rx="28" fill="#0f172a"/>
+  <rect x="616" y="148" width="108" height="24" rx="12" fill="#1e293b"/>
+
+  <!-- Detail screen -->
+  <text x="600" y="210" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">&#x2190; Back</text>
+  <text x="670" y="240" font-family="system-ui,sans-serif" font-size="16" fill="#f8fafc" font-weight="700" text-anchor="middle">Patient A</text>
+  <text x="670" y="260" font-family="system-ui,sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Female, 78 · Room 203</text>
+
+  <!-- 2x2 vitals grid -->
+  <rect x="524" y="274" width="140" height="96" rx="10" fill="#1e293b"/>
+  <text x="544" y="298" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" letter-spacing="1">HEART RATE</text>
+  <text x="544" y="338" font-family="system-ui,sans-serif" font-size="30" fill="#f8fafc" font-weight="700">84</text>
+  <text x="588" y="338" font-family="system-ui,sans-serif" font-size="11" fill="#64748b">bpm</text>
+  <text x="544" y="360" font-family="system-ui,sans-serif" font-size="9" fill="#fcd34d">&#x2191; Slightly high</text>
+
+  <rect x="674" y="274" width="140" height="96" rx="10" fill="#7f1d1d" fill-opacity="0.3" stroke="#ef4444" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="694" y="298" font-family="system-ui,sans-serif" font-size="9" fill="#fca5a5" letter-spacing="1">BLOOD PRESSURE</text>
+  <text x="694" y="334" font-family="system-ui,sans-serif" font-size="22" fill="#fca5a5" font-weight="700">142/90</text>
+  <text x="694" y="356" font-family="system-ui,sans-serif" font-size="9" fill="#fca5a5">&#x26A0; ALERT</text>
+
+  <rect x="524" y="380" width="140" height="96" rx="10" fill="#1e293b"/>
+  <text x="544" y="404" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" letter-spacing="1">OXYGEN (SpO2)</text>
+  <text x="544" y="444" font-family="system-ui,sans-serif" font-size="30" fill="#f8fafc" font-weight="700">97</text>
+  <text x="588" y="444" font-family="system-ui,sans-serif" font-size="11" fill="#64748b">%</text>
+  <text x="544" y="466" font-family="system-ui,sans-serif" font-size="9" fill="#86efac">&#x2713; Normal</text>
+
+  <rect x="674" y="380" width="140" height="96" rx="10" fill="#1e293b"/>
+  <text x="694" y="404" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" letter-spacing="1">TEMPERATURE</text>
+  <text x="694" y="444" font-family="system-ui,sans-serif" font-size="30" fill="#f8fafc" font-weight="700">37.1</text>
+  <text x="754" y="444" font-family="system-ui,sans-serif" font-size="11" fill="#64748b">°C</text>
+  <text x="694" y="466" font-family="system-ui,sans-serif" font-size="9" fill="#86efac">&#x2713; Normal</text>
+
+  <!-- Alert action -->
+  <rect x="530" y="492" width="280" height="46" rx="12" fill="#dc2626"/>
+  <text x="670" y="519" font-family="system-ui,sans-serif" font-size="13" fill="#fff" font-weight="600" text-anchor="middle">Acknowledge Alert</text>
+
+  <!-- Notes -->
+  <text x="534" y="560" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" font-weight="600">Caregiver Notes</text>
+  <rect x="530" y="570" width="280" height="68" rx="8" fill="#1e293b"/>
+  <text x="548" y="592" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">Medication administered at 14:30.</text>
+  <text x="548" y="610" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">BP rechecked, monitoring closely.</text>
+  <text x="548" y="628" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">Will escalate if no improvement in 1hr.</text>
+
+  <!-- Feature callouts (right side) -->
+  <text x="920" y="160" font-family="system-ui,sans-serif" font-size="22" fill="#f8fafc" font-weight="700">Key Mobile Features</text>
+
+  <rect x="920" y="186" width="600" height="110" rx="10" fill="#1e293b"/>
+  <rect x="920" y="186" width="4" height="110" rx="2" fill="#38bdf8"/>
+  <text x="944" y="218" font-family="system-ui,sans-serif" font-size="14" fill="#38bdf8" font-weight="600">Real-Time WebSocket Connection</text>
+  <text x="944" y="242" font-family="system-ui,sans-serif" font-size="12" fill="#94a3b8">Live vitals delivered with &lt;500ms latency.</text>
+  <text x="944" y="262" font-family="system-ui,sans-serif" font-size="12" fill="#94a3b8">Exponential back-off reconnection on drop.</text>
+  <text x="944" y="282" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">Offline alert queue syncs on reconnect.</text>
+
+  <rect x="920" y="314" width="600" height="110" rx="10" fill="#1e293b"/>
+  <rect x="920" y="314" width="4" height="110" rx="2" fill="#f59e0b"/>
+  <text x="944" y="346" font-family="system-ui,sans-serif" font-size="14" fill="#f59e0b" font-weight="600">Smart Alert Prioritisation</text>
+  <text x="944" y="370" font-family="system-ui,sans-serif" font-size="12" fill="#94a3b8">Per-patient threshold calibration based on</text>
+  <text x="944" y="390" font-family="system-ui,sans-serif" font-size="12" fill="#94a3b8">caregiver feedback — ~40% fewer false alerts.</text>
+  <text x="944" y="410" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">Push notifications with priority ranking.</text>
+
+  <rect x="920" y="442" width="600" height="110" rx="10" fill="#1e293b"/>
+  <rect x="920" y="442" width="4" height="110" rx="2" fill="#22c55e"/>
+  <text x="944" y="474" font-family="system-ui,sans-serif" font-size="14" fill="#22c55e" font-weight="600">Single Codebase — iOS &amp; Android</text>
+  <text x="944" y="498" font-family="system-ui,sans-serif" font-size="12" fill="#94a3b8">React Native with native performance.</text>
+  <text x="944" y="518" font-family="system-ui,sans-serif" font-size="12" fill="#94a3b8">Shared design tokens with web dashboard.</text>
+  <text x="944" y="538" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">Halved UI bug count vs. separate codebases.</text>
+
+  <rect x="920" y="570" width="600" height="110" rx="10" fill="#1e293b"/>
+  <rect x="920" y="570" width="4" height="110" rx="2" fill="#a78bfa"/>
+  <text x="944" y="602" font-family="system-ui,sans-serif" font-size="14" fill="#a78bfa" font-weight="600">Secure Role-Based Access</text>
+  <text x="944" y="626" font-family="system-ui,sans-serif" font-size="12" fill="#94a3b8">JWT auth with caregiver-scoped patient views.</text>
+  <text x="944" y="646" font-family="system-ui,sans-serif" font-size="12" fill="#94a3b8">Encrypted data in transit and at rest.</text>
+  <text x="944" y="666" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">Audit log for every alert acknowledgement.</text>
+
+  <!-- Outcome banner -->
+  <rect x="920" y="700" width="600" height="80" rx="10" fill="#1d4ed8" fill-opacity="0.2" stroke="#3b82f6" stroke-width="1"/>
+  <text x="1220" y="732" font-family="system-ui,sans-serif" font-size="14" fill="#93c5fd" font-weight="600" text-anchor="middle">60% faster caregiver response time</text>
+  <text x="1220" y="756" font-family="system-ui,sans-serif" font-size="12" fill="#64748b" text-anchor="middle">Achieved in simulated emergency scenarios during internal testing</text>
+</svg>
