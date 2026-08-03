@@ -8,42 +8,42 @@ export const projects: Project[] = [
       "The site you're looking at. Built with Next.js 16, Tailwind CSS v4, and Framer Motion.",
     longDescription:
       'A responsive personal portfolio site built with Next.js 16 App Router, Tailwind CSS v4, shadcn/ui component library, and Framer Motion for scroll-triggered animations. Features dark/light theme toggling powered by next-themes, smooth scrolling via Lenis, and a searchable, filterable projects section backed by static TypeScript data files.',
-    tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'shadcn/ui'],
+    tech: ['Jira', 'Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'shadcn/ui'],
     githubUrl: 'https://github.com/lyamtang/lyamtang',
     featured: true,
     category: ['Web', 'Frontend'],
     year: 2026,
     details: {
-      role: 'Designer & Developer',
-      duration: '4 weeks',
+      role: 'Product Manager, Designer & Software Developer',
+      duration: 'Ongoing',
       team: 'Solo',
       gallery: [
         {
-          src: '/images/projects/personal-website/01.svg',
+          src: '/images/projects/personal-website/hero.png',
           alt: 'Hero section',
           caption: 'Hero section with animated entrance and dark/light theme toggling',
         },
         {
-          src: '/images/projects/personal-website/02.svg',
+          src: '/images/projects/personal-website/experience.png',
+          alt: 'Experience section',
+          caption: 'Experience section with timeline and tech stack badges',
+        },
+        {
+          src: '/images/projects/personal-website/project.png',
           alt: 'Projects section',
           caption: 'Searchable, filterable project grid with tech-stack tag filters',
         },
       ],
       timeline: [
         {
-          phase: 'Planning & Design',
+          phase: 'Sprint 1',
           description:
-            'Defined the site structure, selected the tech stack, and established the visual language and component system.',
+            'Defined, designed and developed the minimal viable product (MVP) to show all the basic informations with Next.js and agentic engineering.',
         },
         {
-          phase: 'Development',
+          phase: 'Sprint 2',
           description:
-            'Built the Next.js App Router structure with static export, integrated Tailwind CSS v4 and shadcn/ui, and implemented Framer Motion scroll animations.',
-        },
-        {
-          phase: 'Content & Polish',
-          description:
-            'Authored all project and experience content, refined animations and spacing, and deployed to production.',
+            'Refining the interactions of the website to improve the user experiences',
         },
       ],
       techniques: [
@@ -68,8 +68,7 @@ export const projects: Project[] = [
       ],
       outcomes: [
         'Delivered a fully functional personal portfolio with dark/light theming and smooth scroll animations.',
-        'Built and deployed the entire site solo in under 4 weeks.',
-        'Used as the primary portfolio artifact for recruiting and professional networking.',
+        'Built and deployed the entire site solo in under 2 weeks with off-work time only.',
       ],
     },
   },
@@ -80,37 +79,32 @@ export const projects: Project[] = [
       'An AIoT smart eldercare solution for remote health monitoring and management.',
     longDescription:
       'An AIoT smart eldercare solution that integrates hardware device, real-time data analytics, and a mobile app/ website for caregivers. Built with React Native, Node.js, and PostgreSQL. Features analyzed predictions, real-time health monitoring, alert notifications, and secure data management.',
-    tech: ['React Native', 'Node.js', 'PostgreSQL', 'TypeScript', 'Go', 'WebSocket'],
+    tech: ['Jira', 'Confluence', 'Notion', 'React Native', 'Node.js', 'PostgreSQL', 'TypeScript', 'Go', 'WebSocket', 'Redis', 'Docker', 'Pencil.dev', 'MQTT', 'Rest API', 'Github', 'Expo'],
     githubUrl: '',
     featured: true,
     category: ['Web', 'Full Stack', 'Product Management'],
     year: 2026,
     details: {
-      role: 'Full-Stack Developer & Product Manager',
-      duration: '6 months',
-      team: '5 members',
+      role: 'Team Lead, Backend Developer',
+      duration: '12 months',
+      team: '4 members',
       gallery: [
         {
-          src: '/images/projects/aiot-smart-eldercare/01.svg',
-          alt: 'Health monitoring dashboard',
-          caption: 'Real-time dashboard showing patient vitals, alerts, and 24-hour heart rate trend',
+          src: '/images/projects/aiot-smart-eldercare/design.png',
+          alt: 'End-to-end solution diagram',
+          caption: 'High level ideas for the end-to-end solution from IoT sensors to caregiver platform.',
         },
         {
-          src: '/images/projects/aiot-smart-eldercare/02.svg',
-          alt: 'Caregiver mobile app',
-          caption: 'Cross-platform React Native app — patient list and vitals detail view',
-        },
-        {
-          src: '/images/projects/aiot-smart-eldercare/03.svg',
-          alt: 'System architecture diagram',
-          caption: 'End-to-end architecture: IoT sensors → Go service → PostgreSQL → WebSocket → apps',
+          src: '/images/projects/aiot-smart-eldercare/dashboard.png',
+          alt: 'Caregiver dashboard web & app',
+          caption: 'Cross-platform caregiver dashboard.',
         },
       ],
       timeline: [
         {
           phase: 'Discovery & Requirements',
           description:
-            'Interviewed caregivers and elderly users to identify core monitoring needs, alert thresholds, and UX pain points.',
+            'Researched existing eldercare solutions and potential multi-sensors integration solution and defined project scope',
         },
         {
           phase: 'Architecture Design',
@@ -123,6 +117,11 @@ export const projects: Project[] = [
             'Integrated IoT sensors with the backend via a high-throughput Go service for concurrent device data ingestion.',
         },
         {
+          phase: 'Machine Learning Model Development',
+          description:
+            'Developed 2.5D skeleton extraction and human action recognition (HAR) model to increase the accuracy of activity detection.',
+        },
+        {
           phase: 'Mobile & Web Development',
           description:
             'Built the React Native caregiver app and web dashboard with live health metrics, alerts, and patient history views.',
@@ -130,7 +129,7 @@ export const projects: Project[] = [
         {
           phase: 'Testing & Iteration',
           description:
-            'Conducted user testing sessions with caregivers, refining alert sensitivity and UI clarity based on direct feedback.',
+            'Conduct Testing and iterately upgrade the system based on performance metrics, i.e. accuracy, speed of alert delivery and stakeholder\'s feedbacks.',
         },
       ],
       painPoints: [
@@ -143,10 +142,10 @@ export const projects: Project[] = [
         },
         {
           problem:
-            'Early prototype generated too many false positive alerts, leading to caregiver alert fatigue and distrust.',
+          'Camera based HAR system misclassified certain activities due to lack of depth information, leading to false alerts.',
           approach:
-            'Built a per-patient threshold calibration system that adjusts sensitivity based on caregiver feedback.',
-          outcome: 'Reduced false positive alerts by approximately 40% in internal testing.',
+            'Developed a 2.5D skeleton extraction model to provide depth cues for the HAR system, improving classification accuracy.',
+          outcome: 'Achieved around 90% accuracy in activity recognition in the testing environments.',
         },
         {
           problem:
@@ -182,10 +181,7 @@ export const projects: Project[] = [
         },
       ],
       outcomes: [
-        'Reduced simulated caregiver response time by 60% through real-time push alert notifications.',
-        'Successfully monitored 10+ concurrent health metrics across multiple patients in testing.',
-        'Presented to 3 healthcare organisations for potential pilot program consideration.',
-        'Delivered a fully functional cross-platform prototype within the 6-month timeline.',
+        'Delivered a fully functional cross-platform system within the 12-month timeline.',
       ],
     },
   },
