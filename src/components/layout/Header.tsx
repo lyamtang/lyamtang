@@ -13,6 +13,7 @@ export default function Header() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeHref, setActiveHref] = useState('#about');
+  const isProjectDetailRoute = pathname.startsWith('/projects/');
 
   useEffect(() => {
     if (pathname !== '/') return;
@@ -104,44 +105,50 @@ export default function Header() {
           </motion.span>
         </Link>
 
-        {/* Desktop center tabs always visible */}
-        <div className="hidden items-center justify-self-center rounded-full border border-border/60 bg-card/70 p-1.5 shadow-sm backdrop-blur-md md:flex">
-          {headerNavItems.map((link) => {
-            const isActive = activeHref === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={pathname === '/' ? link.href : '/'}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  isActive
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:bg-accent hover:text-foreground'
-                }`}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
-        </div>
+        {/* Center navigation */}
+        {isProjectDetailRoute ? (
+          <div className="hidden md:block" />
+        ) : (
+          <div className="hidden items-center justify-self-center rounded-full border border-border/60 bg-card/70 p-1.5 shadow-sm backdrop-blur-md md:flex">
+            {headerNavItems.map((link) => {
+              const isActive = activeHref === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={pathname === '/' ? link.href : '/'}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                    isActive
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+          </div>
+        )}
 
         {/* Utility area */}
         <div className="ml-auto flex items-center gap-2 justify-self-end">
           <ModeToggle />
-          <button
-            onClick={() => setMenuOpen((prev) => !prev)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-card/75 text-foreground shadow-sm transition hover:bg-accent md:hidden"
-          >
-            {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          </button>
+          {!isProjectDetailRoute && (
+            <button
+              onClick={() => setMenuOpen((prev) => !prev)}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-card/75 text-foreground shadow-sm transition hover:bg-accent md:hidden"
+            >
+              {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </button>
+          )}
         </div>
       </nav>
 
       {/* Original mobile menu panel style */}
       <AnimatePresence>
-        {menuOpen && (
+        {!isProjectDetailRoute && menuOpen && (
           <motion.div
             key="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
