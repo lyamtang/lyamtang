@@ -35,6 +35,40 @@ export interface ExperienceEntry {
   tech: string[];
 }
 
+export interface GalleryImage {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
+export interface TimelinePhase {
+  phase: string;
+  description: string;
+}
+
+export interface PainPoint {
+  problem: string;
+  approach: string;
+  outcome?: string;
+}
+
+export interface Technique {
+  name: string;
+  reason: string;
+  contribution?: string;
+}
+
+export interface ProjectDetails {
+  role?: string;
+  duration?: string;
+  team?: string;
+  gallery?: GalleryImage[];
+  timeline?: TimelinePhase[];
+  painPoints?: PainPoint[];
+  techniques?: Technique[];
+  outcomes?: string[];
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -46,6 +80,7 @@ export interface Project {
   featured: boolean;
   category: string[];
   year: number;
+  details?: ProjectDetails;
 }
 
 export interface ContactLink {
