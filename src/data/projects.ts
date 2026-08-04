@@ -182,6 +182,7 @@ export const projects: Project[] = [
       ],
       outcomes: [
         'Delivered a fully functional cross-platform system within the 12-month timeline.',
+        'Impact-focused: Sustained 100% connection reliability across 20 concurrent streams with sub-1ms Redis pipeline latency, delivering 600 total FPS well under the 33ms frame budget.'
       ],
     },
   },
@@ -197,6 +198,76 @@ export const projects: Project[] = [
     featured: true,
     category: ['Project Management', 'UI/UX', 'Tools'],
     year: 2026,
+    details: {
+      role: 'UI/UX Designer & Project Manager',
+      duration: '3 months',
+      team: '4 members',
+      gallery: [
+        {
+          src: '/images/projects/predictive-behavioral-safety-app/dashboard.png',
+          alt: 'Parent Dashboard',
+          caption: 'Parent Dashboard for child live status.',
+        },
+        {
+          src: '/images/projects/predictive-behavioral-safety-app/analytics.png',
+          alt: 'Analytics Dashboard',
+          caption: 'Analytics dashboard for predictive behavioral safety insights.',
+        },
+        {
+          src: '/images/projects/predictive-behavioral-safety-app/prediction.png',
+          alt: 'Predicted next destination',
+          caption: 'Predicted next destination based on historical behavioral patterns.',
+        },
+        {
+          src: '/images/projects/predictive-behavioral-safety-app/anomaly.png',
+          alt: 'Anomaly Detection',
+          caption: 'Anomaly detection in child behavior patterns and OTP request for verification.',
+        }
+      ],
+      timeline: [
+        {
+          phase: 'Requirements Gathering',
+          description: 'Gathered requirements from the product owner regarding on the expected outcome and translate them into Work Breakdown Structure (WBS) and a project charter to be signed off by the stakeholders.',
+        },
+        {
+          phase: 'Stakeholder Alignment',
+          description: 'Analyse the stakeholders\' needs and create a stakeholder assessment to align with the expectation for the project outcome and deliverables.',
+        },
+        {
+          phase: 'UI/UX Design',
+          description: 'Designed the user interface and user experience in low, medium and high fidelity mockups with Pencil.dev and React for quick validations.'
+        },
+        {
+          phase: 'Project Estimation & Planning',
+          description: 'Estimated and planned the complete project timeline, scope and cost with hybrid project estimation frameworks.'
+        },
+        {
+          phase: 'Monitoring',
+          description: 'Create risk assessment and mitigation plan to monitor the project progress and ensure the project is on track.'
+        }
+      ],
+      techniques: [
+        {
+          name: 'Structured Work Breakdown Structure (WBS)',
+          reason: 'Translating ambiguous stakeholder requests into a structured WBS for clear project scope and deliverables.',
+          contribution: 'Created a detailed WBS that guided the project execution and ensured alignment with stakeholder expectations.',
+        },
+        {
+          name: 'Generative AI for Rapid Prototyping',
+          reason: 'Leveraging AI tools to quickly produce high-fidelity user mockups for early iterative validation.',
+          contribution: 'Utilized generative AI to create mockups and validate design decisions with stakeholders.',
+        },
+        {
+          name: 'Hybrid Project Estimation Framework',
+          reason: 'Combining Function Point Analysis (FPA) and Delphi techniques to minimize anchoring bias and subjectivity in sprint planning.',
+          contribution: 'Developed the hybrid estimation framework and applied it to the project planning process.',
+        },
+      ],
+      outcomes: [
+        'Successfully delivered a predictive behavioral safety application with a clear project scope, timeline, and cost estimation.',
+        'Enhanced stakeholder satisfaction through iterative design validation and alignment with project objectives.',
+      ],
+    }
   }, 
   {
     slug: 'earthquake-shelter',
