@@ -21,11 +21,6 @@ export default function Header() {
     { name: 'Contact', href: '#contact' },
   ];
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
-
   useEffect(() => {
     if (pathname !== '/') return;
     const targetId = sessionStorage.getItem('scroll-target');
@@ -37,6 +32,7 @@ export default function Header() {
   }, [pathname]);
 
   const handleLogoClick = (e: React.MouseEvent) => {
+    setMenuOpen(false);
     if (pathname === '/') {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
