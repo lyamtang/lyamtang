@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import StyledComponentsRegistry from "@/components/providers/StyledComponentsRegistry";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
@@ -33,18 +34,20 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SmoothScroll>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </SmoothScroll>
-        </ThemeProvider>
+        <StyledComponentsRegistry>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <SmoothScroll>
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </SmoothScroll>
+          </ThemeProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
