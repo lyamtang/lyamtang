@@ -16,23 +16,28 @@ import type { GalleryImage } from '@/data/types';
 export function ProjectCarousel({ images }: { images: GalleryImage[] }) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
-  const [count, setCount] = React.useState(0);
-
-  const plugin = React.useRef(
+  const [autoplay] = React.useState(() =>
     Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true }),
   );
 
   // Stable array reference — recreating this on every render would cause
   // useEmblaCarousel to reinitialize and silently kill the autoplay timer.
-  const plugins = React.useMemo(() => [plugin.current], []);
+  const plugins = React.useMemo(() => [autoplay], [autoplay]);
+  const count = images.length;
 
   React.useEffect(() => {
     if (!api) return;
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap());
-    api.on('select', () => {
+    const onSelect = () => {
       setCurrent(api.selectedScrollSnap());
-    });
+    };
+
+    api.on('select', onSelect);
+    api.on('reInit', onSelect);
+
+    return () => {
+      api.off('select', onSelect);
+      api.off('reInit', onSelect);
+    };
   }, [api]);
 
   if (!images || images.length === 0) return null;
