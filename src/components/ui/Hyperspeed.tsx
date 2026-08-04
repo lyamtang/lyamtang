@@ -26,8 +26,8 @@ interface Colors {
 }
 
 interface HyperspeedOptions {
-  onSpeedUp?: (ev: MouseEvent | TouchEvent) => void;
-  onSlowDown?: (ev: MouseEvent | TouchEvent) => void;
+  onSpeedUp?: (ev: PointerEvent) => void;
+  onSlowDown?: (ev: PointerEvent) => void;
   distortion?: string | Distortion;
   length: number;
   roadWidth: number;
@@ -1017,11 +1017,8 @@ class App {
     this.tick = this.tick.bind(this);
     this.init = this.init.bind(this);
     this.setSize = this.setSize.bind(this);
-    this.onMouseDown = this.onMouseDown.bind(this);
-    this.onMouseUp = this.onMouseUp.bind(this);
-
-    this.onTouchStart = this.onTouchStart.bind(this);
-    this.onTouchEnd = this.onTouchEnd.bind(this);
+    this.onPointerDown = this.onPointerDown.bind(this);
+    this.onPointerUp = this.onPointerUp.bind(this);
     this.onContextMenu = this.onContextMenu.bind(this);
 
     this.onWindowResize = this.onWindowResize.bind(this);
@@ -1114,37 +1111,26 @@ class App {
     this.leftSticks.init();
     this.leftSticks.mesh.position.setX(-(options.roadWidth + options.islandWidth / 2));
 
-    this.container.addEventListener('mousedown', this.onMouseDown);
-    this.container.addEventListener('mouseup', this.onMouseUp);
-    this.container.addEventListener('mouseout', this.onMouseUp);
-
-    this.container.addEventListener('touchstart', this.onTouchStart, { passive: true });
-    this.container.addEventListener('touchend', this.onTouchEnd, { passive: true });
-    this.container.addEventListener('touchcancel', this.onTouchEnd, { passive: true });
+    this.container.addEventListener('pointerdown', this.onPointerDown);
+    this.container.addEventListener('pointerup', this.onPointerUp);
+    this.container.addEventListener('pointercancel', this.onPointerUp);
+    this.container.addEventListener('lostpointercapture', this.onPointerUp);
     this.container.addEventListener('contextmenu', this.onContextMenu);
 
     this.tick();
   }
 
-  onMouseDown(ev: MouseEvent) {
+  onPointerDown(ev: PointerEvent) {
+    this.container.setPointerCapture(ev.pointerId);
     if (this.options.onSpeedUp) this.options.onSpeedUp(ev);
     this.fovTarget = this.options.fovSpeedUp;
     this.speedUpTarget = this.options.speedUp;
   }
 
-  onMouseUp(ev: MouseEvent) {
-    if (this.options.onSlowDown) this.options.onSlowDown(ev);
-    this.fovTarget = this.options.fov;
-    this.speedUpTarget = 0;
-  }
+  onPointerUp(ev: PointerEvent) {
+    if (!this.container.hasPointerCapture(ev.pointerId)) return;
 
-  onTouchStart(ev: TouchEvent) {
-    if (this.options.onSpeedUp) this.options.onSpeedUp(ev);
-    this.fovTarget = this.options.fovSpeedUp;
-    this.speedUpTarget = this.options.speedUp;
-  }
-
-  onTouchEnd(ev: TouchEvent) {
+    this.container.releasePointerCapture(ev.pointerId);
     if (this.options.onSlowDown) this.options.onSlowDown(ev);
     this.fovTarget = this.options.fov;
     this.speedUpTarget = 0;
@@ -1228,13 +1214,10 @@ class App {
 
     window.removeEventListener('resize', this.onWindowResize);
     if (this.container) {
-      this.container.removeEventListener('mousedown', this.onMouseDown);
-      this.container.removeEventListener('mouseup', this.onMouseUp);
-      this.container.removeEventListener('mouseout', this.onMouseUp);
-
-      this.container.removeEventListener('touchstart', this.onTouchStart);
-      this.container.removeEventListener('touchend', this.onTouchEnd);
-      this.container.removeEventListener('touchcancel', this.onTouchEnd);
+      this.container.removeEventListener('pointerdown', this.onPointerDown);
+      this.container.removeEventListener('pointerup', this.onPointerUp);
+      this.container.removeEventListener('pointercancel', this.onPointerUp);
+      this.container.removeEventListener('lostpointercapture', this.onPointerUp);
       this.container.removeEventListener('contextmenu', this.onContextMenu);
     }
   }
@@ -1321,7 +1304,7 @@ const Hyperspeed: FC<HyperspeedProps> = ({ effectOptions = DEFAULT_EFFECT_OPTION
     };
   }, [effectOptions]);
 
-  return <div id="lights" className="w-full h-full" ref={hyperspeed}></div>;
+  return <div id="lights" className="h-full w-full touch-none" ref={hyperspeed}></div>;
 };
 
 export default Hyperspeed;
