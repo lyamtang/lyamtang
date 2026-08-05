@@ -11,7 +11,7 @@ export const projects: Project[] = [
     tech: ['Jira', 'Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'shadcn/ui'],
     githubUrl: 'https://github.com/lyamtang/lyamtang',
     featured: true,
-    category: ['Web', 'UI/UX', 'Product Management', 'Project Management'],
+    category: ['Web', 'UI/UX', 'Product Management', 'Project Management', 'Frontend'],
     status: 'in_progress',
     period: {
       startYear: 2026,
@@ -86,7 +86,7 @@ export const projects: Project[] = [
     tech: ['Jira', 'Confluence', 'Notion', 'React Native', 'Node.js', 'PostgreSQL', 'TypeScript', 'Go', 'WebSocket', 'Redis', 'Docker', 'Pencil.dev', 'MQTT', 'Rest API', 'Github', 'Expo'],
     githubUrl: '',
     featured: true,
-    category: ['Full Stack', 'IoT', 'Product Management', 'Project Management'],
+    category: ['Full Stack', 'Frontend', 'Backend', 'IoT', 'Product Management', 'Project Management', 'Web', 'Mobile'],
     status: 'completed',
     period: {
       startYear: 2025,
