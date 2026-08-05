@@ -6,46 +6,75 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ProjectCard } from './projects/ProjectCard';
 import { ProjectFilter } from './projects/ProjectFilter';
 import { projects } from '@/data/projects';
+import {
+  filterProjects,
+  getActiveFilterCount,
+  getProjectFilterOptions,
+} from '@/lib/projectFilters';
+import type { ProjectStatus } from '@/data/types';
 
-const allTags = [...new Set(projects.flatMap((p) => p.tech))].sort();
+const filterOptions = getProjectFilterOptions(projects);
 
 export function Projects() {
   const [query, setQuery] = useState('');
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<ProjectStatus | 'all'>('all');
+  const [yearRange, setYearRange] = useState(filterOptions.yearBounds);
 
-  const toggleTag = (tag: string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+  const toggleCategory = (category: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((item) => item !== category)
+        : [...prev, category].sort((a, b) => a.localeCompare(b)),
     );
   };
 
+  const clearFilters = () => {
+    setSelectedCategories([]);
+    setSelectedStatus('all');
+    setYearRange(filterOptions.yearBounds);
+  };
+
+  const activeFilterCount = getActiveFilterCount(
+    {
+      query,
+      categories: selectedCategories,
+      status: selectedStatus,
+      yearRange,
+    },
+    filterOptions.yearBounds,
+  );
+
   const filtered = useMemo(() => {
-    return projects.filter((p) => {
-      const q = query.toLowerCase();
-      const matchesQuery =
-        q === '' ||
-        p.title.toLowerCase().includes(q) ||
-        p.shortDescription.toLowerCase().includes(q) ||
-        p.tech.some((t) => t.toLowerCase().includes(q));
-      const matchesTags =
-        selectedTags.length === 0 || selectedTags.every((tag) => p.tech.includes(tag));
-      return matchesQuery && matchesTags;
+    return filterProjects(projects, {
+      query,
+      categories: selectedCategories,
+      status: selectedStatus,
+      yearRange,
     });
-  }, [query, selectedTags]);
+  }, [query, selectedCategories, selectedStatus, yearRange]);
 
   return (
     <section id="projects" className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <div className="container mx-auto max-w-7xl">
         <SectionHeading
           title="Projects"
-          subtitle="Things I've built — hover a card to explore, click to read more."
+          subtitle="Things I've built, designed, and managed."
         />
         <ProjectFilter
           query={query}
           onQueryChange={setQuery}
-          allTags={allTags}
-          selectedTags={selectedTags}
-          onTagToggle={toggleTag}
+          categories={filterOptions.categories}
+          selectedCategories={selectedCategories}
+          onCategoryToggle={toggleCategory}
+          statuses={filterOptions.statuses}
+          selectedStatus={selectedStatus}
+          onStatusChange={setSelectedStatus}
+          yearRange={yearRange}
+          onYearRangeChange={setYearRange}
+          yearBounds={filterOptions.yearBounds}
+          activeFilterCount={activeFilterCount}
+          onClearFilters={clearFilters}
         />
         {filtered.length === 0 ? (
           <motion.p

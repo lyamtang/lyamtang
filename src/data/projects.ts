@@ -11,7 +11,8 @@ export const projects: Project[] = [
     tech: ['Jira', 'Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'shadcn/ui'],
     githubUrl: 'https://github.com/lyamtang/lyamtang',
     featured: true,
-    category: ['Web', 'Frontend'],
+    category: ['Web', 'UI/UX', 'Product Management', 'Project Management'],
+    status: 'in_progress',
     year: 2026,
     details: {
       role: 'Product Manager, Designer & Software Developer',
@@ -82,7 +83,8 @@ export const projects: Project[] = [
     tech: ['Jira', 'Confluence', 'Notion', 'React Native', 'Node.js', 'PostgreSQL', 'TypeScript', 'Go', 'WebSocket', 'Redis', 'Docker', 'Pencil.dev', 'MQTT', 'Rest API', 'Github', 'Expo'],
     githubUrl: '',
     featured: true,
-    category: ['Web', 'Full Stack', 'Product Management'],
+    category: ['Full Stack', 'IoT', 'Product Management', 'Project Management'],
+    status: 'completed',
     year: 2026,
     details: {
       role: 'Team Lead, Backend Developer',
@@ -196,7 +198,8 @@ export const projects: Project[] = [
     tech: ['Generative AI', 'UI/UX Design', 'FPA Estimation', 'WBS'],
     githubUrl: 'https://github.com/Lyam-T/ISOM3010',
     featured: true,
-    category: ['Project Management', 'UI/UX', 'Tools'],
+    category: ['Project Management', 'UI/UX', 'Prototype'],
+    status: 'completed',
     year: 2026,
     details: {
       role: 'UI/UX Designer & Project Manager',
@@ -279,7 +282,8 @@ export const projects: Project[] = [
     tech: ['Svelte', 'Prompt Engineering', 'Human-Robot Interaction'],
     githubUrl: '',
     featured: true,
-    category: ['HCI'],
+    category: ['HCI','Prototype'],
+    status: 'completed',
     year: 2025,
   }, 
   {
@@ -292,7 +296,8 @@ export const projects: Project[] = [
     tech: ['Generative AI', 'XR Development', 'Unity'],
     githubUrl: '',
     featured: true,
-    category: ['HCI'],
+    category: ['HCI', 'Prototype'],
+    status: 'completed',
     year: 2025,
   }, 
   {
@@ -306,6 +311,7 @@ export const projects: Project[] = [
     githubUrl: '',
     featured: true,
     category: ['Machine Learning',  'Data Science'],
+    status: 'completed',
     year: 2025,
   }, 
 ];
