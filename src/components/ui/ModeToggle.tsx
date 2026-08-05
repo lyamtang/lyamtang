@@ -5,8 +5,13 @@ import styled from 'styled-components';
 import { useTheme } from 'next-themes';
 
 export function ModeToggle() {
+  const [mounted, setMounted] = React.useState(false);
   const { resolvedTheme, setTheme } = useTheme();
-  const isLight = resolvedTheme === 'light';
+  const isLight = mounted && resolvedTheme === 'light';
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleToggle = () => {
     setTheme(isLight ? 'dark' : 'light');
@@ -15,10 +20,12 @@ export function ModeToggle() {
   return (
     <StyledWrapper>
       <label className="switch" aria-label="Toggle theme" title="Toggle theme">
+        {!mounted && <span className="switch-placeholder" aria-hidden="true" />}
         <input
           id="checkbox"
           type="checkbox"
           suppressHydrationWarning
+          disabled={!mounted}
           checked={isLight}
           onChange={handleToggle}
           aria-checked={isLight}
@@ -58,6 +65,13 @@ const StyledWrapper = styled.div`
     opacity: 0;
     width: 0;
     height: 0;
+  }
+
+  .switch-placeholder {
+    position: absolute;
+    inset: 0;
+    border-radius: 30px;
+    background-color: color-mix(in oklab, #6eb8e6 74%, #dff3ff);
   }
 
   .slider {
