@@ -69,6 +69,13 @@ export interface ProjectDetails {
   outcomes?: string[];
 }
 
+export type ProjectStatus ='in_progress' | 'completed';
+
+export interface ProjectPeriod {
+  startYear: number;
+  endYear: number | 'Present';
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -79,7 +86,8 @@ export interface Project {
   liveUrl?: string;
   featured: boolean;
   category: string[];
-  year: number;
+  status: ProjectStatus;
+  period: ProjectPeriod;
   details?: ProjectDetails;
 }
 
