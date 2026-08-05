@@ -50,7 +50,7 @@ export function ModeToggle() {
 
 const StyledWrapper = styled.div`
   .switch {
-    font-size: 14px;
+    font-size: 18.18px;
     position: relative;
     display: inline-block;
     width: 4em;
@@ -170,7 +170,7 @@ const StyledWrapper = styled.div`
 
   @media (min-width: 768px) {
     .switch {
-      font-size: 15px;
+      font-size: 18.18px;
     }
   }
 `;
