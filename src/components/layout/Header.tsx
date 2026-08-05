@@ -6,20 +6,14 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ModeToggle } from '@/components/ui/ModeToggle';
+import { headerNavItems } from '@/data/navigation';
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Education', href: '#education' },
-    { name: 'Certifications', href: '#certifications' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
-  ];
+  const [activeHref, setActiveHref] = useState('#about');
+  const isProjectDetailRoute = pathname.startsWith('/projects/');
 
   useEffect(() => {
     if (pathname !== '/') return;
@@ -29,6 +23,44 @@ export default function Header() {
     requestAnimationFrame(() => {
       document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
     });
+  }, [pathname]);
+
+  useEffect(() => {
+    if (pathname !== '/') return;
+
+    const ids = headerNavItems.map((item) => item.href.slice(1));
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const updateActiveSection = () => {
+      const probeY = window.scrollY + window.innerHeight * 0.35;
+      let currentId = sections[0].id;
+
+      for (const section of sections) {
+        if (section.offsetTop <= probeY) {
+          currentId = section.id;
+        }
+      }
+
+      const atPageBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8;
+      if (atPageBottom) {
+        currentId = sections[sections.length - 1].id;
+      }
+
+      setActiveHref(`#${currentId}`);
+    };
+
+    updateActiveSection();
+    window.addEventListener('scroll', updateActiveSection, { passive: true });
+    window.addEventListener('resize', updateActiveSection);
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveSection);
+      window.removeEventListener('resize', updateActiveSection);
+    };
   }, [pathname]);
 
   const handleLogoClick = (e: React.MouseEvent) => {
@@ -46,10 +78,9 @@ export default function Header() {
     e.preventDefault();
     setMenuOpen(false);
     if (pathname === '/') {
-      // Delay scrolling until the mobile menu collapse animation (200ms) finishes
       setTimeout(() => {
         document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
-      }, 250);
+      }, 180);
       return;
     }
     sessionStorage.setItem('scroll-target', targetId);
@@ -61,76 +92,89 @@ export default function Header() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90"
+      className="sticky top-0 z-50 w-full py-3"
     >
-      <nav className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <nav className="container mx-auto grid h-16 max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 px-4 sm:px-6 lg:px-8 md:grid-cols-[1fr_auto_1fr]">
         {/* Logo */}
-        <Link href="/" onClick={handleLogoClick} className="flex items-center space-x-2">
-          <motion.span whileHover={{ scale: 1.05 }} className="text-xl font-bold text-foreground">
+        <Link href="/" onClick={handleLogoClick} className="flex items-center space-x-2 justify-self-start">
+          <motion.span
+            whileHover={{ scale: 1.05 }}
+            className="rounded-full border border-border/60 bg-card/70 px-4 py-2 text-base font-bold text-foreground shadow-sm backdrop-blur-md"
+          >
             Lyam Tang
           </motion.span>
         </Link>
 
-        {/* Desktop nav — hidden below md */}
-        <div className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link, index) => (
-            <motion.div
-              key={link.name}
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-            >
-              <Link
-                href={pathname === '/' ? link.href : '/'}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <motion.span whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className="inline-block">
+        {/* Center navigation */}
+        {isProjectDetailRoute ? (
+          <div className="hidden md:block" />
+        ) : (
+          <div className="hidden items-center justify-self-center rounded-full border border-border/60 bg-card/70 p-1.5 shadow-sm backdrop-blur-md md:flex">
+            {headerNavItems.map((link) => {
+              const isActive = activeHref === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={pathname === '/' ? link.href : '/'}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                    isActive
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                  }`}
+                >
                   {link.name}
-                </motion.span>
-              </Link>
-            </motion.div>
-          ))}
-          <ModeToggle />
-        </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
 
-        {/* Mobile right side: ModeToggle + hamburger */}
-        <div className="flex items-center gap-1 md:hidden">
+        {/* Utility area */}
+        <div className="ml-auto flex items-center gap-2 justify-self-end">
           <ModeToggle />
-          <button
-            onClick={() => setMenuOpen((prev) => !prev)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-          >
-            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          {!isProjectDetailRoute && (
+            <button
+              onClick={() => setMenuOpen((prev) => !prev)}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-card/75 text-foreground shadow-sm transition hover:bg-accent md:hidden"
+            >
+              {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </button>
+          )}
         </div>
       </nav>
 
-      {/* Mobile menu panel */}
+      {/* Original mobile menu panel style */}
       <AnimatePresence>
-        {menuOpen && (
+        {!isProjectDetailRoute && menuOpen && (
           <motion.div
             key="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2, ease: 'easeInOut' }}
-            className="overflow-hidden border-t border-border bg-background md:hidden"
+            className="overflow-hidden md:hidden"
           >
-            <div className="container mx-auto max-w-7xl px-4 py-3 sm:px-6">
-              <div className="flex flex-col gap-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={pathname === '/' ? link.href : '/'}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
+            <div className="container mx-auto max-w-7xl px-4 pt-2 sm:px-6 lg:px-8">
+              <div className="rounded-2xl border border-border/60 bg-card/80 p-2 shadow-sm backdrop-blur-md">
+                <div className="flex flex-col gap-1">
+                  {headerNavItems.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={pathname === '/' ? link.href : '/'}
+                      onClick={(e) => handleNavClick(e, link.href)}
+                      className={`rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
+                        activeHref === link.href
+                          ? 'bg-primary text-primary-foreground'
+                          : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>

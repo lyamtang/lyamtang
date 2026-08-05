@@ -1,12 +1,12 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { Github } from '@thesvg/react';
 import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
 import { projects } from '@/data/projects';
 import { cn } from '@/lib/utils';
 import { ProjectCarousel } from '@/components/sections/projects/ProjectCarousel';
+import { BackToProjectsLink } from '@/components/sections/projects/BackToProjectsLink';
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -40,13 +40,7 @@ export default async function ProjectPage({
   return (
     <main className="container mx-auto max-w-4xl px-4 py-24 sm:px-6 lg:px-8">
       {/* Back */}
-      <Link
-        href="/#projects"
-        className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to projects
-      </Link>
+      <BackToProjectsLink />
 
       {/* ── Hero ── */}
       <div className="mt-6">

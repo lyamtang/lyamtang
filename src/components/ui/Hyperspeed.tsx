@@ -1046,6 +1046,11 @@ class App {
   }
 
   initPasses() {
+    const context = this.renderer?.getContext?.();
+    if (!context) {
+      return;
+    }
+
     this.renderPass = new RenderPass(this.scene, this.camera);
     this.bloomPass = new EffectPass(
       this.camera,
@@ -1099,7 +1104,12 @@ class App {
   }
 
   init() {
+    if (this.disposed) return;
+
     this.initPasses();
+
+    if (this.disposed) return;
+
     const options = this.options;
     this.road.init();
     this.leftCarLights.init();
@@ -1270,6 +1280,8 @@ const Hyperspeed: FC<HyperspeedProps> = ({ effectOptions = DEFAULT_EFFECT_OPTION
   const appRef = useRef<App | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     if (appRef.current) {
       appRef.current.dispose();
       appRef.current = null;
@@ -1295,11 +1307,18 @@ const Hyperspeed: FC<HyperspeedProps> = ({ effectOptions = DEFAULT_EFFECT_OPTION
 
     const myApp = new App(container, options);
     appRef.current = myApp;
-    myApp.loadAssets().then(myApp.init);
+    myApp.loadAssets().then(() => {
+      if (cancelled || appRef.current !== myApp || myApp.disposed) {
+        return;
+      }
+      myApp.init();
+    });
 
     return () => {
+      cancelled = true;
       if (appRef.current) {
         appRef.current.dispose();
+        appRef.current = null;
       }
     };
   }, [effectOptions]);
