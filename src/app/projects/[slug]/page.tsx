@@ -8,6 +8,11 @@ import { cn } from '@/lib/utils';
 import { ProjectCarousel } from '@/components/sections/projects/ProjectCarousel';
 import { BackToProjectsLink } from '@/components/sections/projects/BackToProjectsLink';
 
+function formatProjectPeriod(startYear: number, endYear: number | 'Present') {
+  if (startYear === endYear) return String(startYear);
+  return `${startYear} - ${endYear}`;
+}
+
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
@@ -44,7 +49,9 @@ export default async function ProjectPage({
 
       {/* ── Hero ── */}
       <div className="mt-6">
-        <p className="mb-2 text-sm text-muted-foreground">{project.year}</p>
+        <p className="mb-2 text-sm text-muted-foreground">
+          {formatProjectPeriod(project.period.startYear, project.period.endYear)}
+        </p>
         <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">{project.title}</h1>
         <p className="mb-6 text-lg text-muted-foreground">{project.shortDescription}</p>
 

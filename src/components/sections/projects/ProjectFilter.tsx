@@ -9,96 +9,16 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { CalendarRange, Check, ChevronDown, Filter, Search, X } from 'lucide-react';
+import { Check, ChevronDown, Filter, Search, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { ProjectStatus } from '@/data/types';
 import { formatStatusLabel } from '@/lib/projectFilters';
-
-interface YearRange {
-  from: number;
-  to: number;
-}
-
-function YearRangeSlider({
-  range,
-  bounds,
-  onChange,
-  id,
-}: {
-  range: YearRange;
-  bounds: YearRange;
-  onChange: (nextRange: YearRange) => void;
-  id: string;
-}) {
-  const span = Math.max(bounds.to - bounds.from, 1);
-  const fromPct = ((range.from - bounds.from) / span) * 100;
-  const toPct = ((range.to - bounds.from) / span) * 100;
-
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
-        <span>{range.from}</span>
-        <span className="font-medium text-foreground">{range.from} - {range.to}</span>
-        <span>{range.to}</span>
-      </div>
-      <div className="relative h-7">
-        <div className="absolute top-1/2 h-1 w-full -translate-y-1/2 rounded-full bg-muted" />
-        <div
-          className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-primary"
-          style={{
-            left: `${fromPct}%`,
-            width: `${Math.max(toPct - fromPct, 0)}%`,
-          }}
-        />
-        <input
-          id={`${id}-from`}
-          type="range"
-          min={bounds.from}
-          max={bounds.to}
-          step={1}
-          value={range.from}
-          onChange={(e) => {
-            const nextFrom = Number(e.target.value);
-            onChange({
-              from: Math.min(nextFrom, range.to),
-              to: range.to,
-            });
-          }}
-          className="pointer-events-none absolute inset-0 h-7 w-full appearance-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-primary/70 [&::-webkit-slider-thumb]:bg-background [&::-webkit-slider-thumb]:shadow-sm"
-          aria-label="Start year"
-        />
-        <input
-          id={`${id}-to`}
-          type="range"
-          min={bounds.from}
-          max={bounds.to}
-          step={1}
-          value={range.to}
-          onChange={(e) => {
-            const nextTo = Number(e.target.value);
-            onChange({
-              from: range.from,
-              to: Math.max(nextTo, range.from),
-            });
-          }}
-          className="pointer-events-none absolute inset-0 h-7 w-full appearance-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-primary/70 [&::-webkit-slider-thumb]:bg-background [&::-webkit-slider-thumb]:shadow-sm"
-          aria-label="End year"
-        />
-      </div>
-      <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-        <span>{bounds.from}</span>
-        <span>{bounds.to}</span>
-      </div>
-    </div>
-  );
-}
 
 interface ProjectFilterProps {
   query: string;
@@ -109,9 +29,6 @@ interface ProjectFilterProps {
   statuses: ProjectStatus[];
   selectedStatus: ProjectStatus | 'all';
   onStatusChange: (status: ProjectStatus | 'all') => void;
-  yearRange: YearRange;
-  onYearRangeChange: (nextRange: YearRange) => void;
-  yearBounds: YearRange;
   activeFilterCount: number;
   onClearFilters: () => void;
 }
@@ -125,9 +42,6 @@ export function ProjectFilter({
   statuses,
   selectedStatus,
   onStatusChange,
-  yearRange,
-  onYearRangeChange,
-  yearBounds,
   activeFilterCount,
   onClearFilters,
 }: ProjectFilterProps) {
@@ -135,25 +49,18 @@ export function ProjectFilter({
   const [mobileDraft, setMobileDraft] = useState({
     categories: selectedCategories,
     status: selectedStatus,
-    yearRange,
   });
 
   const openDrawer = () => {
     setMobileDraft({
       categories: selectedCategories,
       status: selectedStatus,
-      yearRange,
     });
     setDrawerOpen(true);
   };
 
-  const hasYearFilter = yearRange.from !== yearBounds.from || yearRange.to !== yearBounds.to;
   const categoryActive = selectedCategories.length > 0;
   const statusActive = selectedStatus !== 'all';
-
-  const yearSummary = hasYearFilter
-    ? `${yearRange.from}-${yearRange.to}`
-    : `All years (${yearBounds.from}-${yearBounds.to})`;
 
   const categorySummary =
     selectedCategories.length === 0
@@ -182,13 +89,6 @@ export function ProjectFilter({
       onStatusChange(mobileDraft.status);
     }
 
-    if (
-      mobileDraft.yearRange.from !== yearRange.from ||
-      mobileDraft.yearRange.to !== yearRange.to
-    ) {
-      onYearRangeChange(mobileDraft.yearRange);
-    }
-
     setDrawerOpen(false);
   };
 
@@ -196,7 +96,6 @@ export function ProjectFilter({
     setMobileDraft({
       categories: [],
       status: 'all',
-      yearRange: yearBounds,
     });
   };
 
@@ -249,7 +148,7 @@ export function ProjectFilter({
         </Button>
       </div>
 
-      <div className="hidden lg:flex lg:items-center lg:gap-2">
+      <div className="hidden lg:flex lg:items-center lg:gap-2 lg:flex-nowrap">
         <div className="relative w-full lg:flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -269,7 +168,7 @@ export function ProjectFilter({
           )}
         </div>
 
-        <div className="grid w-auto grid-cols-3 gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger render={<Button variant="outline" size="default" className={triggerClass(categoryActive)} />}>
               <span className="truncate">{categorySummary}</span>
@@ -312,33 +211,10 @@ export function ProjectFilter({
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger render={<Button variant="outline" size="default" className={triggerClass(hasYearFilter)} />}>
-              <span className="truncate">{yearSummary}</span>
-              <CalendarRange className="h-4 w-4 text-muted-foreground" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64">
-              <DropdownMenuGroup>
-                <DropdownMenuLabel>Year range</DropdownMenuLabel>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <div className="space-y-4 px-2 py-2">
-                <YearRangeSlider
-                  id="desktop-year-range"
-                  range={yearRange}
-                  bounds={yearBounds}
-                  onChange={onYearRangeChange}
-                />
-              </div>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => onYearRangeChange(yearBounds)}>Reset year range</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
 
-      {(selectedCategories.length > 0 || selectedStatus !== 'all' || hasYearFilter) && (
+      {(selectedCategories.length > 0 || selectedStatus !== 'all') && (
         <div className="flex flex-wrap items-center gap-2">
           {selectedCategories.map((category) => (
             <button
@@ -356,14 +232,6 @@ export function ProjectFilter({
             <button onClick={() => onStatusChange('all')} className="focus:outline-none">
               <Badge variant="default" className="cursor-pointer gap-1">
                 Status: {formatStatusLabel(selectedStatus)}
-                <X className="h-3 w-3" />
-              </Badge>
-            </button>
-          )}
-          {hasYearFilter && (
-            <button onClick={() => onYearRangeChange(yearBounds)} className="focus:outline-none">
-              <Badge variant="default" className="cursor-pointer gap-1">
-                Year: {yearRange.from}-{yearRange.to}
                 <X className="h-3 w-3" />
               </Badge>
             </button>
@@ -435,21 +303,6 @@ export function ProjectFilter({
                     </Button>
                   ))}
                 </div>
-              </div>
-
-              <div className="space-y-3 rounded-xl border border-border p-3">
-                <p className="text-sm font-medium">Year range</p>
-                <YearRangeSlider
-                  id="mobile-year-range"
-                  range={mobileDraft.yearRange}
-                  bounds={yearBounds}
-                  onChange={(nextRange) =>
-                    setMobileDraft((prev) => ({
-                      ...prev,
-                      yearRange: nextRange,
-                    }))
-                  }
-                />
               </div>
             </div>
 

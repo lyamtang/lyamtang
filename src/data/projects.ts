@@ -13,7 +13,10 @@ export const projects: Project[] = [
     featured: true,
     category: ['Web', 'UI/UX', 'Product Management', 'Project Management'],
     status: 'in_progress',
-    year: 2026,
+    period: {
+      startYear: 2026,
+      endYear: 'Present',
+    },
     details: {
       role: 'Product Manager, Designer & Software Developer',
       duration: 'Ongoing',
@@ -85,7 +88,10 @@ export const projects: Project[] = [
     featured: true,
     category: ['Full Stack', 'IoT', 'Product Management', 'Project Management'],
     status: 'completed',
-    year: 2026,
+    period: {
+      startYear: 2025,
+      endYear: 2026,
+    },
     details: {
       role: 'Team Lead, Backend Developer',
       duration: '12 months',
@@ -200,7 +206,10 @@ export const projects: Project[] = [
     featured: true,
     category: ['Project Management', 'UI/UX', 'Prototype'],
     status: 'completed',
-    year: 2026,
+    period: {
+      startYear: 2026,
+      endYear: 2026,
+    },
     details: {
       role: 'UI/UX Designer & Project Manager',
       duration: '3 months',
@@ -284,7 +293,10 @@ export const projects: Project[] = [
     featured: true,
     category: ['HCI','Prototype'],
     status: 'completed',
-    year: 2025,
+    period: {
+      startYear: 2025,
+      endYear: 2025,
+    },
   }, 
   {
     slug: 'xr-tourist',
@@ -298,7 +310,10 @@ export const projects: Project[] = [
     featured: true,
     category: ['HCI', 'Prototype'],
     status: 'completed',
-    year: 2025,
+    period: {
+      startYear: 2025,
+      endYear: 2025,
+    },
   }, 
   {
     slug: 'stock-prediction',
@@ -312,6 +327,9 @@ export const projects: Project[] = [
     featured: true,
     category: ['Machine Learning',  'Data Science'],
     status: 'completed',
-    year: 2025,
+    period: {
+      startYear: 2025,
+      endYear: 2025,
+    },
   }, 
 ];

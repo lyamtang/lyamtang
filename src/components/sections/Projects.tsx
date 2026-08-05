@@ -19,7 +19,6 @@ export function Projects() {
   const [query, setQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<ProjectStatus | 'all'>('all');
-  const [yearRange, setYearRange] = useState(filterOptions.yearBounds);
 
   const toggleCategory = (category: string) => {
     setSelectedCategories((prev) =>
@@ -32,27 +31,21 @@ export function Projects() {
   const clearFilters = () => {
     setSelectedCategories([]);
     setSelectedStatus('all');
-    setYearRange(filterOptions.yearBounds);
   };
 
-  const activeFilterCount = getActiveFilterCount(
-    {
-      query,
-      categories: selectedCategories,
-      status: selectedStatus,
-      yearRange,
-    },
-    filterOptions.yearBounds,
-  );
+  const activeFilterCount = getActiveFilterCount({
+    query,
+    categories: selectedCategories,
+    status: selectedStatus,
+  });
 
   const filtered = useMemo(() => {
     return filterProjects(projects, {
       query,
       categories: selectedCategories,
       status: selectedStatus,
-      yearRange,
     });
-  }, [query, selectedCategories, selectedStatus, yearRange]);
+  }, [query, selectedCategories, selectedStatus]);
 
   return (
     <section id="projects" className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
@@ -70,9 +63,6 @@ export function Projects() {
           statuses={filterOptions.statuses}
           selectedStatus={selectedStatus}
           onStatusChange={setSelectedStatus}
-          yearRange={yearRange}
-          onYearRangeChange={setYearRange}
-          yearBounds={filterOptions.yearBounds}
           activeFilterCount={activeFilterCount}
           onClearFilters={clearFilters}
         />
