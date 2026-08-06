@@ -3,6 +3,7 @@
 import type { CSSProperties } from 'react';
 import { useEffect } from 'react';
 import { motion, useAnimation, useMotionValue } from 'motion/react';
+import type { MotionStyle } from 'motion/react';
 
 type HoverBehavior = 'speedUp' | 'slowDown' | 'pause' | 'goBonkers' | null;
 
@@ -15,7 +16,7 @@ interface CircularTextProps {
   radius?: number;
 }
 
-type CircularStyleVars = CSSProperties & Record<`--${string}`, string | number>;
+type CircularStyleVars = MotionStyle & Record<`--${string}`, string | number>;
 
 const baseContainerStyle: CSSProperties = {
   margin: 0,
@@ -45,16 +46,16 @@ const baseLetterStyle: CSSProperties = {
 const getRotationTransition = (duration: number, from: number, loop = true) => ({
   from,
   to: from + 360,
-  ease: 'linear',
+  ease: 'linear' as const,
   duration,
-  type: 'tween',
+  type: 'tween' as const,
   repeat: loop ? Infinity : 0
 });
 
 const getTransition = (duration: number, from: number) => ({
   rotate: getRotationTransition(duration, from),
   scale: {
-    type: 'spring',
+    type: 'spring' as const,
     damping: 20,
     stiffness: 300
   }
@@ -100,8 +101,8 @@ const CircularText = ({
         break;
       case 'pause':
         transitionConfig = {
-          rotate: { type: 'spring', damping: 20, stiffness: 300 },
-          scale: { type: 'spring', damping: 20, stiffness: 300 }
+          rotate: { type: 'spring' as const, damping: 20, stiffness: 300 },
+          scale: { type: 'spring' as const, damping: 20, stiffness: 300 }
         };
         scaleVal = 1;
         break;
