@@ -1,0 +1,31 @@
+.circular-text {
+  --ct-size: 96px;
+  --ct-radius: 38px;
+  --ct-letter-size: 0.62rem;
+  --ct-color: var(--muted-foreground);
+
+  margin: 0;
+  border-radius: 50%;
+  width: var(--ct-size);
+  position: relative;
+  height: var(--ct-size);
+  color: var(--ct-color);
+  font-weight: 900;
+  text-align: center;
+  cursor: pointer;
+  transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50%;
+}
+
+.circular-text span {
+  position: absolute;
+  display: inline-block;
+  left: 50%;
+  top: 50%;
+  font-size: var(--ct-letter-size);
+  letter-spacing: 0.02em;
+  color: var(--ct-color);
+  line-height: 1;
+  user-select: none;
+  transition: all 0.5s cubic-bezier(0, 0, 0, 1);
+}
