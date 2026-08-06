@@ -2,12 +2,16 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
 import { Github, Linkedin } from '@thesvg/react';
 
 import CircularText from '@/components/CircularText';
+import Snake from '@/components/originkit/ui/snake-grid';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
 
   const socialLinks = [
     {
@@ -23,8 +27,27 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="w-full border-t border-border bg-background">
-      <div className="container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <footer className="relative isolate w-full overflow-hidden border-t border-border bg-background">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_16%,rgba(56,189,248,0.13),transparent_38%),radial-gradient(circle_at_86%_80%,rgba(59,130,246,0.14),transparent_34%)]" />
+        <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,black_9%,black_94%,transparent)]">
+          <Snake
+            cellSize={34}
+            gap={2}
+            rounded={5}
+            speed={7}
+            maxLength={32}
+            fade={68}
+            snakeColor={isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(15, 23, 42, 0.26)'}
+            boardColor={isDark ? 'rgba(255, 255, 255, 0.09)' : 'rgba(15, 23, 42, 0.065)'}
+            foodColor={isDark ? 'rgba(96, 165, 250, 0.96)' : 'rgba(37, 99, 235, 0.86)'}
+            style={{ height: '110%', transform: 'translateY(-5%)' }}
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/76 to-background/56" />
+      </div>
+
+      <div className="relative z-10 container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           {/* Copyright */}
           <div className="group relative flex h-24 w-24 items-center justify-center">
