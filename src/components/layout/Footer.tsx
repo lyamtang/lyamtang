@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { Github, Linkedin } from '@thesvg/react';
 
-import CircularText from '@/components/CircularText';
-import Snake from '@/components/originkit/ui/snake-grid';
+import CircularText from '@/components/ui/CircularText';
+import SnakeGrid from '@/components/ui/SnakeGrid';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -31,7 +31,7 @@ export default function Footer() {
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_16%,rgba(56,189,248,0.13),transparent_38%),radial-gradient(circle_at_86%_80%,rgba(59,130,246,0.14),transparent_34%)]" />
         <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,black_9%,black_94%,transparent)]">
-          <Snake
+          <SnakeGrid
             cellSize={34}
             gap={2}
             rounded={5}

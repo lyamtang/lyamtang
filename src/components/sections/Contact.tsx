@@ -6,7 +6,7 @@ import { Mail } from 'lucide-react';
 import { Github, Linkedin } from '@thesvg/react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { contactLinks } from '@/data/contact';
-import BorderGlow from '@/components/BorderGlow';
+import BorderGlow from '@/components/ui/BorderGlow';
 
 const glowColors = ['#c084fc', '#f272b6', '#38bdf8'];
 
@@ -32,9 +32,9 @@ export function Contact() {
           {contactLinks.map((link) => (
             <motion.div
               key={link.label}
-              whileHover={{ y: -4, rotateX: -7, scale: 1.01 }}
-              whileTap={{ y: -1, scale: 0.995 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+              whileHover={{ scale: 1.012 }}
+              whileTap={{ scale: 0.992 }}
+              transition={{ type: 'spring', stiffness: 220, damping: 22 }}
               className="[transform-style:preserve-3d]"
               style={{ transform: 'translateZ(40px)' }}
             >
