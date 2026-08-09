@@ -5,13 +5,13 @@ import styled from 'styled-components';
 import { useTheme } from 'next-themes';
 
 export function ModeToggle() {
-  const [mounted, setMounted] = React.useState(false);
+  const mounted = React.useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const { resolvedTheme, setTheme } = useTheme();
   const isLight = mounted && resolvedTheme === 'light';
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleToggle = () => {
     setTheme(isLight ? 'dark' : 'light');
