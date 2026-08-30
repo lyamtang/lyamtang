@@ -6,6 +6,9 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import StyledComponentsRegistry from "@/components/providers/StyledComponentsRegistry";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import ConsentBanner from "@/components/analytics/ConsentBanner";
+import PageViewTracker from "@/components/analytics/PageViewTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +37,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
+        <GoogleAnalytics />
         <StyledComponentsRegistry>
           <ThemeProvider
             attribute="class"
@@ -46,8 +50,10 @@ export default function RootLayout({
               <main className="flex-1">{children}</main>
               <Footer />
             </SmoothScroll>
+            <PageViewTracker />
           </ThemeProvider>
         </StyledComponentsRegistry>
+        <ConsentBanner />
       </body>
     </html>
   );

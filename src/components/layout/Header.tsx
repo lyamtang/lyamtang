@@ -7,6 +7,7 @@ import { Menu, X } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ModeToggle } from '@/components/ui/ModeToggle';
 import { headerNavItems } from '@/data/navigation';
+import { event } from '@/lib/analytics';
 
 export default function Header() {
   const pathname = usePathname();
@@ -77,6 +78,13 @@ export default function Header() {
     const targetId = href.slice(1);
     e.preventDefault();
     setMenuOpen(false);
+    
+    // Track navigation click
+    event('nav_click', {
+      section: targetId,
+      location: 'header',
+    });
+    
     if (pathname === '/') {
       setTimeout(() => {
         document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
@@ -135,7 +143,15 @@ export default function Header() {
           <ModeToggle />
           {!isProjectDetailRoute && (
             <button
-              onClick={() => setMenuOpen((prev) => !prev)}
+              onClick={() => {
+                const newState = !menuOpen;
+                setMenuOpen(newState);
+                
+                // Track mobile menu toggle
+                event('mobile_menu_toggle', {
+                  action: newState ? 'open' : 'close',
+                });
+              }}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-card/75 text-foreground shadow-sm transition hover:bg-accent md:hidden"
