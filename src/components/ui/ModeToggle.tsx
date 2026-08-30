@@ -3,6 +3,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { useTheme } from 'next-themes';
+import { event } from '@/lib/analytics';
 
 export function ModeToggle() {
   const mounted = React.useSyncExternalStore(
@@ -14,7 +15,13 @@ export function ModeToggle() {
   const isLight = mounted && resolvedTheme === 'light';
 
   const handleToggle = () => {
-    setTheme(isLight ? 'dark' : 'light');
+    const newTheme = isLight ? 'dark' : 'light';
+    setTheme(newTheme);
+    
+    // Track theme toggle
+    event('theme_toggle', {
+      theme: newTheme,
+    });
   };
 
   return (

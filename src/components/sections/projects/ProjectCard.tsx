@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Project } from '@/data/types';
 import { formatStatusLabel } from '@/lib/projectFilters';
+import { trackProjectView, trackOutboundLink } from '@/lib/analytics';
 
 const MAX_CATEGORIES = 2;
 const MAX_TECH = 3;
@@ -67,7 +68,10 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    trackOutboundLink(project.githubUrl!, `${project.title} GitHub`);
+                  }}
                 >
                   <Github className="h-4 w-4 [&_*]:fill-current text-muted-foreground transition-colors hover:text-foreground" />
                 </a>
@@ -78,7 +82,10 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Live site"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    trackOutboundLink(project.liveUrl!, `${project.title} Live Site`);
+                  }}
                 >
                   <ExternalLink className="h-4 w-4 text-muted-foreground transition-colors hover:text-foreground" />
                 </a>
@@ -103,6 +110,7 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
           <Link
             href={`/projects/${project.slug}`}
             className="inline-flex items-center gap-1 text-sm font-medium text-primary"
+            onClick={() => trackProjectView(project.title, project.slug)}
           >
             View details <ArrowRight className="h-3.5 w-3.5" />
           </Link>

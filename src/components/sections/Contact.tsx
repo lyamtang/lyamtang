@@ -7,6 +7,7 @@ import { Github, Linkedin } from '@thesvg/react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { contactLinks } from '@/data/contact';
 import BorderGlow from '@/components/ui/BorderGlow';
+import { trackContactClick, trackOutboundLink } from '@/lib/analytics';
 
 const glowColors = ['#c084fc', '#f272b6', '#38bdf8'];
 
@@ -43,6 +44,14 @@ export function Contact() {
                 target={link.icon !== 'email' ? '_blank' : undefined}
                 rel={link.icon !== 'email' ? 'noopener noreferrer' : undefined}
                 className="flex items-center gap-3 rounded-xl border border-slate-300/70 bg-white/82 px-4 py-3 text-foreground shadow-[0_10px_22px_-18px_rgba(15,23,42,0.35)] backdrop-blur-md transition-all duration-200 hover:border-primary/50 hover:bg-white/92 dark:border-white/20 dark:bg-white/10 dark:hover:bg-white/15"
+                onClick={() => {
+                  if (link.icon === 'email') {
+                    trackContactClick('email_click');
+                  } else {
+                    trackOutboundLink(link.href, link.label);
+                    trackContactClick(`${link.icon}_click`);
+                  }
+                }}
               >
                 <span
                   className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300/60 bg-white/86 text-foreground dark:border-white/25 dark:bg-white/15"
