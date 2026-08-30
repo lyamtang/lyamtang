@@ -40,19 +40,19 @@ export default function ConsentBanner() {
               help us understand what you find useful.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex flex-row gap-2">
             <Button
               onClick={handleEssentialOnly}
               variant="outline"
-              size="sm"
-              className="flex-1 sm:flex-initial"
+              size="default"
+              className="flex-1"
             >
               Essential Only
             </Button>
             <Button
               onClick={handleAcceptAll}
-              size="sm"
-              className="flex-1 sm:flex-initial bg-primary text-primary-foreground hover:bg-primary/90"
+              size="default"
+              className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Accept All
             </Button>
