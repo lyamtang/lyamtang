@@ -29,15 +29,13 @@ export function Contact() {
           </p>
         </div>
 
-        <div className="space-y-3 [transform-style:preserve-3d]">
+        <div className="space-y-3">
           {contactLinks.map((link) => (
             <motion.div
               key={link.label}
               whileHover={{ scale: 1.012 }}
               whileTap={{ scale: 0.992 }}
               transition={{ type: 'spring', stiffness: 220, damping: 22 }}
-              className="[transform-style:preserve-3d]"
-              style={{ transform: 'translateZ(40px)' }}
             >
               <Link
                 href={link.href}
@@ -53,10 +51,7 @@ export function Contact() {
                   }
                 }}
               >
-                <span
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300/60 bg-white/86 text-foreground dark:border-white/25 dark:bg-white/15"
-                  style={{ transform: 'translateZ(20px)' }}
-                >
+                <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300/60 bg-white/86 text-foreground dark:border-white/25 dark:bg-white/15">
                   {link.icon === 'email' && <Mail className="h-4 w-4" aria-hidden="true" />}
                   {link.icon === 'linkedin' && (
                     <Linkedin className="h-4 w-4 [&_*]:fill-current" aria-hidden="true" />
@@ -65,7 +60,7 @@ export function Contact() {
                     <Github className="h-4 w-4 [&_*]:fill-current" aria-hidden="true" />
                   )}
                 </span>
-                <div className="min-w-0" style={{ transform: 'translateZ(14px)' }}>
+                <div className="min-w-0">
                   <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
                     {link.label}
                   </p>
@@ -92,9 +87,8 @@ export function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            whileHover={{ y: -4, rotateX: 1.5, rotateY: -2 }}
+            whileHover={{ y: -2 }}
             className="w-full max-w-5xl"
-            style={{ transformStyle: 'preserve-3d' }}
           >
             <BorderGlow
               className="w-full"
