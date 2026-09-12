@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ProjectCard } from './projects/ProjectCard';
@@ -14,11 +14,23 @@ import {
 import type { ProjectStatus } from '@/data/types';
 
 const filterOptions = getProjectFilterOptions(projects);
+const QUERY_DEBOUNCE_MS = 350;
 
 export function Projects() {
+  const [queryInput, setQueryInput] = useState('');
   const [query, setQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<ProjectStatus | 'all'>('all');
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setQuery(queryInput);
+    }, queryInput ? QUERY_DEBOUNCE_MS : 0);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [queryInput]);
 
   const toggleCategory = (category: string) => {
     setSelectedCategories((prev) =>
@@ -29,6 +41,8 @@ export function Projects() {
   };
 
   const clearFilters = () => {
+    setQueryInput('');
+    setQuery('');
     setSelectedCategories([]);
     setSelectedStatus('all');
   };
@@ -46,6 +60,8 @@ export function Projects() {
       status: selectedStatus,
     });
   }, [query, selectedCategories, selectedStatus]);
+  // Only animate when the visible project set actually changes.
+  const resultSignature = filtered.map((project) => project.slug).join('|');
 
   return (
     <section id="projects" className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
@@ -55,8 +71,8 @@ export function Projects() {
           subtitle="Things I've built, designed, and managed."
         />
         <ProjectFilter
-          query={query}
-          onQueryChange={setQuery}
+            query={queryInput}
+            onQueryChange={setQueryInput}
           categories={filterOptions.categories}
           selectedCategories={selectedCategories}
           onCategoryToggle={toggleCategory}
@@ -75,11 +91,17 @@ export function Projects() {
             No projects match your filters.
           </motion.p>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((project, index) => (
-              <ProjectCard key={project.slug} project={project} index={index} />
-            ))}
-          </div>
+            <motion.div
+              key={resultSignature}
+              initial={{ opacity: 0, transform: 'translateY(6px)' }}
+              animate={{ opacity: 1, transform: 'translateY(0px)' }}
+              transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {filtered.map((project) => (
+                <ProjectCard key={project.slug} project={project} />
+              ))}
+            </motion.div>
         )}
       </div>
     </section>

@@ -60,6 +60,19 @@ pnpm build && pnpm start
 
 View real-time events in GA4 → Reports → Realtime or DebugView.
 
+## Agent Skills
+
+This repository uses project-local Agent Skills for design review, motion review, and front-end quality workflows.
+
+- Skills location: `.agents/skills/`
+- Claude compatibility links: `.claude/skills/`
+- Locked install metadata: `skills-lock.json`
+
+Global docs for agents and collaborators:
+
+- Project basis: `docs/agents/PROJECT_BASIS.md`
+- Skills registry: `docs/agents/SKILLS_REGISTRY.md`
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

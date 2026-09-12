@@ -31,15 +31,16 @@ export function About() {
             {stats.map((stat, i) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                  transition={{ duration: 0.24, delay: i * 0.08, ease: [0.23, 1, 0.32, 1] }}
                 className="flex flex-col items-center justify-center rounded-xl border bg-background p-6 text-center"
               >
                 <div className="text-4xl font-bold text-primary">
                   <CountUp
                     to={stat.value}
+                      duration={1.2}
                     suffix={stat.suffix ?? ''}
                     decimals={stat.decimals ?? 0}
                   />

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -12,6 +12,7 @@ import { event } from '@/lib/analytics';
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
+  const shouldReduceMotion = useReducedMotion();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeHref, setActiveHref] = useState('#about');
   const isProjectDetailRoute = pathname.startsWith('/projects/');
@@ -22,9 +23,11 @@ export default function Header() {
     if (!targetId) return;
     sessionStorage.removeItem('scroll-target');
     requestAnimationFrame(() => {
-      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+      document
+        .getElementById(targetId)
+        ?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth' });
     });
-  }, [pathname]);
+  }, [pathname, shouldReduceMotion]);
 
   useEffect(() => {
     if (pathname !== '/') return;
@@ -68,7 +71,7 @@ export default function Header() {
     setMenuOpen(false);
     if (pathname === '/') {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: shouldReduceMotion ? 'auto' : 'smooth' });
     }
     // On other pages, let the Link navigate to '/' naturally (renders from top)
   };
@@ -87,7 +90,9 @@ export default function Header() {
     
     if (pathname === '/') {
       setTimeout(() => {
-        document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+          document
+            .getElementById(targetId)
+            ?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth' });
       }, 180);
       return;
     }
