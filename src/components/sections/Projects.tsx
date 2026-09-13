@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { Skeleton } from '@/components/ui/skeleton';
 import { ProjectCard } from './projects/ProjectCard';
 import { ProjectFilter } from './projects/ProjectFilter';
 import { projects } from '@/data/projects';
@@ -62,6 +63,7 @@ export function Projects() {
   }, [query, selectedCategories, selectedStatus]);
   // Only animate when the visible project set actually changes.
   const resultSignature = filtered.map((project) => project.slug).join('|');
+  const isFiltering = queryInput !== query;
 
   return (
     <section id="projects" className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
@@ -82,7 +84,28 @@ export function Projects() {
           activeFilterCount={activeFilterCount}
           onClearFilters={clearFilters}
         />
-        {filtered.length === 0 ? (
+        {isFiltering ? (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite" aria-busy="true">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="h-[19rem] rounded-xl border border-border/50 p-5">
+                <div className="mb-4 flex gap-2">
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                  <Skeleton className="h-5 w-20 rounded-full" />
+                </div>
+                <Skeleton className="h-6 w-2/3" />
+                <Skeleton className="mt-2 h-4 w-1/3" />
+                <Skeleton className="mt-5 h-4 w-full" />
+                <Skeleton className="mt-2 h-4 w-5/6" />
+                <div className="mt-6 flex gap-2">
+                  <Skeleton className="h-5 w-14 rounded-full" />
+                  <Skeleton className="h-5 w-12 rounded-full" />
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                </div>
+                <Skeleton className="mt-8 h-4 w-24" />
+              </div>
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
