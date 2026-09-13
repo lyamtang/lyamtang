@@ -12,7 +12,7 @@ export default function Hero() {
   const router = useRouter();
 
   return (
-      <section id="hero" className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-visible bg-background px-4 py-16 sm:px-6 lg:px-8">
+      <section id="hero" className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-x-clip bg-background px-4 py-16 sm:px-6 lg:px-8">
       <div className="pointer-events-none absolute inset-x-0 -top-24 bottom-0 z-0" aria-hidden="true">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.16),transparent_38%),radial-gradient(circle_at_80%_25%,rgba(14,165,233,0.14),transparent_36%),radial-gradient(circle_at_50%_80%,rgba(99,102,241,0.12),transparent_42%)] dark:bg-[radial-gradient(circle_at_20%_20%,rgba(96,165,250,0.2),transparent_40%),radial-gradient(circle_at_80%_25%,rgba(56,189,248,0.16),transparent_36%),radial-gradient(circle_at_50%_80%,rgba(129,140,248,0.14),transparent_44%)]" />
         <div className="absolute inset-0 opacity-35 [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] [background-size:64px_64px] [background-image:linear-gradient(to_right,rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.12)_1px,transparent_1px)] dark:[background-image:linear-gradient(to_right,rgba(148,163,184,0.16)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.16)_1px,transparent_1px)]" />
