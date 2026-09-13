@@ -208,7 +208,7 @@ const BorderGlow = ({
           display: grid;
           border: 1px solid rgb(255 255 255 / 15%);
           background: var(--card-bg, #120f17);
-          overflow: visible;
+          overflow: clip;
           box-shadow:
             rgba(0, 0, 0, 0.1) 0px 1px 2px,
             rgba(0, 0, 0, 0.1) 0px 2px 4px,

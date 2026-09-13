@@ -7,8 +7,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   type CarouselApi,
 } from '@/components/ui/carousel';
 import type { GalleryImage } from '@/data/types';
@@ -69,8 +67,6 @@ export function ProjectCarousel({ images }: { images: GalleryImage[] }) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
       </Carousel>
 
       {/* Pagination dots */}

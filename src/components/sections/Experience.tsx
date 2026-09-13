@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Badge } from '@/components/ui/badge';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { experience } from '@/data/experience';
+import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
 
 export function Experience() {
   return (
@@ -14,13 +15,20 @@ export function Experience() {
           {experience.map((entry, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, transform: 'translateY(8px)' }}
+                whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="relative border-l-2 border-primary/30 pl-6"
+                transition={{ duration: MOTION_DURATION.base, delay: i * 0.08, ease: MOTION_EASING.smoothOut }}
+                className="relative pl-6"
             >
-              <div className="absolute -left-[9px] top-2 h-4 w-4 rounded-full border-2 border-primary bg-background" />
+                <motion.div
+                  initial={{ scaleY: 0 }}
+                  whileInView={{ scaleY: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: MOTION_DURATION.medium, delay: i * 0.08, ease: MOTION_EASING.smoothOut }}
+                  className="absolute left-0 top-0 h-full w-0.5 origin-top rounded-full bg-primary/30"
+                />
+                <div className="absolute left-0 top-2 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-primary bg-background" />
               <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
                 <div>
                   <h3 className="text-xl font-semibold">{entry.role}</h3>

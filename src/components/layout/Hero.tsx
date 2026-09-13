@@ -1,36 +1,23 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import { motion } from 'motion/react';
 import { ArrowDown } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import GradientText from '@/components/ui/GradientText';
 import RotatingText from '@/components/ui/RotatingText';
-import Hyperspeed from '@/components/ui/Hyperspeed';
-import { hyperspeedPresets } from '@/components/ui/HyperspeedPresets';
 import { trackCTAClick } from '@/lib/analytics';
 
 export default function Hero() {
-  const { resolvedTheme } = useTheme();
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const router = useRouter();
 
   return (
-    <section className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden bg-background px-4 py-16 sm:px-6 lg:px-8">
-      <div className="absolute inset-0 z-0">
-        <Hyperspeed
-          effectOptions={
-            resolvedTheme === 'dark'
-              ? hyperspeedPresets.one
-              : hyperspeedPresets.light
-          }
-        />
+      <section id="hero" className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-x-clip bg-background px-4 py-16 sm:px-6 lg:px-8">
+      <div className="pointer-events-none absolute inset-x-0 -top-24 bottom-0 z-0" aria-hidden="true">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.16),transparent_38%),radial-gradient(circle_at_80%_25%,rgba(14,165,233,0.14),transparent_36%),radial-gradient(circle_at_50%_80%,rgba(99,102,241,0.12),transparent_42%)] dark:bg-[radial-gradient(circle_at_20%_20%,rgba(96,165,250,0.2),transparent_40%),radial-gradient(circle_at_80%_25%,rgba(56,189,248,0.16),transparent_36%),radial-gradient(circle_at_50%_80%,rgba(129,140,248,0.14),transparent_44%)]" />
+        <div className="absolute inset-0 opacity-35 [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] [background-size:64px_64px] [background-image:linear-gradient(to_right,rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.12)_1px,transparent_1px)] dark:[background-image:linear-gradient(to_right,rgba(148,163,184,0.16)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.16)_1px,transparent_1px)]" />
       </div>
-      <div className="pointer-events-none absolute inset-0 z-[1] hidden bg-black/55 dark:block" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-background/12 via-background/68 to-background" aria-hidden="true" />
 
       <div className="container relative z-10 mx-auto max-w-5xl text-center">
         {/* Greeting */}
@@ -99,11 +86,11 @@ export default function Hero() {
               size="lg"
               onClick={() => {
                 trackCTAClick('View Projects', 'hero');
-                scrollToSection('projects');
+                router.push('/projects');
               }}
               className="min-w-[160px]"
             >
-              View Projects
+              View My Work
             </Button>
           </motion.div>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -111,11 +98,11 @@ export default function Hero() {
               size="lg"
               onClick={() => {
                 trackCTAClick('Get in Touch', 'hero');
-                scrollToSection('contact');
+                router.push('/contact');
               }}
               className="min-w-[160px] border-foreground/35 bg-foreground/5 text-foreground backdrop-blur-sm hover:bg-foreground/15 hover:text-foreground dark:border-white/35 dark:bg-white/5 dark:text-white dark:hover:bg-white/15 dark:hover:text-white"
             >
-              Get in Touch
+              Contact Me
             </Button>
           </motion.div>
         </motion.div>
@@ -127,14 +114,10 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="mt-16"
         >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            className="inline-flex flex-col items-center gap-2 text-foreground/60 dark:text-white/60"
-          >
+          <div className="inline-flex flex-col items-center gap-2 text-foreground/60 dark:text-white/60">
             <span className="text-sm">Scroll to explore</span>
             <ArrowDown className="h-6 w-6" />
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
