@@ -11,6 +11,7 @@ import {
   ReactNode,
 } from 'react';
 import { gsap } from 'gsap';
+import { MOTION_DURATION, MOTION_EASING, prefersReducedMotion } from '@/lib/motion';
 
 interface TextTypeProps {
   className?: string;
@@ -61,6 +62,7 @@ const TextType = ({
   const [isVisible, setIsVisible] = useState(!startOnVisible);
   const cursorRef = useRef<HTMLSpanElement>(null);
   const observerRef = useRef<HTMLSpanElement>(null);
+  const cursorTweenRef = useRef<gsap.core.Tween | null>(null);
 
   const textArray = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
 
@@ -94,16 +96,28 @@ const TextType = ({
   }, [startOnVisible]);
 
   useEffect(() => {
-    if (showCursor && cursorRef.current) {
-      gsap.set(cursorRef.current, { opacity: 1 });
-      gsap.to(cursorRef.current, {
+    cursorTweenRef.current?.kill();
+
+    if (!showCursor || !cursorRef.current) {
+      return;
+    }
+
+    gsap.set(cursorRef.current, { opacity: 1 });
+
+    if (!prefersReducedMotion()) {
+      cursorTweenRef.current = gsap.to(cursorRef.current, {
         opacity: 0,
-        duration: cursorBlinkDuration,
+        duration: Math.max(cursorBlinkDuration, MOTION_DURATION.fast),
         repeat: -1,
         yoyo: true,
-        ease: 'power2.inOut',
+        ease: MOTION_EASING.gsapInOut,
       });
     }
+
+    return () => {
+      cursorTweenRef.current?.kill();
+      cursorTweenRef.current = null;
+    };
   }, [showCursor, cursorBlinkDuration]);
 
   useEffect(() => {

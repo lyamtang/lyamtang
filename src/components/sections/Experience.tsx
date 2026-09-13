@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Badge } from '@/components/ui/badge';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { experience } from '@/data/experience';
+import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
 
 export function Experience() {
   return (
@@ -17,14 +18,14 @@ export function Experience() {
                 initial={{ opacity: 0, transform: 'translateY(8px)' }}
                 whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
               viewport={{ once: true }}
-                transition={{ duration: 0.24, delay: i * 0.08, ease: [0.23, 1, 0.32, 1] }}
+                transition={{ duration: MOTION_DURATION.base, delay: i * 0.08, ease: MOTION_EASING.smoothOut }}
                 className="relative pl-6"
             >
                 <motion.div
                   initial={{ scaleY: 0 }}
                   whileInView={{ scaleY: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.42, delay: i * 0.08, ease: [0.23, 1, 0.32, 1] }}
+                  transition={{ duration: MOTION_DURATION.medium, delay: i * 0.08, ease: MOTION_EASING.smoothOut }}
                   className="absolute left-0 top-0 h-full w-0.5 origin-top rounded-full bg-primary/30"
                 />
                 <div className="absolute left-0 top-2 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-primary bg-background" />

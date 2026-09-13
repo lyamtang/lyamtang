@@ -13,6 +13,7 @@ import {
   getProjectFilterOptions,
 } from '@/lib/projectFilters';
 import type { ProjectStatus } from '@/data/types';
+import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
 
 const filterOptions = getProjectFilterOptions(projects);
 const QUERY_DEBOUNCE_MS = 350;
@@ -118,7 +119,7 @@ export function Projects() {
               key={resultSignature}
               initial={{ opacity: 0, transform: 'translateY(6px)' }}
               animate={{ opacity: 1, transform: 'translateY(0px)' }}
-              transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+              transition={{ duration: MOTION_DURATION.base, ease: MOTION_EASING.smoothOut }}
               className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
             >
               {filtered.map((project) => (

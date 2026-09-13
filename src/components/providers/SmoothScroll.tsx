@@ -2,6 +2,7 @@
 
 import { ReactNode, useEffect } from 'react';
 import Lenis from 'lenis';
+import { initGsapDefaults, prefersReducedMotion } from '@/lib/motion';
 
 interface SmoothScrollProps {
   children: ReactNode;
@@ -9,8 +10,9 @@ interface SmoothScrollProps {
 
 export default function SmoothScroll({ children }: SmoothScrollProps) {
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mediaQuery.matches) {
+    initGsapDefaults();
+
+    if (prefersReducedMotion()) {
       return;
     }
 
