@@ -73,6 +73,14 @@ Global docs for agents and collaborators:
 - Project basis: `docs/agents/PROJECT_BASIS.md`
 - Skills registry: `docs/agents/SKILLS_REGISTRY.md`
 
+### Installed Design And Motion Bundles
+
+- **Taste bundle** (`Leonxlnx/taste-skill`): the default `design-taste-frontend` workflow plus redesign, brand-kit, image-to-code, web/mobile image-direction, minimalist, high-end visual, industrial-brutalist, Stitch, legacy v1, and complete-output workflows.
+- **GSAP bundle** (`greensock/gsap-skills`): React integration, timelines, ScrollTrigger, plugins, utilities, performance, and framework guidance.
+- **pixel2motion** (`nolangz/pixel2motion`): raster-logo vectorization and logo/brand-mark motion workflows.
+
+Use `design-taste-frontend` for normal portfolio design changes. Route specialized work through the skill registry rather than applying every Taste workflow at once.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

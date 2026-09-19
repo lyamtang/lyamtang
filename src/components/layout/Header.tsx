@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
-import { BriefcaseBusiness, CircleUserRound, Mail, Menu } from 'lucide-react';
+import { BriefcaseBusiness, CircleUserRound, Mail } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { ModeToggle } from '@/components/ui/ModeToggle';
 import { headerNavItems } from '@/data/navigation';
 import { event } from '@/lib/analytics';
 
@@ -20,6 +19,11 @@ export default function Header() {
   const shouldReduceMotion = useReducedMotion();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeHref, setActiveHref] = useState('/');
+  const [mobileNavVisible, setMobileNavVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  const activeNavItem = headerNavItems.find((item) => item.href === activeHref) ?? headerNavItems[0];
+  const ActiveNavIcon = getNavIcon(activeNavItem.href);
 
   useEffect(() => {
     const exactMatch = headerNavItems.find((item) => item.href === pathname);
@@ -35,6 +39,26 @@ export default function Header() {
 
     setActiveHref('/');
   }, [pathname]);
+
+  useEffect(() => {
+    const updateMobileNavVisibility = () => {
+      const currentScrollY = window.scrollY;
+      const delta = currentScrollY - lastScrollY.current;
+
+      if (currentScrollY <= 8 || menuOpen) {
+        setMobileNavVisible(true);
+      } else if (Math.abs(delta) >= 12) {
+        setMobileNavVisible(delta < 0);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    lastScrollY.current = window.scrollY;
+    window.addEventListener('scroll', updateMobileNavVisibility, { passive: true });
+
+    return () => window.removeEventListener('scroll', updateMobileNavVisibility);
+  }, [menuOpen]);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     setMenuOpen(false);
@@ -60,7 +84,7 @@ export default function Header() {
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className="sticky top-0 z-50 w-full overflow-x-clip bg-transparent pb-3"
     >
-      <nav className="relative z-10 container mx-auto grid h-20 max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-4 px-4 sm:px-6 lg:px-8 md:grid-cols-[1fr_auto_1fr]">
+      <nav className="relative z-10 container mx-auto flex h-20 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" onClick={handleLogoClick} className="flex items-center space-x-2 justify-self-start">
           <motion.span
@@ -71,8 +95,8 @@ export default function Header() {
           </motion.span>
         </Link>
 
-        {/* Center navigation */}
-        <div className="hidden items-center justify-self-center rounded-full border border-border/60 bg-card/70 p-2 shadow-sm backdrop-blur-md md:flex">
+        {/* Desktop navigation */}
+        <div className="ml-auto hidden items-center rounded-full border border-border/60 bg-card/70 p-2 shadow-sm backdrop-blur-md md:flex">
           {headerNavItems.map((link) => {
             const isActive = activeHref === link.href;
             const Icon = getNavIcon(link.href);
@@ -94,26 +118,34 @@ export default function Header() {
           })}
         </div>
 
-        {/* Utility area */}
-        <div className="ml-auto flex items-center gap-6 justify-self-end md:gap-4">
-          <div className="flex h-12 items-center justify-center origin-center scale-150">
-            <ModeToggle />
-          </div>
-          <button
-            onClick={() => {
-              setMenuOpen(true);
+        {/* Mobile navigation control */}
+        <motion.button
+          type="button"
+          onClick={() => {
+            setMenuOpen(true);
+            setMobileNavVisible(true);
 
-              event('mobile_menu_toggle', {
-                action: 'open',
-              });
-            }}
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
-            className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border/70 bg-card/75 text-foreground shadow-sm transition hover:bg-accent md:hidden"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-        </div>
+            event('mobile_menu_toggle', {
+              action: 'open',
+            });
+          }}
+          aria-label={`Open navigation menu. Current section: ${activeNavItem.name}`}
+          aria-expanded={menuOpen}
+          aria-haspopup="dialog"
+          tabIndex={mobileNavVisible ? 0 : -1}
+          animate={{
+            opacity: mobileNavVisible ? 1 : 0,
+            transform:
+              shouldReduceMotion || mobileNavVisible ? 'translateY(0)' : 'translateY(-120%)',
+          }}
+          transition={{ duration: shouldReduceMotion ? 0.12 : 0.2, ease: [0.23, 1, 0.32, 1] }}
+          className={`ml-auto inline-flex h-12 items-center gap-2 rounded-full border border-border/70 bg-card/75 px-4 text-sm font-semibold text-foreground shadow-sm backdrop-blur-md transition-colors hover:bg-accent md:hidden ${
+            mobileNavVisible ? '' : 'pointer-events-none'
+          }`}
+        >
+          <ActiveNavIcon className="h-4 w-4" aria-hidden="true" />
+          <span>{activeNavItem.name}</span>
+        </motion.button>
       </nav>
 
       <AnimatePresence>
