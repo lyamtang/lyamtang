@@ -15,7 +15,7 @@ export const education: EducationEntry[] = [
       'Information System Project Management',
       'Human Computer Interaction',
       'Data Visualization',
-      'Database Systems'
+      'Database Management Systems'
     ],
   },
   {

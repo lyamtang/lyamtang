@@ -3,6 +3,18 @@ import type { ExperienceEntry } from './types';
 export const experience: ExperienceEntry[] = [
   {
     company: 'TransUnion',
+    role: 'Analyst, Product Management - Consumer Interactive',
+    startDate: 'Sep 2026',
+    endDate: 'Present',
+    location: 'Hong Kong',
+    type: 'Full-time',
+    bullets: [
+      'Optimized web and mobile user experiences by analyzing interaction data to guide enhancement projects, while driving workflow efficiency through scalable report automations'
+    ],
+    tech: ['Google Analytics 360', ]
+  },
+  {
+    company: 'TransUnion',
     role: 'Summer Intern, Product Management',
     startDate: 'Jun 2026',
     endDate: 'Aug 2026',
