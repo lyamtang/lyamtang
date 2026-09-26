@@ -24,16 +24,31 @@ export interface CertificationEntry {
   verificationUrl: string;
 }
 
-export interface ExperienceEntry {
-  company: string;
-  role: string;
+export interface Role {
+  title: string;
   startDate: string;
   endDate: string;
-  location: string;
-  type: 'Full-time' | 'Part-time' | 'Internship' | 'Contract' | 'Freelance';
+  type: string;
   bullets: string[];
   tech: string[];
 }
+
+export interface CompanyExperience {
+  company: string;
+  location: string;
+  roles: Role[];
+}
+
+// export interface ExperienceEntry {
+//   company: string;
+//   role: string;
+//   startDate: string;
+//   endDate: string;
+//   location: string;
+//   type: 'Full-time' | 'Part-time' | 'Internship' | 'Contract' | 'Freelance';
+//   bullets: string[];
+//   tech: string[];
+// }
 
 export interface GalleryImage {
   src: string;
