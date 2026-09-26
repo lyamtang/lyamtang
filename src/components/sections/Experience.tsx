@@ -14,11 +14,16 @@ export function Experience() {
         <div className="space-y-12">
           {experience.map((companyData, i) => (
             <div key={i} className="space-y-6">
-              {/* Company Header */}
-              <div>
+              {/* Company Header - Animated with a slight slide up/fade in */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+              >
                 <h2 className="text-2xl font-bold">{companyData.company}</h2>
                 <p className="text-sm font-medium text-primary">{companyData.location}</p>
-              </div>
+              </motion.div>
 
               {/* Roles List */}
               <div className="space-y-8">
@@ -28,8 +33,8 @@ export function Experience() {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: j * 0.1 }}
-                    // Added ml-3 so the dot aligns nicely beneath the company header
+                    // Sequenced delay so roles appear just after the company title
+                    transition={{ duration: 0.5, delay: (i * 0.1) + (j * 0.1) + 0.1 }}
                     className="relative border-l-2 border-primary/30 pl-6 ml-3"
                   >
                     {/* Education Style Timeline Dot */}
