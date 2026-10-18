@@ -127,5 +127,6 @@
   }
   html {
     @apply bg-background font-sans;
+    scrollbar-gutter: stable;
   }
 }
