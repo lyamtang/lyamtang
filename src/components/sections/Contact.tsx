@@ -69,13 +69,67 @@ export function Contact() {
 
       <div className="mx-auto grid min-h-[calc(100svh-11rem)] max-w-7xl lg:grid-cols-2">
         <section
+          aria-labelledby="contacts-heading"
+          className="flex min-h-[32rem] flex-col py-12 sm:py-16 lg:pr-16"
+        >
+          <div className="max-w-md">
+            <h1 id="contacts-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Ways to connect.
+            </h1>
+            <div className="mt-3 h-1 w-16 rounded-full bg-primary" />
+          </div>
+
+          <div className="flex flex-1 items-center justify-center py-10 lg:py-6">
+            <Folder
+              items={contactLinks.map((link) => {
+                const icon =
+                  link.icon === 'email' ? (
+                    <Mail className="size-11" aria-hidden="true" />
+                  ) : link.icon === 'github' ? (
+                    <Github className="size-11 [&_*]:fill-current" aria-hidden="true" />
+                  ) : (
+                    <Linkedin className="size-11 [&_*]:fill-current" aria-hidden="true" />
+                  );
+
+                return {
+                  content: (
+                    <div className={`flex size-full flex-col rounded-lg p-3 ${cardClassName}`}>
+                      <span className="text-left text-xs font-semibold leading-none">{link.label}</span>
+                      <span className="flex flex-1 items-center justify-center">
+                        <span className="flex size-11 items-center justify-center rounded-xl bg-background/20 shadow-sm">
+                          {icon}
+                        </span>
+                      </span>
+                      <span className="text-left text-[9px] leading-[1.35] break-all opacity-75">{link.display}</span>
+                    </div>
+                  ),
+                };
+              })}
+              label="Contacts"
+              tabPosition="left"
+              color={isDark ? '#64748b' : '#a8b6c8'}
+              paperColor={isDark ? '#1e293b' : '#f1f5f9'}
+              theme={isDark ? 'dark' : 'light'}
+              size={folderSize}
+              defaultOpen
+              intro={true}
+              speed={1}
+              draggable={false}
+              zoomOnClick={false}
+              closeOnOutsideClick={false}
+              onItemClick={(_, index) => contactItemClick(index)}
+            />
+          </div>
+        </section>
+
+        <section
           aria-labelledby="message-heading"
-          className="order-2 flex min-h-[36rem] flex-col py-12 sm:py-16 lg:order-2 lg:pl-16"
+          className="flex min-h-[36rem] flex-col py-12 sm:py-16 lg:pl-16"
         >
           <div className="max-w-xl">
-            <h1 id="message-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <h2 id="message-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
               Send a message.
-            </h1>
+            </h2>
             <div className="mt-3 h-1 w-16 rounded-full bg-primary" />
             <p className="mt-4 max-w-lg text-base leading-7 text-muted-foreground">
               Have a product, collaboration, or opportunity in mind? Share the details and I&apos;ll get back to you.
@@ -125,59 +179,6 @@ export function Contact() {
               </Button>
             </div>
           </form>
-        </section>
-
-        <section
-          aria-labelledby="contacts-heading"
-          className="order-1 flex min-h-[32rem] flex-col py-12 sm:py-16 lg:order-1 lg:pr-16"
-        >
-          <div className="max-w-md">
-            <h2 id="contacts-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Ways to connect.
-            </h2>
-            <div className="mt-3 h-1 w-16 rounded-full bg-primary" />
-          </div>
-
-          <div className="flex flex-1 items-center justify-center py-10 lg:py-6">
-            <Folder
-              items={contactLinks.map((link) => {
-                const icon =
-                  link.icon === 'email' ? (
-                    <Mail className="size-10" aria-hidden="true" />
-                  ) : link.icon === 'github' ? (
-                    <Github className="size-10 [&_*]:fill-current" aria-hidden="true" />
-                  ) : (
-                    <Linkedin className="size-10 [&_*]:fill-current" aria-hidden="true" />
-                  );
-
-                return {
-                  content: (
-                    <div className={`flex size-full flex-col rounded-lg p-2.5 ${cardClassName}`}>
-                      <span className="text-left text-xs font-semibold leading-none">{link.label}</span>
-                      <span className="flex flex-1 items-center justify-center">
-                        <span className="flex size-10 items-center justify-center rounded-xl bg-background/20 shadow-sm">
-                          {icon}
-                        </span>
-                      </span>
-                      <span className="text-left text-[8px] leading-3 break-all opacity-70">{link.display}</span>
-                    </div>
-                  ),
-                };
-              })}
-              label="Contacts"
-              tabPosition="left"
-              color={isDark ? '#64748b' : '#a8b6c8'}
-              paperColor={isDark ? '#1e293b' : '#f1f5f9'}
-              theme={isDark ? 'dark' : 'light'}
-              size={folderSize}
-              defaultOpen
-              intro={true}
-              speed={1}
-              draggable={false}
-              zoomOnClick={false}
-              onItemClick={(_, index) => contactItemClick(index)}
-            />
-          </div>
         </section>
       </div>
     </section>
