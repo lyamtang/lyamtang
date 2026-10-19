@@ -3,10 +3,12 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { Mail } from 'lucide-react';
 import { Github, Linkedin } from '@thesvg/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { useTheme } from 'next-themes';
 import Folder from '@/components/ui/Folder';
 import { ContactForm } from '@/components/sections/ContactForm';
 import { contactLinks } from '@/data/contact';
+import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
 import {
   trackContactClick,
   trackContactFolderToggle,
@@ -48,6 +50,7 @@ function contactItemClick(index: number) {
 
 export function Contact() {
   const { resolvedTheme } = useTheme();
+  const shouldReduceMotion = useReducedMotion();
   const [hasMounted, setHasMounted] = useState(false);
   const isDesktop = useSyncExternalStore(
     subscribeToDesktopChanges,
@@ -65,6 +68,15 @@ export function Contact() {
   const cardClassName = isDark
     ? 'border border-white/10 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.12),transparent_38%),linear-gradient(145deg,#334155,#0f172a)] text-slate-100'
     : 'border border-slate-200 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.9),transparent_38%),linear-gradient(145deg,#ffffff,#e2e8f0)] text-slate-700';
+  const headingTransition = {
+    duration: shouldReduceMotion ? 0 : MOTION_DURATION.slow,
+    ease: MOTION_EASING.smoothOut,
+  };
+  const accentTransition = {
+    duration: shouldReduceMotion ? 0 : MOTION_DURATION.medium,
+    delay: shouldReduceMotion ? 0 : MOTION_DURATION.fast,
+    ease: MOTION_EASING.smoothOut,
+  };
 
   return (
     <section className="relative isolate overflow-hidden bg-background px-4 pb-12 pt-4 sm:px-6 sm:pb-16 lg:px-8">
@@ -75,12 +87,22 @@ export function Contact() {
           aria-labelledby="contacts-heading"
           className="flex min-h-[32rem] flex-col py-12 sm:py-16 lg:pr-16"
         >
-          <div className="max-w-md">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={headingTransition}
+            className="max-w-md"
+          >
             <h1 id="contacts-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
               Ways to connect.
             </h1>
-            <div className="mt-3 h-1 w-16 rounded-full bg-primary" />
-          </div>
+            <motion.div
+              initial={shouldReduceMotion ? false : { scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={accentTransition}
+              className="mt-3 h-1 w-16 origin-left rounded-full bg-primary"
+            />
+          </motion.div>
 
           <div className="flex flex-1 items-center justify-center py-10 lg:py-6">
             <Folder
@@ -130,15 +152,25 @@ export function Contact() {
           aria-labelledby="message-heading"
           className="flex min-h-[36rem] flex-col py-12 sm:py-16 lg:pl-16"
         >
-          <div className="max-w-xl">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={headingTransition}
+            className="max-w-xl"
+          >
             <h2 id="message-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
               Send a message.
             </h2>
-            <div className="mt-3 h-1 w-16 rounded-full bg-primary" />
+            <motion.div
+              initial={shouldReduceMotion ? false : { scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={accentTransition}
+              className="mt-3 h-1 w-16 origin-left rounded-full bg-primary"
+            />
             <p className="mt-4 max-w-lg text-base leading-7 text-muted-foreground">
               Have a product, collaboration, or opportunity in mind? Share the details and I&apos;ll get back to you.
             </p>
-          </div>
+          </motion.div>
 
           <ContactForm />
         </section>
