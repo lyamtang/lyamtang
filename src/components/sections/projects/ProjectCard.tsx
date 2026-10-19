@@ -66,7 +66,7 @@ export function ProjectCard({ project }: { project: Project }) {
                   aria-label="GitHub"
                   onClick={(e) => {
                     e.stopPropagation();
-                    trackOutboundLink(project.githubUrl!, `${project.title} GitHub`);
+                    trackOutboundLink(project.githubUrl!, `${project.title} GitHub`, 'project_card');
                   }}
                 >
                   <Github className="h-4 w-4 [&_*]:fill-current text-muted-foreground transition-colors hover:text-foreground" />
@@ -80,7 +80,7 @@ export function ProjectCard({ project }: { project: Project }) {
                   aria-label="Live site"
                   onClick={(e) => {
                     e.stopPropagation();
-                    trackOutboundLink(project.liveUrl!, `${project.title} Live Site`);
+                    trackOutboundLink(project.liveUrl!, `${project.title} Live Site`, 'project_card');
                   }}
                 >
                   <ExternalLink className="h-4 w-4 text-muted-foreground transition-colors hover:text-foreground" />

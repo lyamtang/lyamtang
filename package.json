@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pages:dev": "wrangler pages dev out --local --compatibility-date=2026-10-19"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -40,7 +41,8 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.151.1"
   },
   "allowScripts": {
     "sharp@0.34.5": true,

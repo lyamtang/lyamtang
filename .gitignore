@@ -36,6 +36,8 @@ lerna-debug.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.wrangler/
+.dev.vars
 
 # vercel
 .vercel

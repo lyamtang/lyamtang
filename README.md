@@ -60,6 +60,46 @@ pnpm build && pnpm start
 
 View real-time events in GA4 → Reports → Realtime or DebugView.
 
+## Contact Form Delivery
+
+The contact form posts to the same-origin Cloudflare Pages Function at `/api/contact`. The Function validates the request, filters honeypot traffic, and forwards valid submissions to the Access-protected n8n production webhook.
+
+### Cloudflare Pages configuration
+
+Add the following as encrypted Pages Secrets:
+
+- `N8N_CONTACT_WEBHOOK_URL`
+- `CF_ACCESS_CLIENT_ID`
+- `CF_ACCESS_CLIENT_SECRET`
+
+Never add these values with the `NEXT_PUBLIC_` prefix. The browser receives none of them.
+
+### Test the Pages Function locally
+
+Cloudflare Pages discovers Functions from the root [`functions/`](./functions) directory. Keep it outside `src/`: `src/` contains Next.js application code, while `functions/` is deployed by Cloudflare as the edge runtime.
+
+1. Create an ignored `.dev.vars` file with the three Pages Secret names above and their real test values.
+2. Set `NEXT_PUBLIC_CONTACT_FORM_DEMO_MODE=false` in `.env.local` when testing form-to-endpoint delivery.
+3. Build the static site, then start the Pages runtime:
+
+   ```bash
+   pnpm build
+   pnpm pages:dev
+   ```
+
+4. Open the local address printed by Wrangler. It serves both the static site and `POST /api/contact`.
+5. Delete `.dev.vars` when you finish. It is ignored by Git, but it must never be committed or shared.
+
+### Local UI preview
+
+Set the following in `.env.local` to preview the pending and success states without a deployed Pages Function:
+
+```env
+NEXT_PUBLIC_CONTACT_FORM_DEMO_MODE=true
+```
+
+Set it to `false` after deploying the Pages Function to test the complete secure delivery path.
+
 ## Agent Skills
 
 This repository uses project-local Agent Skills for design review, motion review, and front-end quality workflows.
