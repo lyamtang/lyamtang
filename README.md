@@ -60,16 +60,45 @@ pnpm build && pnpm start
 
 View real-time events in GA4 → Reports → Realtime or DebugView.
 
-## Contact Form Testing
+## Contact Form Delivery
 
-The client-side contact form posts JSON directly to the n8n test webhook configured in a local environment file.
+The contact form posts to the same-origin Cloudflare Pages Function at `/api/contact`. The Function validates the request, filters honeypot traffic, and forwards valid submissions to the Access-protected n8n production webhook.
 
-1. Copy `.env.example` to `.env.local`.
-2. Set `NEXT_PUBLIC_N8N_WEBHOOK_URL` to the n8n test webhook URL.
-3. Set `NEXT_PUBLIC_CONTACT_FORM_DEMO_MODE=true` to preview the local success-feedback sequence without calling n8n. Keep it `false` to test the webhook.
-4. Restart the development server after changing a value because public environment variables are inlined at build time.
+### Cloudflare Pages configuration
 
-The webhook URL is public to browser visitors during this temporary direct-integration phase. Do not add credentials or private secrets to it. Production delivery should move behind a server-side or Cloudflare proxy with rate limiting.
+Add the following as encrypted Pages Secrets:
+
+- `N8N_CONTACT_WEBHOOK_URL`
+- `CF_ACCESS_CLIENT_ID`
+- `CF_ACCESS_CLIENT_SECRET`
+
+Never add these values with the `NEXT_PUBLIC_` prefix. The browser receives none of them.
+
+### Test the Pages Function locally
+
+Cloudflare Pages discovers Functions from the root [`functions/`](./functions) directory. Keep it outside `src/`: `src/` contains Next.js application code, while `functions/` is deployed by Cloudflare as the edge runtime.
+
+1. Create an ignored `.dev.vars` file with the three Pages Secret names above and their real test values.
+2. Set `NEXT_PUBLIC_CONTACT_FORM_DEMO_MODE=false` in `.env.local` when testing form-to-endpoint delivery.
+3. Build the static site, then start the Pages runtime:
+
+   ```bash
+   pnpm build
+   pnpm pages:dev
+   ```
+
+4. Open the local address printed by Wrangler. It serves both the static site and `POST /api/contact`.
+5. Delete `.dev.vars` when you finish. It is ignored by Git, but it must never be committed or shared.
+
+### Local UI preview
+
+Set the following in `.env.local` to preview the pending and success states without a deployed Pages Function:
+
+```env
+NEXT_PUBLIC_CONTACT_FORM_DEMO_MODE=true
+```
+
+Set it to `false` after deploying the Pages Function to test the complete secure delivery path.
 
 ## Agent Skills
 

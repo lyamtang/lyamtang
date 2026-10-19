@@ -92,14 +92,6 @@ export function ContactForm() {
       return;
     }
 
-    const webhookUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL;
-
-    if (!webhookUrl) {
-      trackContactFormSubmit('error', 'webhook_not_configured');
-      setError('Contact delivery is not configured. Please use one of the contact channels instead.');
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
@@ -112,7 +104,7 @@ export function ContactForm() {
         return;
       }
 
-      const response = await fetch(webhookUrl, {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +118,7 @@ export function ContactForm() {
       });
 
       if (!response.ok) {
-        trackContactFormSubmit('error', `webhook_${response.status}`);
+        trackContactFormSubmit('error', `contact_api_${response.status}`);
         setError('Your message could not be sent. Please try again or use another contact channel.');
         return;
       }
@@ -245,19 +237,13 @@ export function ContactForm() {
         </div>
       </fieldset>
 
-      {error && (
-        <p id="contact-form-error" className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-sm text-destructive" role="alert">
-          {error}
-        </p>
-      )}
-
       <div className="mt-2 flex flex-col items-end">
         <Button
           type="submit"
           size="lg"
           disabled={isFormLocked}
           className={cn(
-            'w-full transition-colors duration-500 ease-out sm:w-auto',
+            'w-full transition-colors duration-500 ease-out sm:w-40',
             isConfirmingSuccess && 'bg-emerald-600 text-white hover:bg-emerald-600 disabled:opacity-100',
           )}
         >
@@ -289,7 +275,7 @@ export function ContactForm() {
             </motion.span>
           </AnimatePresence>
         </Button>
-        <div className="mt-2 min-h-5 text-right">
+        <div className="mt-2 min-h-5 w-full text-right">
           <AnimatePresence initial={false}>
             {isConfirmingSuccess && (
               <motion.p
@@ -304,6 +290,11 @@ export function ContactForm() {
               </motion.p>
             )}
           </AnimatePresence>
+          {error && (
+            <p id="contact-form-error" className="text-sm text-destructive" role="alert">
+              {error}
+            </p>
+          )}
         </div>
         <span className="sr-only" role="status">
           {isConfirmingSuccess ? 'Your message has been sent.' : ''}
