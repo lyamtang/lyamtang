@@ -60,6 +60,17 @@ pnpm build && pnpm start
 
 View real-time events in GA4 → Reports → Realtime or DebugView.
 
+## Contact Form Testing
+
+The client-side contact form posts JSON directly to the n8n test webhook configured in a local environment file.
+
+1. Copy `.env.example` to `.env.local`.
+2. Set `NEXT_PUBLIC_N8N_WEBHOOK_URL` to the n8n test webhook URL.
+3. Set `NEXT_PUBLIC_CONTACT_FORM_DEMO_MODE=true` to preview the local success-feedback sequence without calling n8n. Keep it `false` to test the webhook.
+4. Restart the development server after changing a value because public environment variables are inlined at build time.
+
+The webhook URL is public to browser visitors during this temporary direct-integration phase. Do not add credentials or private secrets to it. Production delivery should move behind a server-side or Cloudflare proxy with rate limiting.
+
 ## Agent Skills
 
 This repository uses project-local Agent Skills for design review, motion review, and front-end quality workflows.

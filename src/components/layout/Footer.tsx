@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
 import { Github, Linkedin } from '@thesvg/react';
+import { trackOutboundLink } from '@/lib/analytics';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -42,6 +43,7 @@ export default function Footer() {
                 href={link.href}
                 className="text-muted-foreground transition-colors hover:text-foreground"
                 aria-label={link.name}
+                onClick={() => trackOutboundLink(link.href, link.name, 'footer')}
               >
                 <motion.div
                     whileHover={shouldReduceMotion ? undefined : { scale: 1.06 }}

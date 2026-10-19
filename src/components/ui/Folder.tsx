@@ -786,7 +786,7 @@ const Folder = ({
   openOn = 'click',
   open = undefined,
   defaultOpen = false,
-  onOpenChange = undefined,
+  onOpenChange = _open => {},
   onItemClick = (_item, _index) => {},
   onItemDrop = undefined,
   draggable = true,

@@ -1,14 +1,17 @@
 'use client';
 
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import { Mail, Send } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { Github, Linkedin } from '@thesvg/react';
 import { useTheme } from 'next-themes';
 import Folder from '@/components/ui/Folder';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { ContactForm } from '@/components/sections/ContactForm';
 import { contactLinks } from '@/data/contact';
-import { trackContactClick, trackOutboundLink } from '@/lib/analytics';
+import {
+  trackContactClick,
+  trackContactFolderToggle,
+  trackOutboundLink,
+} from '@/lib/analytics';
 
 function subscribeToDesktopChanges(callback: () => void) {
   const mediaQuery = window.matchMedia('(min-width: 640px)');
@@ -33,13 +36,13 @@ function contactItemClick(index: number) {
   }
 
   if (link.icon === 'email') {
-    trackContactClick('email_click');
+    trackContactClick('email_click', 'contact_folder');
     window.location.href = link.href;
     return;
   }
 
-  trackOutboundLink(link.href, link.label);
-  trackContactClick(`${link.icon}_click`);
+  trackOutboundLink(link.href, link.label, 'contact_folder');
+  trackContactClick(`${link.icon}_click`, 'contact_folder');
   window.open(link.href, '_blank', 'noopener,noreferrer');
 }
 
@@ -117,6 +120,7 @@ export function Contact() {
               draggable={false}
               zoomOnClick={false}
               closeOnOutsideClick={false}
+              onOpenChange={trackContactFolderToggle}
               onItemClick={(_, index) => contactItemClick(index)}
             />
           </div>
@@ -136,49 +140,7 @@ export function Contact() {
             </p>
           </div>
 
-          <form className="mt-10 grid flex-1 content-start gap-5" aria-describedby="message-status">
-            <div className="grid gap-5 sm:grid-cols-2">
-              <label className="grid gap-2 text-sm font-medium text-foreground">
-                Your name
-                <Input name="name" autoComplete="name" placeholder="Jane Smith" className="h-11 bg-background/60 px-3" />
-              </label>
-              <label className="grid gap-2 text-sm font-medium text-foreground">
-                Email address
-                <Input
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="jane@company.com"
-                  className="h-11 bg-background/60 px-3"
-                />
-              </label>
-            </div>
-
-            <label className="grid gap-2 text-sm font-medium text-foreground">
-              What would you like to discuss?
-              <Input name="subject" placeholder="A quick introduction" className="h-11 bg-background/60 px-3" />
-            </label>
-
-            <label className="grid gap-2 text-sm font-medium text-foreground">
-              Your message
-              <textarea
-                name="message"
-                rows={6}
-                placeholder="Tell me a little about what you have in mind..."
-                className="min-h-40 w-full resize-y rounded-lg border border-input bg-background/60 px-3 py-2.5 text-sm leading-6 outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
-              />
-            </label>
-
-            <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p id="message-status" className="text-sm leading-5 text-muted-foreground">
-                Message delivery will be available once the contact API is connected.
-              </p>
-              <Button type="button" size="lg" disabled className="w-full sm:w-auto">
-                Send message
-                <Send aria-hidden="true" />
-              </Button>
-            </div>
-          </form>
+          <ContactForm />
         </section>
       </div>
     </section>

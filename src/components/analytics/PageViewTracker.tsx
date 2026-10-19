@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { pageview } from "@/lib/analytics";
 
 /**
@@ -10,25 +10,16 @@ import { pageview } from "@/lib/analytics";
  */
 function PageViewTrackerComponent() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (pathname) {
-      const url = searchParams.toString() 
-        ? `${pathname}?${searchParams.toString()}`
-        : pathname;
-      
-      pageview(url);
+      pageview(pathname);
     }
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return null;
 }
 
 export default function PageViewTracker() {
-  return (
-    <Suspense fallback={null}>
-      <PageViewTrackerComponent />
-    </Suspense>
-  );
+  return <PageViewTrackerComponent />;
 }
