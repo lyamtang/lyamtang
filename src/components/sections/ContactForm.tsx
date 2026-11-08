@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { CheckCircle2, LoaderCircle, RotateCcw, Send } from 'lucide-react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -16,7 +16,6 @@ interface FieldErrors {
 }
 
 export function ContactForm() {
-  const shouldReduceMotion = useReducedMotion();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -120,7 +119,7 @@ export function ContactForm() {
   };
 
   const isFormLocked = isSubmitting;
-  const buttonTransition = { duration: shouldReduceMotion ? 0 : 0.35, ease: 'easeOut' as const };
+  const buttonTransition = { duration: 0.35, ease: 'easeOut' as const };
   const buttonState = isSubmitting ? 'submitting' : isConfirmingSuccess ? 'sent' : error ? 'retry' : 'default';
 
   return (
@@ -235,9 +234,9 @@ export function ContactForm() {
           <AnimatePresence initial={false} mode="wait">
             <motion.span
               key={buttonState}
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 4 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={shouldReduceMotion ? undefined : { opacity: 0, y: -4 }}
+              exit={{ opacity: 0, y: -4 }}
               transition={buttonTransition}
               className="inline-flex items-center gap-1.5"
             >
@@ -264,9 +263,9 @@ export function ContactForm() {
           <AnimatePresence initial={false}>
             {isConfirmingSuccess && (
               <motion.p
-                initial={shouldReduceMotion ? false : { opacity: 0, y: -2 }}
+                initial={{ opacity: 0, y: -2 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={shouldReduceMotion ? undefined : { opacity: 0, y: -2 }}
+                exit={{ opacity: 0, y: -2 }}
                 transition={buttonTransition}
                 className="text-sm text-emerald-700 dark:text-emerald-300"
                 role="status"

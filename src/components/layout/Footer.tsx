@@ -1,13 +1,11 @@
 'use client';
 
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import Link from 'next/link';
 import { Github, Linkedin } from '@thesvg/react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const shouldReduceMotion = useReducedMotion();
-
   const socialLinks = [
     {
       name: 'LinkedIn',
@@ -44,7 +42,7 @@ export default function Footer() {
                 aria-label={link.name}
               >
                 <motion.div
-                    whileHover={shouldReduceMotion ? undefined : { scale: 1.06 }}
+                    whileHover={{ scale: 1.06 }}
                     whileTap={{ scale: 0.96 }}
                     transition={{ type: 'spring', duration: 0.25, bounce: 0 }}
                 >

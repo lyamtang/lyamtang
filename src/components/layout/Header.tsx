@@ -29,13 +29,13 @@ export default function Header() {
   return (
     <header className="pointer-events-none sticky top-0 z-50 flex h-[5.75rem] w-full justify-center px-3 pt-3 min-[360px]:px-4 sm:px-6">
       <motion.div
-        initial={{ opacity: 0, y: shouldReduceMotion ? 0 : -12 }}
+        initial={{ opacity: 0, y: -12 }}
         animate={{
           opacity: visible ? 1 : 0,
-          y: shouldReduceMotion || visible ? 0 : HIDDEN_OFFSET_PX,
+          y: visible ? 0 : HIDDEN_OFFSET_PX,
         }}
         transition={{
-          duration: shouldReduceMotion ? 0.12 : MOTION_DURATION.base,
+          duration: MOTION_DURATION.base,
           ease: [...MOTION_EASING.smoothOut],
         }}
         onFocusCapture={(e) => {
@@ -79,23 +79,14 @@ export default function Header() {
                   />
                 )}
 
-                {isActive &&
-                  (shouldReduceMotion ? (
-                    <motion.span
-                      aria-hidden="true"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.12 }}
-                      className="pointer-events-none absolute inset-x-2.5 bottom-1.5 min-[360px]:inset-x-3 h-0.5 rounded-full bg-foreground sm:inset-x-4"
-                    />
-                  ) : (
-                    <motion.span
-                      aria-hidden="true"
-                      layoutId="nav-active-line"
-                      transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
-                      className="pointer-events-none absolute inset-x-2.5 bottom-1.5 min-[360px]:inset-x-3 h-0.5 rounded-full bg-foreground sm:inset-x-4"
-                    />
-                  ))}
+                {isActive && (
+                  <motion.span
+                    aria-hidden="true"
+                    layoutId="nav-active-line"
+                    transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
+                    className="pointer-events-none absolute inset-x-2.5 bottom-1.5 min-[360px]:inset-x-3 h-0.5 rounded-full bg-foreground sm:inset-x-4"
+                  />
+                )}
               </Link>
             );
           })}

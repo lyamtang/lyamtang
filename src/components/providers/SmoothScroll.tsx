@@ -2,6 +2,7 @@
 
 import { ReactNode, useEffect, useRef } from 'react';
 import Lenis from 'lenis';
+import { MotionConfig } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { initGsapDefaults, prefersReducedMotion } from '@/lib/motion';
 
@@ -123,5 +124,5 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     return () => window.removeEventListener('wheel', onWheel);
   }, [pathname]);
 
-  return <>{children}</>;
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { CountUp } from '@/components/ui/CountUp';
 import { bio, stats } from '@/data/about';
 
 export function About() {
@@ -24,8 +25,12 @@ export function About() {
                 className="flex flex-col items-center justify-center py-2 text-center"
               >
                 <div className="text-3xl font-semibold tabular-nums text-foreground sm:text-4xl">
-                  {stat.value.toFixed(stat.decimals ?? 0)}
-                  {stat.suffix ?? ''}
+                  <CountUp
+                    to={stat.value}
+                    duration={1.2}
+                    suffix={stat.suffix ?? ''}
+                    decimals={stat.decimals ?? 0}
+                  />
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">{stat.label}</p>
               </div>

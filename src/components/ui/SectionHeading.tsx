@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
 
@@ -17,27 +17,25 @@ export function SectionHeading({
   centered = false,
   className,
 }: SectionHeadingProps) {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <motion.div
-      initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{
-        duration: shouldReduceMotion ? 0 : MOTION_DURATION.slow,
+        duration: MOTION_DURATION.slow,
         ease: MOTION_EASING.smoothOut,
       }}
       className={cn('mb-12', centered && 'text-center', className)}
     >
       <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
       <motion.div
-        initial={{ scaleX: shouldReduceMotion ? 1 : 0 }}
+        initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
         transition={{
-          duration: shouldReduceMotion ? 0 : MOTION_DURATION.medium,
-          delay: shouldReduceMotion ? 0 : MOTION_DURATION.fast,
+          duration: MOTION_DURATION.medium,
+          delay: MOTION_DURATION.fast,
           ease: MOTION_EASING.smoothOut,
         }}
         className={cn(

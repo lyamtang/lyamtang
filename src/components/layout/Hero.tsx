@@ -1,12 +1,10 @@
 'use client';
 
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { ArrowDown } from 'lucide-react';
 import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
 
 export default function Hero() {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <section id="hero" data-header-pin className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-x-clip bg-background px-4 py-16 sm:px-6 lg:px-8">
       <div className="pointer-events-none absolute inset-x-0 -top-24 bottom-0 z-0" aria-hidden="true">
@@ -18,7 +16,7 @@ export default function Hero() {
       <div className="container relative z-10 mx-auto max-w-5xl text-center">
         {/* Greeting */}
         <motion.div
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: MOTION_DURATION.slow, ease: MOTION_EASING.smoothOut }}
           className="mb-4"
@@ -28,7 +26,7 @@ export default function Hero() {
 
         {/* Main Heading */}
         <motion.h1
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: MOTION_DURATION.slow, delay: 0.1, ease: MOTION_EASING.smoothOut }}
           className="mb-6 pb-1 text-5xl font-bold leading-[1.15] sm:text-6xl lg:text-7xl"
@@ -45,7 +43,7 @@ export default function Hero() {
         </motion.h1>
 
         <motion.div
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: MOTION_DURATION.slow, delay: 0.2, ease: MOTION_EASING.smoothOut }}
           className="mx-auto max-w-2xl"
@@ -55,10 +53,19 @@ export default function Hero() {
           </p>
         </motion.div>
 
-        <div className="mt-12 inline-flex flex-col items-center gap-2 text-foreground/60 dark:text-white/60">
-            <span className="text-sm">Scroll to explore</span>
-            <ArrowDown aria-hidden="true" className="h-5 w-5" />
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: MOTION_DURATION.slow,
+            delay: 0.3,
+            ease: MOTION_EASING.smoothOut,
+          }}
+          className="mt-12 inline-flex flex-col items-center gap-2 text-foreground/60 dark:text-white/60"
+        >
+          <span className="text-sm">Scroll to explore</span>
+          <ArrowDown aria-hidden="true" className="h-5 w-5" />
+        </motion.div>
       </div>
     </section>
   );

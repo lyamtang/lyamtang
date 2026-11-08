@@ -3,7 +3,7 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { Mail } from 'lucide-react';
 import { Github, Linkedin } from '@thesvg/react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { useTheme } from 'next-themes';
 import Folder from '@/components/ui/Folder';
 import { ContactForm } from '@/components/sections/ContactForm';
@@ -42,7 +42,6 @@ function contactItemClick(index: number) {
 
 export function Contact() {
   const { resolvedTheme } = useTheme();
-  const shouldReduceMotion = useReducedMotion();
   const [hasMounted, setHasMounted] = useState(false);
   const isDesktop = useSyncExternalStore(
     subscribeToDesktopChanges,
@@ -60,16 +59,6 @@ export function Contact() {
   const cardClassName = isDark
     ? 'border border-white/10 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.12),transparent_38%),linear-gradient(145deg,#334155,#0f172a)] text-slate-100'
     : 'border border-slate-200 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.9),transparent_38%),linear-gradient(145deg,#ffffff,#e2e8f0)] text-slate-700';
-  const headingTransition = {
-    duration: shouldReduceMotion ? 0 : MOTION_DURATION.slow,
-    ease: MOTION_EASING.smoothOut,
-  };
-  const accentTransition = {
-    duration: shouldReduceMotion ? 0 : MOTION_DURATION.medium,
-    delay: shouldReduceMotion ? 0 : MOTION_DURATION.fast,
-    ease: MOTION_EASING.smoothOut,
-  };
-
   return (
     <section className="relative isolate overflow-hidden bg-background px-4 pb-12 pt-4 sm:px-6 sm:pb-16 lg:px-8">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_7%_74%,rgba(56,189,248,0.15),transparent_31%),radial-gradient(circle_at_93%_18%,rgba(192,132,252,0.15),transparent_30%)] dark:bg-[radial-gradient(circle_at_7%_74%,rgba(56,189,248,0.1),transparent_31%),radial-gradient(circle_at_93%_18%,rgba(192,132,252,0.1),transparent_30%)]" />
@@ -80,18 +69,22 @@ export function Contact() {
           className="flex min-h-[32rem] flex-col py-12 sm:py-16 lg:pr-16"
         >
           <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={headingTransition}
+            transition={{ duration: MOTION_DURATION.slow, ease: MOTION_EASING.smoothOut }}
             className="max-w-md"
           >
             <h1 id="contacts-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
               Ways to connect.
             </h1>
             <motion.div
-              initial={shouldReduceMotion ? false : { scaleX: 0 }}
+              initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
-              transition={accentTransition}
+              transition={{
+                duration: MOTION_DURATION.medium,
+                delay: MOTION_DURATION.fast,
+                ease: MOTION_EASING.smoothOut,
+              }}
               className="mt-3 h-1 w-16 origin-left rounded-full bg-primary"
             />
           </motion.div>
@@ -144,18 +137,22 @@ export function Contact() {
           className="flex min-h-[36rem] flex-col py-12 sm:py-16 lg:pl-16"
         >
           <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={headingTransition}
+            transition={{ duration: MOTION_DURATION.slow, ease: MOTION_EASING.smoothOut }}
             className="max-w-xl"
           >
             <h2 id="message-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
               Send a message.
             </h2>
             <motion.div
-              initial={shouldReduceMotion ? false : { scaleX: 0 }}
+              initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
-              transition={accentTransition}
+              transition={{
+                duration: MOTION_DURATION.medium,
+                delay: MOTION_DURATION.fast,
+                ease: MOTION_EASING.smoothOut,
+              }}
               className="mt-3 h-1 w-16 origin-left rounded-full bg-primary"
             />
             <p className="mt-4 max-w-lg text-base leading-7 text-muted-foreground">
