@@ -5,7 +5,6 @@ import { CheckCircle2, LoaderCircle, RotateCcw, Send } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { trackContactFormStarted, trackContactFormSubmit } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,7 +25,6 @@ export function ContactForm() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isConfirmingSuccess, setIsConfirmingSuccess] = useState(false);
-  const formStartedRef = useRef(false);
   const successTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -36,15 +34,6 @@ export function ContactForm() {
       }
     };
   }, []);
-
-  const handleFormFocus = () => {
-    if (formStartedRef.current) {
-      return;
-    }
-
-    formStartedRef.current = true;
-    trackContactFormStarted();
-  };
 
   const validate = () => {
     const errors: FieldErrors = {};
@@ -118,15 +107,12 @@ export function ContactForm() {
       });
 
       if (!response.ok) {
-        trackContactFormSubmit('error', `contact_api_${response.status}`);
         setError('Your message could not be sent. Please try again or use another contact channel.');
         return;
       }
 
-      trackContactFormSubmit('success');
       showSuccess();
     } catch {
-      trackContactFormSubmit('error', 'webhook_request_failed');
       setError('Your message could not be sent. Check your connection and try again.');
     } finally {
       setIsSubmitting(false);
@@ -142,7 +128,6 @@ export function ContactForm() {
       className="mt-10 grid flex-1 content-start gap-5"
       aria-describedby={error ? 'contact-form-error' : undefined}
       noValidate
-      onFocus={handleFormFocus}
       onSubmit={handleSubmit}
     >
       <fieldset

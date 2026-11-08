@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import GradientText from '@/components/ui/GradientText';
 import RotatingText from '@/components/ui/RotatingText';
-import { trackCTAClick } from '@/lib/analytics';
 
 export default function Hero() {
   const router = useRouter();
@@ -85,7 +84,6 @@ export default function Hero() {
             <Button
               size="lg"
               onClick={() => {
-                trackCTAClick('View Projects', 'hero');
                 router.push('/projects');
               }}
               className="min-w-[160px]"
@@ -97,7 +95,6 @@ export default function Hero() {
             <Button
               size="lg"
               onClick={() => {
-                trackCTAClick('Get in Touch', 'hero');
                 router.push('/contact');
               }}
               className="min-w-[160px] border-foreground/35 bg-foreground/5 text-foreground backdrop-blur-sm hover:bg-foreground/15 hover:text-foreground dark:border-white/35 dark:bg-white/5 dark:text-white dark:hover:bg-white/15 dark:hover:text-white"

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { event } from '@/lib/analytics';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -52,47 +51,20 @@ export function ProjectFilter({
     status: selectedStatus,
   });
 
-  // Tracked wrappers for desktop filters
   const handleCategoryToggle = (category: string) => {
     onCategoryToggle(category);
-    
-    // Track category filter toggle
-    const willBeSelected = !selectedCategories.includes(category);
-    event('filter_applied', {
-      filter_type: 'category',
-      category,
-      action: willBeSelected ? 'add' : 'remove',
-    });
   };
 
   const handleStatusChange = (status: ProjectStatus | 'all') => {
     onStatusChange(status);
-    
-    // Track status filter change
-    event('filter_applied', {
-      filter_type: 'status',
-      status,
-    });
   };
 
   const handleSearchChange = (searchQuery: string) => {
     onQueryChange(searchQuery);
-    
-    // Track search only when user types something meaningful (3+ chars)
-    if (searchQuery.length >= 3 && searchQuery.length % 3 === 0) {
-      event('project_search', {
-        query_length: searchQuery.length,
-      });
-    }
   };
 
   const handleClearFilters = () => {
     onClearFilters();
-    
-    // Track filter clearing
-    event('filters_cleared', {
-      cleared_count: activeFilterCount,
-    });
   };
 
   const openDrawer = () => {
@@ -127,23 +99,10 @@ export function ProjectFilter({
       const toAdd = sortedCategories.filter((item) => !currentSorted.includes(item));
       toRemove.forEach((category) => onCategoryToggle(category));
       toAdd.forEach((category) => onCategoryToggle(category));
-      
-      // Track category filter changes
-      event('filter_applied', {
-        filter_type: 'category',
-        categories: sortedCategories.join(', '),
-        category_count: sortedCategories.length,
-      });
     }
 
     if (mobileDraft.status !== selectedStatus) {
       onStatusChange(mobileDraft.status);
-      
-      // Track status filter change
-      event('filter_applied', {
-        filter_type: 'status',
-        status: mobileDraft.status,
-      });
     }
 
     setDrawerOpen(false);

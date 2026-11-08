@@ -9,11 +9,6 @@ import Folder from '@/components/ui/Folder';
 import { ContactForm } from '@/components/sections/ContactForm';
 import { contactLinks } from '@/data/contact';
 import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
-import {
-  trackContactClick,
-  trackContactFolderToggle,
-  trackOutboundLink,
-} from '@/lib/analytics';
 
 function subscribeToDesktopChanges(callback: () => void) {
   const mediaQuery = window.matchMedia('(min-width: 640px)');
@@ -38,13 +33,10 @@ function contactItemClick(index: number) {
   }
 
   if (link.icon === 'email') {
-    trackContactClick('email_click', 'contact_folder');
     window.location.href = link.href;
     return;
   }
 
-  trackOutboundLink(link.href, link.label, 'contact_folder');
-  trackContactClick(`${link.icon}_click`, 'contact_folder');
   window.open(link.href, '_blank', 'noopener,noreferrer');
 }
 
@@ -142,7 +134,6 @@ export function Contact() {
               draggable={false}
               zoomOnClick={false}
               closeOnOutsideClick={false}
-              onOpenChange={trackContactFolderToggle}
               onItemClick={(_, index) => contactItemClick(index)}
             />
           </div>
