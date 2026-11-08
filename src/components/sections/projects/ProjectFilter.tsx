@@ -74,6 +74,21 @@ export function ProjectFilter({
     return () => desktop.removeEventListener('change', closeOnDesktop);
   }, [drawerOpen]);
 
+  useEffect(() => {
+    return () => {
+      const hasOpenBaseUiDialog = Boolean(
+        document.querySelector('[data-base-ui-portal] [role="dialog"]'),
+      );
+
+      if (hasOpenBaseUiDialog || document.body.style.overflow !== 'hidden') {
+        return;
+      }
+
+      document.body.style.removeProperty('overflow');
+      document.body.style.removeProperty('padding-right');
+    };
+  }, []);
+
   const handleCategoryToggle = (category: string) => {
     onCategoryToggle(category);
   };
