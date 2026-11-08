@@ -115,11 +115,13 @@ Global docs for agents and collaborators:
 
 ### Installed Design And Motion Bundles
 
-- **Taste bundle** (`Leonxlnx/taste-skill`): the default `design-taste-frontend` workflow plus redesign, brand-kit, image-to-code, web/mobile image-direction, minimalist, high-end visual, industrial-brutalist, Stitch, legacy v1, and complete-output workflows.
+- **Taste skill** (`Leonxlnx/taste-skill`): the default `design-taste-frontend` workflow for design direction and front-end pre-flight checks.
+- **Emil Kowalski skills** (`emilkowalski/skills`): motion design, implementation, review, performance, choreography, and removal workflows.
+- **Jakub Krehel skills** (`jakubkrehel/skills`): `better-*` domain reviews plus interface review, component stress testing, state and variant exploration, and design-to-code.
 - **GSAP bundle** (`greensock/gsap-skills`): React integration, timelines, ScrollTrigger, plugins, utilities, performance, and framework guidance.
 - **pixel2motion** (`nolangz/pixel2motion`): raster-logo vectorization and logo/brand-mark motion workflows.
 
-Use `design-taste-frontend` for normal portfolio design changes. Route specialized work through the skill registry rather than applying every Taste workflow at once.
+Use `design-taste-frontend` for normal portfolio design changes. Route specialized work through the skill registry rather than applying every skill at once.
 
 ## Learn More
 
