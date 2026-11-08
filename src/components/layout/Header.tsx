@@ -1,67 +1,26 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
+import { useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
-import { BriefcaseBusiness, CircleUserRound, Mail } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { headerNavItems } from '@/data/navigation';
+import { getActiveNavHref, headerNavItems } from '@/data/navigation';
 import { event } from '@/lib/analytics';
+import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
+import { useHeaderVisibility } from './useHeaderVisibility';
 
-function getNavIcon(href: string) {
-  if (href === '/projects') return BriefcaseBusiness;
-  if (href === '/contact') return Mail;
-  return CircleUserRound;
-}
+const HIDDEN_OFFSET_PX = -80;
 
 export default function Header() {
   const pathname = usePathname();
   const shouldReduceMotion = useReducedMotion();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeHref, setActiveHref] = useState('/');
-  const [mobileNavVisible, setMobileNavVisible] = useState(true);
-  const lastScrollY = useRef(0);
+  const scrollVisible = useHeaderVisibility(pathname);
+  const [keyboardFocused, setKeyboardFocused] = useState(false);
 
-  const activeNavItem = headerNavItems.find((item) => item.href === activeHref) ?? headerNavItems[0];
-  const ActiveNavIcon = getNavIcon(activeNavItem.href);
-
-  useEffect(() => {
-    const exactMatch = headerNavItems.find((item) => item.href === pathname);
-    if (exactMatch) {
-      setActiveHref(exactMatch.href);
-      return;
-    }
-
-    if (pathname.startsWith('/projects/')) {
-      setActiveHref('/projects');
-      return;
-    }
-
-    setActiveHref('/');
-  }, [pathname]);
-
-  useEffect(() => {
-    const updateMobileNavVisibility = () => {
-      const currentScrollY = window.scrollY;
-      const delta = currentScrollY - lastScrollY.current;
-
-      if (currentScrollY <= 8 || menuOpen) {
-        setMobileNavVisible(true);
-      } else if (Math.abs(delta) >= 12) {
-        setMobileNavVisible(delta < 0);
-      }
-
-      lastScrollY.current = currentScrollY;
-    };
-
-    lastScrollY.current = window.scrollY;
-    window.addEventListener('scroll', updateMobileNavVisibility, { passive: true });
-
-    return () => window.removeEventListener('scroll', updateMobileNavVisibility);
-  }, [menuOpen]);
+  const activeHref = getActiveNavHref(pathname);
+  const visible = scrollVisible || keyboardFocused;
 
   const handleLogoClick = (e: React.MouseEvent) => {
-    setMenuOpen(false);
     if (pathname === '/') {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: shouldReduceMotion ? 'auto' : 'smooth' });
@@ -69,8 +28,6 @@ export default function Header() {
   };
 
   const handleNavClick = (href: string) => {
-    setMenuOpen(false);
-
     event('nav_click', {
       section: href,
       location: 'header',
@@ -78,126 +35,81 @@ export default function Header() {
   };
 
   return (
-    <motion.header
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="sticky top-0 z-50 w-full overflow-x-clip bg-transparent pb-3"
-    >
-      <nav className="relative z-10 container mx-auto flex h-20 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
-        <Link href="/" onClick={handleLogoClick} className="flex items-center space-x-2 justify-self-start">
-          <motion.span
-            whileHover={{ scale: 1.05 }}
-            className="rounded-full border border-border/60 bg-card/70 px-6 py-3 text-xl font-bold text-foreground shadow-sm backdrop-blur-md"
-          >
-            Lyam Tang
-          </motion.span>
+    <header className="pointer-events-none sticky top-0 z-50 flex h-[5.75rem] w-full justify-center px-3 pt-3 min-[360px]:px-4 sm:px-6">
+      <motion.div
+        initial={{ opacity: 0, y: shouldReduceMotion ? 0 : -12 }}
+        animate={{
+          opacity: visible ? 1 : 0,
+          y: shouldReduceMotion || visible ? 0 : HIDDEN_OFFSET_PX,
+        }}
+        transition={{
+          duration: shouldReduceMotion ? 0.12 : MOTION_DURATION.base,
+          ease: [...MOTION_EASING.smoothOut],
+        }}
+        onFocusCapture={(e) => {
+          if (e.target.matches(':focus-visible')) setKeyboardFocused(true);
+        }}
+        onBlurCapture={() => setKeyboardFocused(false)}
+        className={`nav-glass flex h-14 w-full items-center justify-between gap-0 rounded-full p-1 min-[360px]:gap-1 min-[360px]:p-1.5 sm:max-w-[40rem] select-none [-webkit-tap-highlight-color:transparent] ${
+          visible ? 'pointer-events-auto' : ''
+        }`}
+      >
+        <Link
+          href="/"
+          onClick={handleLogoClick}
+          aria-label="Lyam Tang, home"
+          className="inline-flex h-11 items-center rounded-full px-2.5 text-sm font-bold whitespace-nowrap min-[360px]:px-3 text-foreground transition-[color,transform] duration-150 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-foreground active:scale-[0.97] sm:px-3.5 sm:text-base"
+        >
+          <span aria-hidden="true">Lyam Tang</span>
         </Link>
 
-        {/* Desktop navigation */}
-        <div className="ml-auto hidden items-center rounded-full border border-border/60 bg-card/70 p-2 shadow-sm backdrop-blur-md md:flex">
+        <nav aria-label="Primary" className="flex items-center gap-0 min-[360px]:gap-0.5">
           {headerNavItems.map((link) => {
             const isActive = activeHref === link.href;
-            const Icon = getNavIcon(link.href);
+            const Icon = link.icon;
+
             return (
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={isActive ? 'page' : undefined}
                 onClick={() => handleNavClick(link.href)}
-                className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
-                  isActive
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                className={`group relative inline-flex h-11 items-center justify-center gap-2 rounded-full px-2.5 text-sm font-medium whitespace-nowrap min-[360px]:px-3 transition-[color,transform] duration-150 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-foreground active:scale-[0.97] sm:px-4 ${
+                  isActive ? 'text-foreground' : 'text-foreground/70 hover:text-foreground'
                 }`}
               >
-                <Icon className="h-4 w-4" aria-hidden="true" />
-                {link.name}
+                <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span className={isActive ? '' : 'sr-only sm:not-sr-only'}>{link.name}</span>
+
+                {!isActive && (
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-2.5 bottom-1.5 h-0.5 origin-center min-[360px]:inset-x-3 scale-x-0 rounded-full bg-foreground/35 transition-transform duration-[140ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-x-100 group-hover:duration-[180ms] motion-reduce:scale-x-100 motion-reduce:opacity-0 motion-reduce:transition-opacity motion-reduce:group-hover:opacity-100 sm:inset-x-4"
+                  />
+                )}
+
+                {isActive &&
+                  (shouldReduceMotion ? (
+                    <motion.span
+                      aria-hidden="true"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.12 }}
+                      className="pointer-events-none absolute inset-x-2.5 bottom-1.5 min-[360px]:inset-x-3 h-0.5 rounded-full bg-foreground sm:inset-x-4"
+                    />
+                  ) : (
+                    <motion.span
+                      aria-hidden="true"
+                      layoutId="nav-active-line"
+                      transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
+                      className="pointer-events-none absolute inset-x-2.5 bottom-1.5 min-[360px]:inset-x-3 h-0.5 rounded-full bg-foreground sm:inset-x-4"
+                    />
+                  ))}
               </Link>
             );
           })}
-        </div>
-
-        {/* Mobile navigation control */}
-        <motion.button
-          type="button"
-          onClick={() => {
-            setMenuOpen(true);
-            setMobileNavVisible(true);
-
-            event('mobile_menu_toggle', {
-              action: 'open',
-            });
-          }}
-          aria-label={`Open navigation menu. Current section: ${activeNavItem.name}`}
-          aria-expanded={menuOpen}
-          aria-haspopup="dialog"
-          tabIndex={mobileNavVisible ? 0 : -1}
-          animate={{
-            opacity: mobileNavVisible ? 1 : 0,
-            transform:
-              shouldReduceMotion || mobileNavVisible ? 'translateY(0)' : 'translateY(-120%)',
-          }}
-          transition={{ duration: shouldReduceMotion ? 0.12 : 0.2, ease: [0.23, 1, 0.32, 1] }}
-          className={`ml-auto inline-flex h-12 items-center gap-2 rounded-full border border-border/70 bg-card/75 px-4 text-sm font-semibold text-foreground shadow-sm backdrop-blur-md transition-colors hover:bg-accent md:hidden ${
-            mobileNavVisible ? '' : 'pointer-events-none'
-          }`}
-        >
-          <ActiveNavIcon className="h-4 w-4" aria-hidden="true" />
-          <span>{activeNavItem.name}</span>
-        </motion.button>
-      </nav>
-
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            key="mobile-menu"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0.12 : 0.2, ease: 'easeInOut' }}
-            className="fixed inset-0 z-40 md:hidden"
-          >
-            <button
-              aria-label="Close menu backdrop"
-              className="absolute inset-0 bg-black/30"
-              onClick={() => setMenuOpen(false)}
-            />
-
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 20, opacity: 0 }}
-              transition={{ duration: shouldReduceMotion ? 0.14 : 0.22, ease: 'easeOut' }}
-              className="relative z-10 container mx-auto mt-[6rem] max-w-7xl px-4 sm:px-6 lg:px-8"
-            >
-              <div className="rounded-2xl border border-border/60 bg-card/90 p-2 shadow-lg">
-                <div className="flex flex-col gap-1">
-                  {headerNavItems.map((link) => {
-                    const Icon = getNavIcon(link.href);
-
-                    return (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => handleNavClick(link.href)}
-                        className={`inline-flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium transition-colors ${
-                          activeHref === link.href
-                            ? 'bg-primary text-primary-foreground'
-                            : 'text-muted-foreground hover:bg-accent hover:text-foreground'
-                        }`}
-                      >
-                        <Icon className="h-5 w-5" aria-hidden="true" />
-                        {link.name}
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+        </nav>
+      </motion.div>
+    </header>
   );
 }
