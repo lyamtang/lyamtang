@@ -20,45 +20,9 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Analytics
+## Analytics status
 
-This website uses [Google Analytics 4](https://analytics.google.com) to understand visitor engagement and improve user experience.
-
-### Privacy & Consent
-
-- **GDPR Compliant**: A floating cookie consent banner appears on first visit
-- **User Control**: Visitors can accept all cookies or essential only
-- **Consent Persistence**: User preferences are saved in localStorage
-- **Production Only**: Analytics only loads in production builds, never in development
-
-### Implementation Details
-
-- **Measurement ID**: `G-GVQE06QT6X` (hardcoded in `src/lib/analytics.ts`)
-- **Events Tracked**:
-  - Page views (automatic + SPA navigation)
-  - CTA clicks (Hero buttons)
-  - Project views and external links
-  - Contact link clicks (Email, LinkedIn, GitHub)
-- **Components**:
-  - `src/components/analytics/GoogleAnalytics.tsx` - Script loader
-  - `src/components/analytics/ConsentBanner.tsx` - Cookie consent UI
-  - `src/components/analytics/PageViewTracker.tsx` - SPA navigation tracking
-  - `src/lib/analytics.ts` - Event tracking utilities
-  - `src/lib/consentManager.ts` - Consent state management
-
-### Testing Analytics
-
-**Development Mode** (analytics disabled):
-```bash
-pnpm dev
-```
-
-**Production Mode** (analytics enabled with consent):
-```bash
-pnpm build && pnpm start
-```
-
-View real-time events in GA4 → Reports → Realtime or DebugView.
+Google Analytics is temporarily disabled to keep the portfolio's first visit free of tracking and consent interruptions. The site does not load GA scripts, send analytics events, or display an analytics-consent prompt.
 
 ## Contact Form Delivery
 

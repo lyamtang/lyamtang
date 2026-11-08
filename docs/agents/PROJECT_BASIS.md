@@ -31,7 +31,6 @@
 - Styling: Tailwind CSS v4, shadcn patterns, next-themes.
 - Motion/interaction: Motion, GSAP, Lenis, Embla Carousel.
 - Visual effects: Three.js + postprocessing for Hero effects.
-- Analytics: GA4 with consent gating and production-only loading.
 
 ## Important Runtime Areas
 - Global layout/providers: src/app/layout.tsx
@@ -40,6 +39,7 @@
 - Smooth scroll provider: src/components/providers/SmoothScroll.tsx
 - Hero + primary entry motion: src/components/layout/Hero.tsx
 - Header section navigation + active tracking: src/components/layout/Header.tsx
+- Analytics: Google Analytics is temporarily disabled; the site loads no analytics scripts, sends no analytics events, and shows no analytics-consent prompt.
 
 ## Workflow Expectations
 - For design tasks: run structured review before implementation, then verify behavior after implementation.

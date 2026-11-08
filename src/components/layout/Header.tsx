@@ -5,7 +5,6 @@ import { motion, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { getActiveNavHref, headerNavItems } from '@/data/navigation';
-import { event } from '@/lib/analytics';
 import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
 import { useHeaderVisibility } from './useHeaderVisibility';
 
@@ -25,13 +24,6 @@ export default function Header() {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: shouldReduceMotion ? 'auto' : 'smooth' });
     }
-  };
-
-  const handleNavClick = (href: string) => {
-    event('nav_click', {
-      section: href,
-      location: 'header',
-    });
   };
 
   return (
@@ -73,7 +65,6 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 aria-current={isActive ? 'page' : undefined}
-                onClick={() => handleNavClick(link.href)}
                 className={`group relative inline-flex h-11 items-center justify-center gap-2 rounded-full px-2.5 text-sm font-medium whitespace-nowrap min-[360px]:px-3 transition-[color,transform] duration-150 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-foreground active:scale-[0.97] sm:px-4 ${
                   isActive ? 'text-foreground' : 'text-foreground/70 hover:text-foreground'
                 }`}
