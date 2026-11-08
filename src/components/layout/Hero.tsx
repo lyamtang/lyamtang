@@ -2,7 +2,11 @@
 
 import { motion } from 'motion/react';
 import { ArrowDown } from 'lucide-react';
+import FoldText from '@/components/ui/FoldText';
+import GradientText from '@/components/ui/GradientText';
 import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
+
+const HERO_NAME_GRADIENT = ['#8B5CF6', '#3B82F6'];
 
 export default function Hero() {
   return (
@@ -25,22 +29,29 @@ export default function Hero() {
         </motion.div>
 
         {/* Main Heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: MOTION_DURATION.slow, delay: 0.1, ease: MOTION_EASING.smoothOut }}
+        <h1
           className="mb-6 pb-1 text-5xl font-bold leading-[1.15] sm:text-6xl lg:text-7xl"
         >
-          <span className="text-foreground/90 dark:text-white/90">I&apos;m</span>{' '}
-          <span
-            className="bg-clip-text text-transparent"
-            style={{
-              backgroundImage: 'linear-gradient(to right, #8B5CF6, #3B82F6, #8B5CF6)',
-            }}
+          <GradientText
+            colors={HERO_NAME_GRADIENT}
+            animationSpeed={4}
+            variant="flow"
+            scale={1.5}
+            direction="horizontal"
           >
-            Lyam Tang
-          </span>
-        </motion.h1>
+            <FoldText
+              text="I'm Lyam Tang"
+              gradientStartAt={4}
+              splitBy="char"
+              foldStyle="paper"
+              duration={0.65}
+              stagger={0.045}
+              fontSize="inherit"
+              fontWeight="inherit"
+              color="currentColor"
+            />
+          </GradientText>
+        </h1>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
