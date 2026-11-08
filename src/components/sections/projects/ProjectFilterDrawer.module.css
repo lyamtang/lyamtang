@@ -1,0 +1,47 @@
+.backdrop {
+  opacity: calc(0.4 * (1 - var(--drawer-swipe-progress)));
+  transition: opacity var(--filter-drawer-duration) var(--filter-drawer-easing);
+}
+
+.backdrop[data-starting-style],
+.backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.popup {
+  touch-action: auto;
+  transform: translateY(var(--drawer-swipe-movement-y));
+  transition: transform var(--filter-drawer-duration) var(--filter-drawer-easing);
+}
+
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  transform: translateY(100%);
+}
+
+.backdrop[data-swiping],
+.popup[data-swiping] {
+  transition-duration: 0ms;
+}
+
+.backdrop[data-ending-style],
+.popup[data-ending-style] {
+  transition-duration: calc(var(--drawer-swipe-strength) * var(--filter-drawer-duration));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup,
+  .popup[data-starting-style],
+  .popup[data-ending-style] {
+    transform: none;
+  }
+
+  .popup {
+    transition: opacity var(--filter-drawer-duration) var(--filter-drawer-easing);
+  }
+
+  .popup[data-starting-style],
+  .popup[data-ending-style] {
+    opacity: 0;
+  }
+}

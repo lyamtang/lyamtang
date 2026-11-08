@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
+import { Drawer } from '@base-ui/react/drawer';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,16 @@ import { Check, ChevronDown, Filter, Search, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { ProjectStatus } from '@/data/types';
 import { formatStatusLabel } from '@/lib/projectFilters';
+import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
+import styles from './ProjectFilterDrawer.module.css';
+
+const drawerMotionStyle: CSSProperties & {
+  '--filter-drawer-duration': string;
+  '--filter-drawer-easing': string;
+} = {
+  '--filter-drawer-duration': `${MOTION_DURATION.base}s`,
+  '--filter-drawer-easing': `cubic-bezier(${MOTION_EASING.smoothOut.join(',')})`,
+};
 
 interface ProjectFilterProps {
   query: string;
@@ -51,6 +62,18 @@ export function ProjectFilter({
     status: selectedStatus,
   });
 
+  useEffect(() => {
+    if (!drawerOpen) return;
+
+    const desktop = window.matchMedia('(min-width: 64rem)');
+    const closeOnDesktop = () => {
+      if (desktop.matches) setDrawerOpen(false);
+    };
+    closeOnDesktop();
+    desktop.addEventListener('change', closeOnDesktop);
+    return () => desktop.removeEventListener('change', closeOnDesktop);
+  }, [drawerOpen]);
+
   const handleCategoryToggle = (category: string) => {
     onCategoryToggle(category);
   };
@@ -67,12 +90,14 @@ export function ProjectFilter({
     onClearFilters();
   };
 
-  const openDrawer = () => {
-    setMobileDraft({
-      categories: selectedCategories,
-      status: selectedStatus,
-    });
-    setDrawerOpen(true);
+  const handleDrawerChange = (open: boolean) => {
+    if (open) {
+      setMobileDraft({
+        categories: selectedCategories,
+        status: selectedStatus,
+      });
+    }
+    setDrawerOpen(open);
   };
 
   const categoryActive = selectedCategories.length > 0;
@@ -125,6 +150,7 @@ export function ProjectFilter({
 
   return (
     <div className="mb-8 space-y-4">
+      <Drawer.Root open={drawerOpen} onOpenChange={handleDrawerChange}>
       <div className="flex items-center gap-2 lg:hidden">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -145,15 +171,19 @@ export function ProjectFilter({
           )}
         </div>
 
-        <Button
-          variant="outline"
-          className={cn(
-            'relative shrink-0 gap-2 border px-3 transition-colors',
-            activeFilterCount > 0
-              ? 'border-primary/60 bg-primary/10 text-foreground hover:bg-primary/15'
-              : 'border-border',
-          )}
-          onClick={openDrawer}
+        <Drawer.Trigger
+          aria-label="Filter projects"
+          render={
+            <Button
+              variant="outline"
+              className={cn(
+                'relative shrink-0 gap-2 border px-3 transition-colors',
+                activeFilterCount > 0
+                  ? 'border-primary/60 bg-primary/10 text-foreground hover:bg-primary/15'
+                  : 'border-border',
+              )}
+            />
+          }
         >
           <Filter className="h-4 w-4" />
           {activeFilterCount > 0 && (
@@ -161,7 +191,7 @@ export function ProjectFilter({
               {activeFilterCount}
             </Badge>
           )}
-        </Button>
+        </Drawer.Trigger>
       </div>
 
       <div className="hidden lg:flex lg:items-center lg:gap-2 lg:flex-nowrap">
@@ -258,19 +288,27 @@ export function ProjectFilter({
         </div>
       )}
 
-      {drawerOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden" aria-modal="true" role="dialog">
-          <button
-            type="button"
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setDrawerOpen(false)}
-            aria-label="Close filters"
-          />
-          <div className="absolute inset-x-0 bottom-0 max-h-[80vh] rounded-t-2xl border border-border bg-background p-4 shadow-2xl">
-            <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-muted" />
-            <p className="mb-4 text-sm font-semibold">Filters</p>
+      <Drawer.Portal>
+        <Drawer.Backdrop
+          className={cn(styles.backdrop, 'fixed inset-0 z-50 bg-black lg:hidden')}
+          style={drawerMotionStyle}
+        />
+        <Drawer.Viewport className="fixed inset-0 z-50 flex items-end lg:hidden">
+          <Drawer.Popup
+            className={cn(styles.popup, 'flex max-h-[80dvh] w-full flex-col rounded-t-2xl border border-border bg-background shadow-2xl outline-none')}
+            style={drawerMotionStyle}
+          >
+            <div className="shrink-0 px-4 pt-4">
+              <div className="mx-auto mb-2 h-1.5 w-12 rounded-full bg-muted" aria-hidden="true" />
+              <div className="mb-2 flex items-center justify-between">
+                <Drawer.Title className="text-sm font-semibold">Filters</Drawer.Title>
+                <Drawer.Close aria-label="Close filters" render={<Button variant="ghost" size="icon" />}>
+                  <X className="h-4 w-4" />
+                </Drawer.Close>
+              </div>
+            </div>
 
-            <div className="space-y-4 overflow-y-auto pb-20">
+            <Drawer.Content className="min-h-0 space-y-4 overflow-y-auto overscroll-contain px-4 pb-4">
               <div className="space-y-2 rounded-xl border border-border p-3">
                 <p className="text-sm font-medium">Categories</p>
                 <div className="flex flex-wrap gap-2">
@@ -281,6 +319,7 @@ export function ProjectFilter({
                         key={category}
                         size="sm"
                         variant={selected ? 'default' : 'outline'}
+                        aria-pressed={selected}
                         onClick={() =>
                           setMobileDraft((prev) => ({
                             ...prev,
@@ -304,6 +343,7 @@ export function ProjectFilter({
                   <Button
                     size="sm"
                     variant={mobileDraft.status === 'all' ? 'default' : 'outline'}
+                    aria-pressed={mobileDraft.status === 'all'}
                     onClick={() => setMobileDraft((prev) => ({ ...prev, status: 'all' }))}
                   >
                     All statuses
@@ -313,6 +353,7 @@ export function ProjectFilter({
                       key={status}
                       size="sm"
                       variant={mobileDraft.status === status ? 'default' : 'outline'}
+                      aria-pressed={mobileDraft.status === status}
                       onClick={() => setMobileDraft((prev) => ({ ...prev, status }))}
                     >
                       {formatStatusLabel(status)}
@@ -320,9 +361,9 @@ export function ProjectFilter({
                   ))}
                 </div>
               </div>
-            </div>
+            </Drawer.Content>
 
-            <div className="absolute inset-x-0 bottom-0 flex items-center gap-2 border-t bg-background p-4">
+            <div className="flex shrink-0 items-center gap-2 border-t bg-background p-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
               <Button variant="outline" className="flex-1" onClick={clearMobileDraft}>
                 Clear
               </Button>
@@ -330,9 +371,10 @@ export function ProjectFilter({
                 Apply
               </Button>
             </div>
-          </div>
-        </div>
-      )}
+          </Drawer.Popup>
+        </Drawer.Viewport>
+      </Drawer.Portal>
+      </Drawer.Root>
     </div>
   );
 }
