@@ -1,53 +1,39 @@
 'use client';
 
-import { motion } from 'motion/react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { CountUp } from '@/components/ui/CountUp';
 import { bio, stats } from '@/data/about';
-import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
 
 export function About() {
   return (
-    <section id="about" className="bg-muted/30 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <div className="container mx-auto max-w-7xl">
+    <section id="about" className="scroll-mt-24 bg-muted/30 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+      <div className="container mx-auto max-w-4xl">
         <SectionHeading title="About Me" />
-        <div className="grid gap-8 lg:grid-cols-[3fr_2fr]">
-          {/* Bio */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: MOTION_DURATION.slow, ease: MOTION_EASING.smoothOut }}
-            className="space-y-4"
-          >
+        <div className="space-y-10">
+          <div className="max-w-prose space-y-4">
             {bio.paragraphs.map((para, i) => (
               <p key={i} className="leading-relaxed text-muted-foreground">
                 {para}
               </p>
             ))}
-          </motion.div>
+          </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-1">
-            {stats.map((stat, i) => (
-              <motion.div
+          <div className="grid gap-6 sm:grid-cols-3">
+            {stats.map((stat) => (
+              <div
                 key={stat.label}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                  transition={{ duration: MOTION_DURATION.base, delay: i * 0.08, ease: MOTION_EASING.smoothOut }}
-                className="flex flex-col items-center justify-center rounded-xl border bg-background p-6 text-center"
+                className="flex flex-col items-center justify-center py-2 text-center"
               >
-                <div className="text-4xl font-bold text-primary">
+                <div className="text-3xl font-semibold tabular-nums text-foreground sm:text-4xl">
                   <CountUp
                     to={stat.value}
-                      duration={1.2}
+                    duration={1.2}
                     suffix={stat.suffix ?? ''}
                     decimals={stat.decimals ?? 0}
                   />
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">{stat.label}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
