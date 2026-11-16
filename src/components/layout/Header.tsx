@@ -27,7 +27,10 @@ export default function Header() {
   };
 
   return (
-    <header className="pointer-events-none sticky top-0 z-50 flex h-[5.75rem] w-full justify-center px-3 pt-3 min-[360px]:px-4 sm:px-6">
+    <>
+    <div aria-hidden="true" className="h-[calc(5.75rem+env(safe-area-inset-top,0px))] shrink-0" />
+    {/* Keep the fixed box narrow so iOS Safari can show scrolling content behind its status bar. */}
+    <header className="pointer-events-none fixed top-3 left-[calc(7.5vw+(env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px))/2)] z-50 flex h-[calc(5rem+env(safe-area-inset-top,0px))] w-[85vw] justify-center pt-[env(safe-area-inset-top,0px)]">
       <motion.div
         initial={{ opacity: 0, y: -12 }}
         animate={{
@@ -42,7 +45,7 @@ export default function Header() {
           if (e.target.matches(':focus-visible')) setKeyboardFocused(true);
         }}
         onBlurCapture={() => setKeyboardFocused(false)}
-        className={`nav-glass flex h-14 w-full items-center justify-between gap-0 rounded-full p-1 min-[360px]:gap-1 min-[360px]:p-1.5 sm:max-w-[40rem] select-none [-webkit-tap-highlight-color:transparent] ${
+        className={`nav-glass flex h-14 w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-1.5rem)] shrink-0 items-center justify-between gap-0 rounded-full p-1 min-[360px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-2rem)] min-[360px]:gap-1 min-[360px]:p-1.5 sm:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-3rem)] sm:max-w-[40rem] select-none [-webkit-tap-highlight-color:transparent] ${
           visible ? 'pointer-events-auto' : ''
         }`}
       >
@@ -93,5 +96,6 @@ export default function Header() {
         </nav>
       </motion.div>
     </header>
+    </>
   );
 }

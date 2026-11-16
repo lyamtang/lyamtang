@@ -27,7 +27,7 @@ export default function Footer() {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/82 to-background/64" />
       </div>
 
-      <div className="relative z-10 container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="relative z-10 container mx-auto max-w-7xl px-4 py-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           {/* Copyright */}
             <p className="text-sm text-muted-foreground">© {currentYear} Lyam Tang. All rights reserved.</p>
