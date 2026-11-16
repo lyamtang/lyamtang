@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
@@ -20,6 +20,19 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Lyam Tang",
   description: "HKUST Computer Science graduate transitioning into software product management. Building with Next.js, TypeScript, and modern web technologies.",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+  },
+  other: {
+    "apple-mobile-web-app-capable": "yes",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

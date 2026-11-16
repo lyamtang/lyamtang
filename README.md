@@ -20,6 +20,12 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## iPhone status bar
+
+The layout allows content to scroll behind the iPhone status bar while keeping navigation below the safe area. Safari controls the appearance of its own chrome; Home Screen web apps use a translucent status bar with light icons, whose contrast depends on the content underneath. Test both modes on an iPhone.
+
+For local device testing, connect the iPhone and development computer to the same trusted Wi-Fi network, run `pnpm dev --hostname 0.0.0.0`, and open `http://192.168.1.209:3000` on the iPhone. If the computer's local IP changes, update `allowedDevOrigins` in `next.config.ts` and restart the server.
+
 ## Analytics status
 
 Google Analytics is temporarily disabled to keep the portfolio's first visit free of tracking and consent interruptions. The site does not load GA scripts, send analytics events, or display an analytics-consent prompt.

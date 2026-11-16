@@ -310,7 +310,7 @@ export function ProjectFilter({
         />
         <Drawer.Viewport className="fixed inset-0 z-50 flex items-end lg:hidden">
           <Drawer.Popup
-            className={cn(styles.popup, 'flex max-h-[80dvh] w-full flex-col rounded-t-2xl border border-border bg-background shadow-2xl outline-none')}
+            className={cn(styles.popup, 'flex max-h-[min(80dvh,calc(100dvh-env(safe-area-inset-top,0px)))] w-full flex-col rounded-t-2xl border border-border bg-background pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] shadow-2xl outline-none')}
             style={drawerMotionStyle}
           >
             <div className="shrink-0 px-4 pt-4">
