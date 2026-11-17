@@ -157,23 +157,25 @@ export function ProjectFilter({
 
   const triggerClass = (isActive: boolean) =>
     cn(
-      'justify-between border transition-colors',
+      'justify-between border backdrop-blur-md transition-colors',
       isActive
-        ? 'border-primary/60 bg-primary/10 text-foreground hover:bg-primary/15'
-        : 'border-border bg-background hover:bg-muted',
+        ? 'border-primary/60 bg-primary/14 text-foreground hover:bg-primary/18'
+        : 'border-border bg-[color-mix(in_oklab,var(--card)_94%,transparent)] supports-[backdrop-filter]:bg-[color-mix(in_oklab,var(--card)_88%,transparent)] hover:bg-[color-mix(in_oklab,var(--card)_97%,var(--muted)_3%)]',
     );
+  const activeChipClass =
+    'h-9 cursor-pointer gap-1 px-2.5 text-xs [&>svg]:size-3!';
 
   return (
     <div className="mb-8 space-y-4">
       <Drawer.Root open={drawerOpen} onOpenChange={handleDrawerChange}>
       <div className="flex items-center gap-2 lg:hidden">
         <div className="relative flex-1">
-          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="pointer-events-none absolute top-1/2 left-3.5 z-10 h-4 w-4 -translate-y-1/2 text-foreground/65" />
           <Input
             placeholder="Search projects..."
             value={query}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="pl-10 pr-10"
+            className="pl-10 pr-10 bg-[color-mix(in_oklab,var(--card)_94%,transparent)] backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklab,var(--card)_88%,transparent)]"
           />
           {query && (
             <button
@@ -193,10 +195,10 @@ export function ProjectFilter({
               variant="outline"
               size="lg"
               className={cn(
-                'relative h-11 min-w-11 shrink-0 gap-2 border px-3 transition-colors',
+                'relative h-11 min-w-11 shrink-0 gap-2 border px-3 backdrop-blur-md transition-colors',
                 activeFilterCount > 0
-                  ? 'border-primary/60 bg-primary/10 text-foreground hover:bg-primary/15'
-                  : 'border-border',
+                  ? 'border-primary/60 bg-primary/14 text-foreground hover:bg-primary/18'
+                  : 'border-border bg-[color-mix(in_oklab,var(--card)_94%,transparent)] supports-[backdrop-filter]:bg-[color-mix(in_oklab,var(--card)_88%,transparent)]',
               )}
             />
           }
@@ -212,12 +214,12 @@ export function ProjectFilter({
 
       <div className="hidden lg:flex lg:items-center lg:gap-2 lg:flex-nowrap">
         <div className="relative w-full lg:flex-1">
-          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="pointer-events-none absolute top-1/2 left-3.5 z-10 h-4 w-4 -translate-y-1/2 text-foreground/65" />
           <Input
             placeholder="Search projects..."
             value={query}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="pl-10 pr-10"
+            className="pl-10 pr-10 bg-[color-mix(in_oklab,var(--card)_94%,transparent)] backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklab,var(--card)_88%,transparent)]"
           />
           {query && (
             <button
@@ -232,7 +234,7 @@ export function ProjectFilter({
 
         <div className="flex shrink-0 items-center gap-2">
           <DropdownMenu>
-            <DropdownMenuTrigger render={<Button variant="outline" size="lg" className={triggerClass(categoryActive)} />}>
+            <DropdownMenuTrigger render={<Button variant="outline" size="default" className={triggerClass(categoryActive)} />}>
               <span className="truncate">{categorySummary}</span>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </DropdownMenuTrigger>
@@ -254,7 +256,7 @@ export function ProjectFilter({
           </DropdownMenu>
 
           <DropdownMenu>
-            <DropdownMenuTrigger render={<Button variant="outline" size="lg" className={triggerClass(statusActive)} />}>
+            <DropdownMenuTrigger render={<Button variant="outline" size="default" className={triggerClass(statusActive)} />}>
               <span className="truncate">{statusSummary}</span>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </DropdownMenuTrigger>
@@ -281,23 +283,25 @@ export function ProjectFilter({
           {selectedCategories.map((category) => (
             <button
               key={category}
+              type="button"
               onClick={() => handleCategoryToggle(category)}
               className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             >
-              <Badge variant="default" className="cursor-pointer gap-1">
+              <Badge variant="default" className={activeChipClass}>
                 Category: {category}
-                <X className="h-3 w-3" />
+                <X className="h-3.5 w-3.5" />
               </Badge>
             </button>
           ))}
           {selectedStatus !== 'all' && (
             <button
+              type="button"
               onClick={() => handleStatusChange('all')}
               className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             >
-              <Badge variant="default" className="cursor-pointer gap-1">
+              <Badge variant="default" className={activeChipClass}>
                 Status: {formatStatusLabel(selectedStatus)}
-                <X className="h-3 w-3" />
+                <X className="h-3.5 w-3.5" />
               </Badge>
             </button>
           )}

@@ -13,6 +13,8 @@ Use these defaults unless a component has a clear product reason to deviate.
 | Text input | 44px (`h-11`) | 40px (`sm:h-10`) | Keeps touch comfort while preserving desktop density |
 | Icon button (`icon`) | 40px (`size-10`) | 40px (`size-10`) | Minimum icon action target |
 | Icon button (`icon-lg`) | 44px (`size-11`) | 44px (`size-11`) | Use in mobile drawers and major actions |
+| Interactive filter chips (removable) | 36px (`h-9`) | 36px (`h-9`) | Keep selected-filter chips compact while maintaining readability |
+| Project-card metadata/tech chips | 24px (`h-6`) | 24px (`h-6`) | Improve readability while preserving card density |
 
 ### Hit-target rule
 - Never ship user-facing controls below ~40px target size.
@@ -36,13 +38,20 @@ Use these defaults unless a component has a clear product reason to deviate.
 - Keep card actions reachable:
   - Primary card link/action should use at least `h-10` with horizontal padding.
   - Icon-only external links in cards should have at least `size-9` target.
+  - Metadata/tech chips in cards should not drop below `h-6` with `text-xs`.
 
 ## 4) Toolbar Pattern (Search + Filters)
 
 - Search input follows input standard (`h-11` mobile, `h-10` desktop).
 - Leading icon stays 16px (`h-4 w-4`), positioned with `pl-10`.
+- Search icon must remain visibly rendered above the input surface (`z-10`, non-transparent contrast tone).
 - Trailing clear control should use at least `size-9`.
-- Adjacent filter triggers should be `size="lg"` when paired with mobile search.
+- Adjacent filter triggers should match search input height per breakpoint (`h-11` mobile, `h-10` desktop).
+- Collection/filter toolbars should use `position: sticky` under fixed header chrome, so they pin only once scrolled near the viewport top.
+- When paired with an auto-hiding header:
+  - header visible → filter toolbar offset sits below header;
+  - header hidden → filter toolbar snaps to device top safe-area (`env(safe-area-inset-top)`).
+- On touch devices, when a text field is focused and the virtual keyboard opens, keep the auto-hiding header suppressed to prevent it from popping back into view mid-typing.
 
 ## 5) Motion + Feedback Baseline
 

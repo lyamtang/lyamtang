@@ -26,12 +26,30 @@ export function useHeaderVisibility(pathname: string) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    const isTouchViewport = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    const isTypingField = (element: Element | null) => {
+      if (!(element instanceof HTMLElement)) return false;
+      if (element.isContentEditable) return true;
+      if (element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) return true;
+      if (element instanceof HTMLInputElement) {
+        return !['button', 'checkbox', 'radio', 'range', 'color', 'file', 'image', 'reset', 'submit'].includes(
+          element.type,
+        );
+      }
+      return false;
+    };
+
     let armed = false;
     let lastY = window.scrollY;
     let accumulated = 0;
     let touchStartY = 0;
     let ticking = false;
+    let suspendForTextEntry = false;
     const pinnedZones = new Set<Element>();
+    const syncTextEntryState = () => {
+      suspendForTextEntry = isTouchViewport() && isTypingField(document.activeElement);
+      return suspendForTextEntry;
+    };
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -42,7 +60,7 @@ export function useHeaderVisibility(pathname: string) {
 
         if (pinnedZones.size > 0) {
           accumulated = 0;
-          setVisible(true);
+          if (!syncTextEntryState()) setVisible(true);
         }
       },
       { rootMargin: `-${PIN_ROOT_MARGIN_TOP_PX}px 0px 0px 0px` },
@@ -56,6 +74,7 @@ export function useHeaderVisibility(pathname: string) {
     });
 
     const revealAtTop = () => {
+      if (syncTextEntryState()) return;
       if (window.scrollY <= TOP_THRESHOLD_PX) {
         accumulated = 0;
         setVisible(true);
@@ -68,6 +87,7 @@ export function useHeaderVisibility(pathname: string) {
       const delta = y - lastY;
       lastY = y;
 
+      if (syncTextEntryState()) return;
       if (!armed) return;
 
       if (y <= TOP_THRESHOLD_PX || pinnedZones.size > 0) {
@@ -90,6 +110,7 @@ export function useHeaderVisibility(pathname: string) {
     };
 
     const onWheel = (e: WheelEvent) => {
+      if (syncTextEntryState()) return;
       armed = true;
       if (e.deltaY < 0) revealAtTop();
     };
@@ -99,15 +120,34 @@ export function useHeaderVisibility(pathname: string) {
     };
 
     const onTouchMove = (e: TouchEvent) => {
+      if (syncTextEntryState()) return;
       armed = true;
       const y = e.touches[0]?.clientY ?? touchStartY;
       if (y - touchStartY > TOUCH_PULL_DOWN_PX) revealAtTop();
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
+      if (syncTextEntryState()) return;
       if (!SCROLL_KEYS.has(e.key)) return;
       armed = true;
       if (UP_KEYS.has(e.key)) revealAtTop();
+    };
+
+    const onFocusIn = (e: FocusEvent) => {
+      if (!isTouchViewport()) return;
+      if (!isTypingField(e.target as Element)) return;
+      suspendForTextEntry = true;
+      setVisible(false);
+    };
+
+    const onFocusOut = () => {
+      requestAnimationFrame(() => {
+        if (syncTextEntryState()) return;
+        if (window.scrollY <= TOP_THRESHOLD_PX) {
+          accumulated = 0;
+          setVisible(true);
+        }
+      });
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -115,6 +155,8 @@ export function useHeaderVisibility(pathname: string) {
     window.addEventListener('touchstart', onTouchStart, { passive: true });
     window.addEventListener('touchmove', onTouchMove, { passive: true });
     window.addEventListener('keydown', onKeyDown);
+    document.addEventListener('focusin', onFocusIn);
+    document.addEventListener('focusout', onFocusOut);
 
     return () => {
       cancelAnimationFrame(frame);
@@ -123,6 +165,8 @@ export function useHeaderVisibility(pathname: string) {
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
       window.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('focusin', onFocusIn);
+      document.removeEventListener('focusout', onFocusOut);
       observer.disconnect();
     };
     // Re-runs on route change to re-query pinned zones and disarm until the next user input.

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -18,6 +18,20 @@ export default function Header() {
 
   const activeHref = getActiveNavHref(pathname);
   const visible = scrollVisible || keyboardFocused;
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.headerVisible = String(visible);
+    root.style.setProperty(
+      '--projects-filter-top-offset',
+      visible ? 'calc(6rem + env(safe-area-inset-top, 0px))' : 'env(safe-area-inset-top, 0px)',
+    );
+
+    return () => {
+      root.style.removeProperty('--projects-filter-top-offset');
+      delete root.dataset.headerVisible;
+    };
+  }, [visible]);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     if (pathname === '/') {
