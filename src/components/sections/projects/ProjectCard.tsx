@@ -25,7 +25,7 @@ export function ProjectCard({ project }: { project: Project }) {
   const visibleTech = project.tech.slice(0, MAX_TECH);
   const extraTechCount = Math.max(project.tech.length - visibleTech.length, 0);
   const metaChipClass = 'h-6 px-2.5 text-xs';
-  const techChipClass = 'h-6 px-2 text-xs';
+  const techChipClass = 'h-6 px-2.5 text-xs';
   const statusBadgeClass =
     project.status === 'in_progress'
       ? `${metaChipClass} border border-sky-500/40 bg-sky-500/15 text-sky-700 dark:text-sky-300`

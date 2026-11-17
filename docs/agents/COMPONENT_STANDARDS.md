@@ -16,6 +16,7 @@ Use these defaults unless a component has a clear product reason to deviate.
 | Icon button (`icon-lg`) | 44px (`size-11`) | 44px (`size-11`) | Use in mobile drawers and major actions |
 | Interactive filter chips (removable) | 36px (`h-9`) | 36px (`h-9`) | Keep selected-filter chips compact while maintaining readability |
 | Project-card metadata/tech chips | 24px (`h-6`) | 24px (`h-6`) | Improve readability while preserving card density |
+| About section skill/tool chips | 24px (`h-6`) | 24px (`h-6`) | Keep skills/tools readable while matching project chip scale |
 
 ### Hit-target rule
 - Never ship user-facing controls below ~40px target size.
@@ -42,6 +43,24 @@ Textarea surfaces should reuse the same background/border token strategy as stan
   - Primary card link/action should use at least `h-10` with horizontal padding.
   - Icon-only external links in cards should have at least `size-9` target.
   - Metadata/tech chips in cards should not drop below `h-6` with `text-xs`.
+
+## 3.1) Chip System (Cohesive Standard)
+
+Use chip variants by semantics, not by section-level preference.
+
+| Chip role | Variant/style | Size baseline | Interaction | Current usage |
+| --- | --- | --- | --- | --- |
+| Selected filter chip (active + removable) | `default` | `h-9 px-2.5 text-xs` | clickable/removable | Project filter selected chips |
+| Metadata chip (neutral context) | `outline` | `h-6 px-2.5 text-xs` | static | Project category chips, “+N” category chip |
+| Skill/tool chip (knowledge stack) | `secondary` | `h-6 px-2.5 text-xs` | static | Education highlights, Experience tools, Project tech chips |
+| Status chip (state semantics) | custom tinted semantic class | `h-6 px-2.5 text-xs` | static | Project status (`in_progress`, `completed`) |
+
+Rules:
+- Keep chip text at `text-xs` for dense chip groups.
+- Keep `h-6 px-2.5` as the default static chip baseline.
+- Use `h-9` only for interactive removable chips in the filter summary row.
+- Do not mix `outline` and `secondary` in one static tag group unless they intentionally encode different meanings.
+- Status chips must remain semantically tinted (state meaning), not converted to neutral variants.
 
 ## 4) Toolbar Pattern (Search + Filters)
 

@@ -6,6 +6,8 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { education } from '@/data/education';
 
 export function Education() {
+  const skillChipClass = 'h-6 px-2.5 text-xs';
+
   return (
     <section id="education" className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <div className="container mx-auto max-w-4xl">
@@ -43,7 +45,7 @@ export function Education() {
               {entry.highlights.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-2">
                   {entry.highlights.map((h) => (
-                    <Badge key={h} variant="secondary">
+                    <Badge key={h} variant="secondary" className={skillChipClass}>
                       {h}
                     </Badge>
                   ))}

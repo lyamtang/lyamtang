@@ -6,6 +6,8 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { experience } from '@/data/experience';
 
 export function Experience() {
+  const toolChipClass = 'h-6 px-2.5 text-xs';
+
   return (
     <section id="experience" className="bg-muted/30 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <div className="container mx-auto max-w-4xl">
@@ -65,7 +67,7 @@ export function Experience() {
                     {role.tech && role.tech.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2">
                         {role.tech.map((t) => (
-                          <Badge key={t} variant="outline" className="text-xs">
+                          <Badge key={t} variant="secondary" className={toolChipClass}>
                             {t}
                           </Badge>
                         ))}
