@@ -38,7 +38,7 @@ export default function Footer() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-muted-foreground transition-colors hover:text-foreground"
+                className="inline-flex size-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 aria-label={link.name}
               >
                 <motion.div

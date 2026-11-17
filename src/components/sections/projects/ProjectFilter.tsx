@@ -168,17 +168,17 @@ export function ProjectFilter({
       <Drawer.Root open={drawerOpen} onOpenChange={handleDrawerChange}>
       <div className="flex items-center gap-2 lg:hidden">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search projects..."
             value={query}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="pl-9 pr-9"
+            className="pl-10 pr-10"
           />
           {query && (
             <button
               onClick={() => onQueryChange('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+              className="absolute top-1/2 right-1 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
               aria-label="Clear search"
             >
               <X className="h-4 w-4" />
@@ -191,8 +191,9 @@ export function ProjectFilter({
           render={
             <Button
               variant="outline"
+              size="lg"
               className={cn(
-                'relative shrink-0 gap-2 border px-3 transition-colors',
+                'relative h-11 min-w-11 shrink-0 gap-2 border px-3 transition-colors',
                 activeFilterCount > 0
                   ? 'border-primary/60 bg-primary/10 text-foreground hover:bg-primary/15'
                   : 'border-border',
@@ -211,17 +212,17 @@ export function ProjectFilter({
 
       <div className="hidden lg:flex lg:items-center lg:gap-2 lg:flex-nowrap">
         <div className="relative w-full lg:flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search projects..."
             value={query}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="pl-9 pr-9"
+            className="pl-10 pr-10"
           />
           {query && (
             <button
               onClick={() => onQueryChange('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+              className="absolute top-1/2 right-1 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
               aria-label="Clear search"
             >
               <X className="h-4 w-4" />
@@ -231,7 +232,7 @@ export function ProjectFilter({
 
         <div className="flex shrink-0 items-center gap-2">
           <DropdownMenu>
-            <DropdownMenuTrigger render={<Button variant="outline" size="default" className={triggerClass(categoryActive)} />}>
+            <DropdownMenuTrigger render={<Button variant="outline" size="lg" className={triggerClass(categoryActive)} />}>
               <span className="truncate">{categorySummary}</span>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </DropdownMenuTrigger>
@@ -253,7 +254,7 @@ export function ProjectFilter({
           </DropdownMenu>
 
           <DropdownMenu>
-            <DropdownMenuTrigger render={<Button variant="outline" size="default" className={triggerClass(statusActive)} />}>
+            <DropdownMenuTrigger render={<Button variant="outline" size="lg" className={triggerClass(statusActive)} />}>
               <span className="truncate">{statusSummary}</span>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </DropdownMenuTrigger>
@@ -281,7 +282,7 @@ export function ProjectFilter({
             <button
               key={category}
               onClick={() => handleCategoryToggle(category)}
-              className="focus:outline-none"
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             >
               <Badge variant="default" className="cursor-pointer gap-1">
                 Category: {category}
@@ -290,14 +291,17 @@ export function ProjectFilter({
             </button>
           ))}
           {selectedStatus !== 'all' && (
-            <button onClick={() => handleStatusChange('all')} className="focus:outline-none">
+            <button
+              onClick={() => handleStatusChange('all')}
+              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            >
               <Badge variant="default" className="cursor-pointer gap-1">
                 Status: {formatStatusLabel(selectedStatus)}
                 <X className="h-3 w-3" />
               </Badge>
             </button>
           )}
-          <Button size="sm" variant="ghost" onClick={handleClearFilters}>
+          <Button variant="ghost" onClick={handleClearFilters}>
             Clear all
           </Button>
         </div>
@@ -316,7 +320,7 @@ export function ProjectFilter({
             <div className="shrink-0 px-4 pt-4">
               <div className="mx-auto mb-2 h-1.5 w-12 rounded-full bg-muted" aria-hidden="true" />
               <div className="mb-2 flex items-center justify-between">
-                <Drawer.Title className="text-sm font-semibold">Filters</Drawer.Title>
+                <Drawer.Title className="text-base font-semibold">Filters</Drawer.Title>
                 <Drawer.Close aria-label="Close filters" render={<Button variant="ghost" size="icon" />}>
                   <X className="h-4 w-4" />
                 </Drawer.Close>
@@ -332,7 +336,6 @@ export function ProjectFilter({
                     return (
                       <Button
                         key={category}
-                        size="sm"
                         variant={selected ? 'default' : 'outline'}
                         aria-pressed={selected}
                         onClick={() =>
@@ -356,7 +359,6 @@ export function ProjectFilter({
                 <p className="text-sm font-medium">Status</p>
                 <div className="flex flex-wrap gap-2">
                   <Button
-                    size="sm"
                     variant={mobileDraft.status === 'all' ? 'default' : 'outline'}
                     aria-pressed={mobileDraft.status === 'all'}
                     onClick={() => setMobileDraft((prev) => ({ ...prev, status: 'all' }))}
@@ -366,7 +368,6 @@ export function ProjectFilter({
                   {statuses.map((status) => (
                     <Button
                       key={status}
-                      size="sm"
                       variant={mobileDraft.status === status ? 'default' : 'outline'}
                       aria-pressed={mobileDraft.status === status}
                       onClick={() => setMobileDraft((prev) => ({ ...prev, status }))}
@@ -379,10 +380,10 @@ export function ProjectFilter({
             </Drawer.Content>
 
             <div className="flex shrink-0 items-center gap-2 border-t bg-background p-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
-              <Button variant="outline" className="flex-1" onClick={clearMobileDraft}>
+              <Button size="lg" variant="outline" className="flex-1" onClick={clearMobileDraft}>
                 Clear
               </Button>
-              <Button className="flex-1" onClick={applyMobileFilters}>
+              <Button size="lg" className="flex-1" onClick={applyMobileFilters}>
                 Apply
               </Button>
             </div>

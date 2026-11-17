@@ -92,7 +92,7 @@ export default async function ProjectPage({
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'gap-2')}
+              className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')}
             >
               <Github className="h-4 w-4 [&_*]:fill-current" />
               GitHub
@@ -103,7 +103,7 @@ export default async function ProjectPage({
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(buttonVariants({ size: 'sm' }), 'gap-2')}
+              className={cn(buttonVariants({ size: 'default' }), 'gap-2')}
             >
               <ExternalLink className="h-4 w-4" />
               Live site

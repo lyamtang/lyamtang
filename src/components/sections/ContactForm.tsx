@@ -227,7 +227,7 @@ export function ContactForm() {
           size="lg"
           disabled={isFormLocked}
           className={cn(
-            'w-full transition-colors duration-500 ease-out sm:w-40',
+            'w-full transition-colors duration-500 ease-out sm:w-48',
             isConfirmingSuccess && 'bg-emerald-600 text-white hover:bg-emerald-600 disabled:opacity-100',
           )}
         >

@@ -63,8 +63,9 @@ export function ProjectCard({ project }: { project: Project }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
+                  className="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 >
-                  <Github className="h-4 w-4 [&_*]:fill-current text-muted-foreground transition-colors hover:text-foreground" />
+                  <Github className="h-4 w-4 [&_*]:fill-current" />
                 </a>
               )}
               {project.liveUrl && (
@@ -73,8 +74,9 @@ export function ProjectCard({ project }: { project: Project }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Live site"
+                  className="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 >
-                  <ExternalLink className="h-4 w-4 text-muted-foreground transition-colors hover:text-foreground" />
+                  <ExternalLink className="h-4 w-4" />
                 </a>
               )}
             </div>
@@ -96,9 +98,9 @@ export function ProjectCard({ project }: { project: Project }) {
           </div>
           <Link
             href={`/projects/${project.slug}`}
-              className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-primary"
+            className="mt-auto inline-flex h-10 w-fit items-center gap-1.5 rounded-md px-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
           >
-            View details <ArrowRight className="h-3.5 w-3.5" />
+            View details <ArrowRight className="h-4 w-4" />
           </Link>
         </CardContent>
       </Card>

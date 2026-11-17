@@ -32,9 +32,9 @@ export function Certifications() {
                     href={cert.verificationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm text-primary underline-offset-4 hover:underline"
+                    className="inline-flex h-10 items-center gap-1.5 rounded-md px-3 text-sm font-medium text-primary underline-offset-4 transition-colors hover:bg-primary/10 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                   >
-                    Verify <ExternalLink className="h-3 w-3" />
+                    Verify <ExternalLink className="h-4 w-4" />
                   </a>
                 </div>
               </div>

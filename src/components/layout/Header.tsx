@@ -28,9 +28,9 @@ export default function Header() {
 
   return (
     <>
-    <div aria-hidden="true" className="h-[calc(5.75rem+env(safe-area-inset-top,0px))] shrink-0" />
+    <div aria-hidden="true" className="h-[calc(6rem+env(safe-area-inset-top,0px))] shrink-0" />
     {/* Keep the fixed box narrow so iOS Safari can show scrolling content behind its status bar. */}
-    <header className="pointer-events-none fixed top-3 left-[calc(7.5vw+(env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px))/2)] z-50 flex h-[calc(5rem+env(safe-area-inset-top,0px))] w-[85vw] justify-center pt-[env(safe-area-inset-top,0px)]">
+    <header className="pointer-events-none fixed top-4 left-[calc(7.5vw+(env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px))/2)] z-50 flex h-[calc(5rem+env(safe-area-inset-top,0px))] w-[85vw] justify-center pt-[env(safe-area-inset-top,0px)]">
       <motion.div
         initial={{ opacity: 0, y: -12 }}
         animate={{
@@ -58,7 +58,7 @@ export default function Header() {
           <span aria-hidden="true">Lyam Tang</span>
         </Link>
 
-        <nav aria-label="Primary" className="flex items-center gap-0 min-[360px]:gap-0.5">
+        <nav aria-label="Primary" className="flex items-center gap-0.5 min-[360px]:gap-1">
           {headerNavItems.map((link) => {
             const isActive = activeHref === link.href;
             const Icon = link.icon;
@@ -68,7 +68,7 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 aria-current={isActive ? 'page' : undefined}
-                className={`group relative inline-flex h-11 items-center justify-center gap-2 rounded-full px-2.5 text-sm font-medium whitespace-nowrap min-[360px]:px-3 transition-[color,transform] duration-150 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-foreground active:scale-[0.97] sm:px-4 ${
+                className={`group relative inline-flex h-11 min-w-11 items-center justify-center gap-2 rounded-full px-2.5 text-sm font-medium whitespace-nowrap min-[360px]:px-3 transition-[color,transform] duration-150 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-foreground active:scale-[0.97] sm:px-4 ${
                   isActive ? 'text-foreground' : 'text-foreground/70 hover:text-foreground'
                 }`}
               >
