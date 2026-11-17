@@ -195,7 +195,7 @@ export function ContactForm() {
             aria-invalid={Boolean(fieldErrors.message)}
             aria-describedby={fieldErrors.message ? 'contact-message-error' : undefined}
             className={cn(
-              'min-h-40 w-full resize-y rounded-lg border border-input bg-background/60 px-3 py-2.5 text-sm leading-6 outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50',
+              'min-h-40 w-full resize-y rounded-lg border border-input bg-background/60 px-3 py-2.5 text-base leading-6 outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:text-sm dark:bg-input/30',
               fieldErrors.message && 'border-destructive focus-visible:border-destructive focus-visible:ring-destructive/20',
             )}
           />
@@ -227,7 +227,7 @@ export function ContactForm() {
           size="lg"
           disabled={isFormLocked}
           className={cn(
-            'w-full transition-colors duration-500 ease-out sm:w-40',
+            'w-full transition-colors duration-500 ease-out sm:w-48',
             isConfirmingSuccess && 'bg-emerald-600 text-white hover:bg-emerald-600 disabled:opacity-100',
           )}
         >

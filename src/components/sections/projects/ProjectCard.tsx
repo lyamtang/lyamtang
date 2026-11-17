@@ -24,10 +24,12 @@ export function ProjectCard({ project }: { project: Project }) {
   const extraCategoryCount = Math.max(project.category.length - visibleCategories.length, 0);
   const visibleTech = project.tech.slice(0, MAX_TECH);
   const extraTechCount = Math.max(project.tech.length - visibleTech.length, 0);
+  const metaChipClass = 'h-6 px-2.5 text-xs';
+  const techChipClass = 'h-6 px-2.5 text-xs';
   const statusBadgeClass =
     project.status === 'in_progress'
-      ? 'border border-sky-500/40 bg-sky-500/15 text-sky-700 dark:text-sky-300'
-      : 'border border-emerald-500/40 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300';
+      ? `${metaChipClass} border border-sky-500/40 bg-sky-500/15 text-sky-700 dark:text-sky-300`
+      : `${metaChipClass} border border-emerald-500/40 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300`;
 
   return (
     <motion.div
@@ -37,16 +39,16 @@ export function ProjectCard({ project }: { project: Project }) {
         <Card className="group flex h-[19rem] min-w-0 flex-col border-border/50 transition-colors hover:border-primary/50">
         <CardHeader className="pb-2">
           <div className="mb-3 flex flex-wrap items-center gap-1.5">
-            <Badge className={`text-[10px] uppercase tracking-wide ${statusBadgeClass}`}>
+            <Badge className={`uppercase tracking-wide ${statusBadgeClass}`}>
               {formatStatusLabel(project.status)}
             </Badge>
             {visibleCategories.map((category) => (
-              <Badge key={category} variant="outline" className="text-[10px]">
+              <Badge key={category} variant="outline" className={metaChipClass}>
                 {category}
               </Badge>
             ))}
             {extraCategoryCount > 0 && (
-              <Badge variant="outline" className="text-[10px] text-muted-foreground">
+              <Badge variant="outline" className={`${metaChipClass} text-muted-foreground`}>
                 +{extraCategoryCount}
               </Badge>
             )}
@@ -63,8 +65,9 @@ export function ProjectCard({ project }: { project: Project }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
+                  className="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 >
-                  <Github className="h-4 w-4 [&_*]:fill-current text-muted-foreground transition-colors hover:text-foreground" />
+                  <Github className="h-4 w-4 [&_*]:fill-current" />
                 </a>
               )}
               {project.liveUrl && (
@@ -73,8 +76,9 @@ export function ProjectCard({ project }: { project: Project }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Live site"
+                  className="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                 >
-                  <ExternalLink className="h-4 w-4 text-muted-foreground transition-colors hover:text-foreground" />
+                  <ExternalLink className="h-4 w-4" />
                 </a>
               )}
             </div>
@@ -84,21 +88,21 @@ export function ProjectCard({ project }: { project: Project }) {
             <p className="w-full truncate text-sm text-muted-foreground">{project.shortDescription}</p>
           <div className="flex flex-wrap gap-1.5">
             {visibleTech.map((t) => (
-              <Badge key={t} variant="secondary" className="text-xs">
+              <Badge key={t} variant="secondary" className={techChipClass}>
                 {t}
               </Badge>
             ))}
             {extraTechCount > 0 && (
-              <Badge variant="secondary" className="text-xs text-muted-foreground">
+              <Badge variant="secondary" className={`${techChipClass} text-muted-foreground`}>
                 +{extraTechCount} more
               </Badge>
             )}
           </div>
           <Link
             href={`/projects/${project.slug}`}
-              className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-primary"
+            className="mt-auto inline-flex h-10 w-fit items-center gap-1.5 rounded-md px-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
           >
-            View details <ArrowRight className="h-3.5 w-3.5" />
+            View details <ArrowRight className="h-4 w-4" />
           </Link>
         </CardContent>
       </Card>

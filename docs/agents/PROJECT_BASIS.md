@@ -23,6 +23,8 @@
 ## Design Constraints
 - Preserve existing visual language and component system unless explicitly asked to rebrand.
 - Keep desktop and mobile both first-class experiences.
+- Keep interactive control sizing comfortable: target ~40px control height on desktop and ~44px on mobile for primary inputs/buttons/toolbars.
+- Follow [COMPONENT_STANDARDS.md](./COMPONENT_STANDARDS.md) as the canonical sizing/spacing baseline for new or updated UI components.
 - Respect reduced-motion behavior and avoid heavy animation on high-frequency interactions.
 - Avoid generic AI-looking layouts and repetitive default patterns.
 

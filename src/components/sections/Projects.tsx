@@ -73,18 +73,20 @@ export function Projects() {
           title="Projects"
           subtitle="Things I've built, designed, and managed."
         />
-        <ProjectFilter
+        <div className="sticky top-[var(--projects-filter-top-offset)] z-30 -mx-4 px-4 pt-2 pb-1 transition-[top] duration-200 ease-out sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+          <ProjectFilter
             query={queryInput}
             onQueryChange={setQueryInput}
-          categories={filterOptions.categories}
-          selectedCategories={selectedCategories}
-          onCategoryToggle={toggleCategory}
-          statuses={filterOptions.statuses}
-          selectedStatus={selectedStatus}
-          onStatusChange={setSelectedStatus}
-          activeFilterCount={activeFilterCount}
-          onClearFilters={clearFilters}
-        />
+            categories={filterOptions.categories}
+            selectedCategories={selectedCategories}
+            onCategoryToggle={toggleCategory}
+            statuses={filterOptions.statuses}
+            selectedStatus={selectedStatus}
+            onStatusChange={setSelectedStatus}
+            activeFilterCount={activeFilterCount}
+            onClearFilters={clearFilters}
+          />
+        </div>
         {isFiltering ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite" aria-busy="true">
             {Array.from({ length: 6 }).map((_, i) => (

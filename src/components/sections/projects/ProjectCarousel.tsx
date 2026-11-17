@@ -76,12 +76,20 @@ export function ProjectCarousel({ images }: { images: GalleryImage[] }) {
             <button
               key={i}
               onClick={() => api?.scrollTo(i)}
+              type="button"
               className={cn(
-                'h-2 rounded-full transition-all duration-300',
-                i === current ? 'w-6 bg-primary' : 'w-2 bg-muted-foreground/30',
+                'inline-flex size-8 items-center justify-center rounded-full transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50',
               )}
               aria-label={`Go to slide ${i + 1}`}
-            />
+            >
+              <span
+                className={cn(
+                  'h-2 rounded-full transition-all duration-300',
+                  i === current ? 'w-6 bg-primary' : 'w-2 bg-muted-foreground/30',
+                )}
+                aria-hidden="true"
+              />
+            </button>
           ))}
         </div>
       )}
