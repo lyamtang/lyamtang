@@ -56,8 +56,9 @@ const parseColor = (() => {
   return value => {
     const key = String(value);
     if (cache.has(key)) return cache.get(key);
+    const isHex = /^#([\da-f]{3}|[\da-f]{6})$/i.test(key.trim());
     let rgb = parseHexColor(key);
-    if (typeof document !== 'undefined') {
+    if (!isHex && typeof document !== 'undefined') {
       context ??= document.createElement('canvas').getContext('2d', { willReadFrequently: true });
       if (context) {
         context.clearRect(0, 0, 1, 1);
@@ -1842,7 +1843,7 @@ const Folder = ({
     '--folder-frost': `${(1.5 + clamp(frost, 0, 1) * 10) * scale}px`,
     // The depth calculation mirrors the value supplied to the animation loop above.
     '--folder-depth': `${Math.round(Math.max(g.w, g.h) * 5)}px`,
-    '--folder-scale': scale,
+    '--folder-scale': String(scale),
     ...style
   };
 

@@ -11,6 +11,7 @@ Use these defaults unless a component has a clear product reason to deviate.
 | Standard button (`default`) | 40px (`h-10`) | 40px (`h-10`) | General actions and toolbar controls |
 | Compact button (`sm`) | 36px (`h-9`) | 36px (`h-9`) | Dense, secondary controls only |
 | Text input | 44px (`h-11`) | 40px (`sm:h-10`) | Keeps touch comfort while preserving desktop density |
+| Textarea input | 16px text on mobile (`text-base`) | 14px text on desktop (`sm:text-sm`) | Prevent iOS focus-zoom; keep density on larger screens |
 | Icon button (`icon`) | 40px (`size-10`) | 40px (`size-10`) | Minimum icon action target |
 | Icon button (`icon-lg`) | 44px (`size-11`) | 44px (`size-11`) | Use in mobile drawers and major actions |
 | Interactive filter chips (removable) | 36px (`h-9`) | 36px (`h-9`) | Keep selected-filter chips compact while maintaining readability |
@@ -29,6 +30,8 @@ Use these defaults unless a component has a clear product reason to deviate.
 | Compact toolbar gap | `gap-2` |
 | Action group gap | `gap-3` |
 | Content stack gap in cards/forms | `gap-3` to `gap-5` |
+
+Textarea surfaces should reuse the same background/border token strategy as standard text inputs in the same form.
 
 ## 3) Card Composition
 
