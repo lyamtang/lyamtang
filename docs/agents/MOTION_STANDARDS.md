@@ -38,6 +38,6 @@ Keep per-animation overrides intentional and minimal.
 - **Header + toolbar move together.** The sticky toolbar's `top` offset transitions with the same duration and easing as the header slide (`MOTION_DURATION.base`, `MOTION_EASING.smoothOut`), so they read as one gesture.
 - **Filtering is high-frequency: no stagger.** Result changes use per-card `AnimatePresence mode="popLayout"` with `layout="position"`: cards that stay do not flash, cards that leave fade out (≤ `MOTION_DURATION.fast`) and stop taking space at once so siblings slide into the gap.
 - **First load only:** cards stagger at 50ms (capped at 6 steps) after the heading; the toolbar enters 120ms in as support. Later renders have no delay.
-- **Transient panels yield to content.** The filter panel closes after ~64px of scroll so it never stays pinned over the cards.
+- **Transient panels never move content.** The filter panel floats over the cards (opacity + transform only, no height/grid-rows animation), and closes after ~64px of scroll so it never stays pinned over them.
 - **Card hover is subtle:** `y: -3` over `MOTION_DURATION.fast`; filter chips use 150ms color transitions.
-
+- **Programmatic scrolls never move the header.** Scrolls the page makes on its own (e.g. to filtered results) set `data-header-scroll-lock` on `<html>`; `useHeaderVisibility` ignores scroll direction while it is set, so a hidden header stays hidden. Real user scrolling is unaffected.
