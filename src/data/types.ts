@@ -85,6 +85,8 @@ export interface ProjectDetails {
 }
 
 export type ProjectStatus ='in_progress' | 'completed';
+export type ProjectIndustry = 'healthcare' | 'safety' | 'finance' | 'tourism' | 'tech';
+export type ProjectFocus = 'engineering' | 'design' | 'management' | 'ai_data';
 
 export interface ProjectPeriod {
   startYear: number;
@@ -100,7 +102,8 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   featured: boolean;
-  category: string[];
+  industry: ProjectIndustry;
+  focus: ProjectFocus[];
   status: ProjectStatus;
   period: ProjectPeriod;
   details?: ProjectDetails;

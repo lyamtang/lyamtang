@@ -1,70 +1,27 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
-import { motion } from 'motion/react';
+import { useEffect, useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { RotateCcw, SearchX } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
 import { ProjectCard } from './projects/ProjectCard';
 import { ProjectFilter } from './projects/ProjectFilter';
 import { projects } from '@/data/projects';
-import {
-  filterProjects,
-  getActiveFilterCount,
-  getProjectFilterOptions,
-} from '@/lib/projectFilters';
-import type { ProjectStatus } from '@/data/types';
+import { DEFAULT_FILTERS, filterProjects } from '@/lib/projectFilters';
 import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
 
-const filterOptions = getProjectFilterOptions(projects);
-const QUERY_DEBOUNCE_MS = 350;
-
 export function Projects() {
-  const [queryInput, setQueryInput] = useState('');
-  const [query, setQuery] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedStatus, setSelectedStatus] = useState<ProjectStatus | 'all'>('all');
+  const [filters, setFilters] = useState(DEFAULT_FILTERS);
 
+  const filtered = useMemo(() => filterProjects(projects, filters), [filters]);
+  // Only the first load staggers; later filter changes must stay instant.
+  const [hasMounted, setHasMounted] = useState(false);
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
-      setQuery(queryInput);
-    }, queryInput ? QUERY_DEBOUNCE_MS : 0);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [queryInput]);
-
-  const toggleCategory = (category: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((item) => item !== category)
-        : [...prev, category].sort((a, b) => a.localeCompare(b)),
-    );
-  };
-
-  const clearFilters = () => {
-    setQueryInput('');
-    setQuery('');
-    setSelectedCategories([]);
-    setSelectedStatus('all');
-  };
-
-  const activeFilterCount = getActiveFilterCount({
-    query,
-    categories: selectedCategories,
-    status: selectedStatus,
-  });
-
-  const filtered = useMemo(() => {
-    return filterProjects(projects, {
-      query,
-      categories: selectedCategories,
-      status: selectedStatus,
-    });
-  }, [query, selectedCategories, selectedStatus]);
-  // Only animate when the visible project set actually changes.
-  const resultSignature = filtered.map((project) => project.slug).join('|');
-  const isFiltering = queryInput !== query;
+    const frame = requestAnimationFrame(() => setHasMounted(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+  const isFirstRender = !hasMounted;
 
   return (
     <section id="projects" className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
@@ -72,62 +29,43 @@ export function Projects() {
         <SectionHeading
           title="Projects"
           subtitle="Things I've built, designed, and managed."
+          className="mb-6"
         />
-        <div className="sticky top-[var(--projects-filter-top-offset)] z-30 -mx-4 px-4 pt-2 pb-1 transition-[top] duration-200 ease-out sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-          <ProjectFilter
-            query={queryInput}
-            onQueryChange={setQueryInput}
-            categories={filterOptions.categories}
-            selectedCategories={selectedCategories}
-            onCategoryToggle={toggleCategory}
-            statuses={filterOptions.statuses}
-            selectedStatus={selectedStatus}
-            onStatusChange={setSelectedStatus}
-            activeFilterCount={activeFilterCount}
-            onClearFilters={clearFilters}
-          />
-        </div>
-        {isFiltering ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite" aria-busy="true">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="h-[19rem] rounded-xl border border-border/50 p-5">
-                <div className="mb-4 flex gap-2">
-                  <Skeleton className="h-5 w-16 rounded-full" />
-                  <Skeleton className="h-5 w-20 rounded-full" />
-                </div>
-                <Skeleton className="h-6 w-2/3" />
-                <Skeleton className="mt-2 h-4 w-1/3" />
-                <Skeleton className="mt-5 h-4 w-full" />
-                <Skeleton className="mt-2 h-4 w-5/6" />
-                <div className="mt-6 flex gap-2">
-                  <Skeleton className="h-5 w-14 rounded-full" />
-                  <Skeleton className="h-5 w-12 rounded-full" />
-                  <Skeleton className="h-5 w-16 rounded-full" />
-                </div>
-                <Skeleton className="mt-8 h-4 w-24" />
-              </div>
-            ))}
-          </div>
-        ) : filtered.length === 0 ? (
-          <motion.p
+        <ProjectFilter filters={filters} onFiltersChange={setFilters} />
+        {filtered.length === 0 ? (
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="py-12 text-center text-muted-foreground"
+            className="flex flex-col items-center gap-4 py-12 text-muted-foreground"
           >
-            No projects match your filters.
-          </motion.p>
+            <SearchX className="size-10" aria-hidden="true" />
+            <Button variant="outline" onClick={() => setFilters(DEFAULT_FILTERS)}>
+              <RotateCcw />
+              Reset
+            </Button>
+          </motion.div>
         ) : (
-            <motion.div
-              key={resultSignature}
-              initial={{ opacity: 0, transform: 'translateY(6px)' }}
-              animate={{ opacity: 1, transform: 'translateY(0px)' }}
-              transition={{ duration: MOTION_DURATION.base, ease: MOTION_EASING.smoothOut }}
-              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {filtered.map((project) => (
-                <ProjectCard key={project.slug} project={project} />
+          <div className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <AnimatePresence mode="popLayout">
+              {filtered.map((project, index) => (
+                <motion.div
+                  key={project.slug}
+                  layout="position"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.97 }}
+                  transition={{
+                    duration: isFirstRender ? MOTION_DURATION.base : MOTION_DURATION.fast,
+                    ease: MOTION_EASING.smoothOut,
+                    delay: isFirstRender ? Math.min(index, 5) * 0.05 : 0,
+                  }}
+                  className="h-full min-w-0"
+                >
+                  <ProjectCard project={project} />
+                </motion.div>
               ))}
-            </motion.div>
+            </AnimatePresence>
+          </div>
         )}
       </div>
     </section>

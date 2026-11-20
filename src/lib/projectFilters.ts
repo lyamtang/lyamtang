@@ -1,32 +1,21 @@
-import type { Project, ProjectStatus } from '@/data/types';
+import type { Project, ProjectFocus, ProjectIndustry, ProjectStatus } from '@/data/types';
+import { FOCUS_BY_VALUE, INDUSTRY_BY_VALUE } from '@/lib/projectTaxonomy';
 
 export interface ProjectFilterState {
   query: string;
-  categories: string[];
+  industries: ProjectIndustry[];
+  focuses: ProjectFocus[];
   status: ProjectStatus | 'all';
 }
 
-export interface ProjectFilterOptions {
-  categories: string[];
-  statuses: ProjectStatus[];
-}
+export const DEFAULT_FILTERS: ProjectFilterState = {
+  query: '',
+  industries: [],
+  focuses: [],
+  status: 'all',
+};
 
 const STATUS_ORDER: ProjectStatus[] = ['in_progress', 'completed'];
-
-export function getProjectFilterOptions(projects: Project[]): ProjectFilterOptions {
-  const categories = [...new Set(projects.flatMap((project) => project.category))].sort((a, b) =>
-    a.localeCompare(b),
-  );
-
-  const statuses = [...new Set(projects.map((project) => project.status))].sort(
-    (a, b) => STATUS_ORDER.indexOf(a) - STATUS_ORDER.indexOf(b),
-  );
-
-  return {
-    categories,
-    statuses,
-  };
-}
 
 export function formatStatusLabel(status: ProjectStatus): string {
   switch (status) {
@@ -40,10 +29,7 @@ export function formatStatusLabel(status: ProjectStatus): string {
 }
 
 export function getActiveFilterCount(filters: ProjectFilterState): number {
-  let count = 0;
-  if (filters.categories.length > 0) count += 1;
-  if (filters.status !== 'all') count += 1;
-  return count;
+  return filters.industries.length + filters.focuses.length + (filters.status === 'all' ? 0 : 1);
 }
 
 function getStatusRank(status: ProjectStatus): number {
@@ -77,15 +63,19 @@ export function filterProjects(projects: Project[], filters: ProjectFilterState)
       project.shortDescription.toLowerCase().includes(q) ||
       project.longDescription.toLowerCase().includes(q) ||
       project.tech.some((tech) => tech.toLowerCase().includes(q)) ||
-      project.category.some((category) => category.toLowerCase().includes(q));
+      INDUSTRY_BY_VALUE[project.industry].label.toLowerCase().includes(q) ||
+      project.focus.some((focus) => FOCUS_BY_VALUE[focus].label.toLowerCase().includes(q));
 
-    const matchesCategory =
-      filters.categories.length === 0 ||
-      filters.categories.some((selectedCategory) => project.category.includes(selectedCategory));
+    const matchesIndustry =
+      filters.industries.length === 0 || filters.industries.includes(project.industry);
+
+    const matchesFocus =
+      filters.focuses.length === 0 ||
+      filters.focuses.some((focus) => project.focus.includes(focus));
 
     const matchesStatus = filters.status === 'all' || project.status === filters.status;
 
-    return matchesQuery && matchesCategory && matchesStatus;
+    return matchesQuery && matchesIndustry && matchesFocus && matchesStatus;
   });
 
   return sortProjects(filtered);

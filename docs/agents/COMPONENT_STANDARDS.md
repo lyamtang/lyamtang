@@ -14,7 +14,7 @@ Use these defaults unless a component has a clear product reason to deviate.
 | Textarea input | 16px text on mobile (`text-base`) | 14px text on desktop (`sm:text-sm`) | Prevent iOS focus-zoom; keep density on larger screens |
 | Icon button (`icon`) | 40px (`size-10`) | 40px (`size-10`) | Minimum icon action target |
 | Icon button (`icon-lg`) | 44px (`size-11`) | 44px (`size-11`) | Use in mobile drawers and major actions |
-| Interactive filter chips (removable) | 36px (`h-9`) | 36px (`h-9`) | Keep selected-filter chips compact while maintaining readability |
+| Interactive filter chips (toggle) | 40px (`h-10`) | 40px (`h-10`) | Pill chips with a leading icon inside the filter panel |
 | Project-card metadata/tech chips | 24px (`h-6`) | 24px (`h-6`) | Improve readability while preserving card density |
 | About section skill/tool chips | 24px (`h-6`) | 24px (`h-6`) | Keep skills/tools readable while matching project chip scale |
 
@@ -50,7 +50,7 @@ Use chip variants by semantics, not by section-level preference.
 
 | Chip role | Variant/style | Size baseline | Interaction | Current usage |
 | --- | --- | --- | --- | --- |
-| Selected filter chip (active + removable) | `default` | `h-9 px-2.5 text-xs` | clickable/removable | Project filter selected chips |
+| Filter chip (toggle) | `default` when selected, `outline` otherwise | `h-10 px-3.5 text-sm`, icon + label | `aria-pressed` toggle | Project filter panel (Industry, Focus, Status) |
 | Metadata chip (neutral context) | `outline` | `h-6 px-2.5 text-xs` | static | Project category chips, “+N” category chip |
 | Skill/tool chip (knowledge stack) | `secondary` | `h-6 px-2.5 text-xs` | static | Education highlights, Experience tools, Project tech chips |
 | Status chip (state semantics) | custom tinted semantic class | `h-6 px-2.5 text-xs` | static | Project status (`in_progress`, `completed`) |
@@ -58,22 +58,23 @@ Use chip variants by semantics, not by section-level preference.
 Rules:
 - Keep chip text at `text-xs` for dense chip groups.
 - Keep `h-6 px-2.5` as the default static chip baseline.
-- Use `h-9` only for interactive removable chips in the filter summary row.
+- Use `h-10` for interactive filter chips; they meet the 40px hit-target rule.
 - Do not mix `outline` and `secondary` in one static tag group unless they intentionally encode different meanings.
 - Status chips must remain semantically tinted (state meaning), not converted to neutral variants.
 
 ## 4) Toolbar Pattern (Search + Filters)
 
-- Search input follows input standard (`h-11` mobile, `h-10` desktop).
-- Leading icon stays 16px (`h-4 w-4`), positioned with `pl-10`.
-- Search icon must remain visibly rendered above the input surface (`z-10`, non-transparent contrast tone).
-- Trailing clear control should use at least `size-9`.
-- Adjacent filter triggers should match search input height per breakpoint (`h-11` mobile, `h-10` desktop).
-- Collection/filter toolbars should use `position: sticky` under fixed header chrome, so they pin only once scrolled near the viewport top.
+- Collection toolbars are one compact island pill (`nav-glass`, icon segments `size-11` mobile / `size-10` desktop) holding only search and filter. It never spans the full width.
+- The island sits in its own row directly below the section heading, aligned to the trailing edge, so it can never overlap the title. The row is `position: sticky` under the fixed header.
+- Search is the first island segment and expands in place (`width` transition), auto-focuses, stays open while it has a query, and collapses on blur when empty or on Escape.
+- Filters are one inline panel for every breakpoint (no drawer, popover or dropdown menus); it expands in flow below the island and pushes content down. Chip groups are laid out with `flex-wrap`, and changes apply instantly (no draft or Apply step).
+- The filter icon shows a count badge when filters are active. Reset lives inside the filter panel (top-right, on the first group's caption row) and is disabled when no filters are active; the search field has its own ✕.
+- The sticky `top` offset transitions (~240ms, same easing as the header slide) so the toolbar never snaps when the header hides, e.g. on touch text-field focus.
+- The filter panel dismisses on Escape or an outside press.
+- Filtering is local and instant: no debounce and no skeleton flash.
 - When paired with an auto-hiding header:
-  - header visible → filter toolbar offset sits below header;
-  - header hidden → filter toolbar snaps to device top safe-area (`env(safe-area-inset-top)`).
-- On touch devices, when a text field is focused and the virtual keyboard opens, keep the auto-hiding header suppressed to prevent it from popping back into view mid-typing.
+  - header visible → toolbar offset sits below header;
+  - header hidden → toolbar snaps to device top safe-area (`env(safe-area-inset-top)`).
 
 ## 5) Motion + Feedback Baseline
 
