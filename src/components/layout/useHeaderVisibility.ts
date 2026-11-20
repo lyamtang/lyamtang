@@ -21,6 +21,7 @@ const UP_KEYS = new Set(['ArrowUp', 'PageUp', 'Home']);
  * - While any `[data-header-pin]` element is in view the header stays visible and
  *   hiding only arms once that zone is scrolled past.
  * - At the very top, an upward gesture reveals the header even though no scroll event fires.
+ * - While `<html data-header-scroll-lock="true">` is set, scroll movement does not toggle visibility.
  */
 export function useHeaderVisibility(pathname: string) {
   const [visible, setVisible] = useState(true);
@@ -93,6 +94,12 @@ export function useHeaderVisibility(pathname: string) {
       if (y <= TOP_THRESHOLD_PX || pinnedZones.size > 0) {
         accumulated = 0;
         setVisible(true);
+        return;
+      }
+
+      // Scrolls the page makes on its own (e.g. jumping to filtered results) must not toggle the header.
+      if (document.documentElement.dataset.headerScrollLock === 'true') {
+        accumulated = 0;
         return;
       }
 
