@@ -1,400 +1,282 @@
 'use client';
 
-import { useEffect, useState, type CSSProperties } from 'react';
-import { Drawer } from '@base-ui/react/drawer';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { motion } from 'motion/react';
+import { Filter, RotateCcw, Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Check, ChevronDown, Filter, Search, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { ProjectStatus } from '@/data/types';
-import { formatStatusLabel } from '@/lib/projectFilters';
 import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
-import styles from './ProjectFilterDrawer.module.css';
-
-const drawerMotionStyle: CSSProperties & {
-  '--filter-drawer-duration': string;
-  '--filter-drawer-easing': string;
-} = {
-  '--filter-drawer-duration': `${MOTION_DURATION.base}s`,
-  '--filter-drawer-easing': `cubic-bezier(${MOTION_EASING.smoothOut.join(',')})`,
-};
+import { getActiveFilterCount, type ProjectFilterState } from '@/lib/projectFilters';
+import {
+  FOCUS_OPTIONS,
+  INDUSTRY_OPTIONS,
+  STATUS_OPTIONS,
+  type TaxonomyOption,
+} from '@/lib/projectTaxonomy';
 
 interface ProjectFilterProps {
-  query: string;
-  onQueryChange: (q: string) => void;
-  categories: string[];
-  selectedCategories: string[];
-  onCategoryToggle: (category: string) => void;
-  statuses: ProjectStatus[];
-  selectedStatus: ProjectStatus | 'all';
-  onStatusChange: (status: ProjectStatus | 'all') => void;
-  activeFilterCount: number;
-  onClearFilters: () => void;
+  filters: ProjectFilterState;
+  onFiltersChange: (filters: ProjectFilterState) => void;
 }
 
-export function ProjectFilter({
-  query,
-  onQueryChange,
-  categories,
-  selectedCategories,
-  onCategoryToggle,
-  statuses,
-  selectedStatus,
-  onStatusChange,
-  activeFilterCount,
-  onClearFilters,
-}: ProjectFilterProps) {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [mobileDraft, setMobileDraft] = useState({
-    categories: selectedCategories,
-    status: selectedStatus,
-  });
+const SCROLL_CLOSE_PX = 64;
 
-  useEffect(() => {
-    if (!drawerOpen) return;
+const toggleValue = <T,>(values: T[], value: T): T[] =>
+  values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
 
-    const desktop = window.matchMedia('(min-width: 64rem)');
-    const closeOnDesktop = () => {
-      if (desktop.matches) setDrawerOpen(false);
-    };
-    closeOnDesktop();
-    desktop.addEventListener('change', closeOnDesktop);
-    return () => desktop.removeEventListener('change', closeOnDesktop);
-  }, [drawerOpen]);
+const segmentClass =
+  'relative inline-flex size-11 shrink-0 items-center justify-center rounded-full text-foreground/70 transition-[color,background-color,scale] duration-150 outline-none touch-manipulation hover:bg-foreground/8 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 active:scale-[0.96] disabled:pointer-events-none disabled:opacity-40 disabled:active:scale-100 sm:size-10';
 
-  useEffect(() => {
-    return () => {
-      const hasOpenBaseUiDialog = Boolean(
-        document.querySelector('[data-base-ui-portal] [role="dialog"]'),
-      );
+const iconSwapClass = (visible: boolean) =>
+  cn(
+    'absolute size-4 transition-[opacity,scale,filter] duration-300 ease-[cubic-bezier(0.2,0,0,1)] motion-reduce:scale-100 motion-reduce:blur-none',
+    visible ? 'scale-100 opacity-100 blur-none' : 'scale-25 opacity-0 blur-[4px]',
+  );
 
-      if (hasOpenBaseUiDialog || document.body.style.overflow !== 'hidden') {
-        return;
-      }
+function ChipGroup({
+  label,
+  action,
+  className,
+  children,
+}: {
+  label: string;
+  action?: ReactNode;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div role="group" aria-label={label} className={cn('flex flex-col gap-2', className)}>
+      <div className={cn('flex items-center justify-between gap-2', action && '-mt-1.5 mb-1')}>
+        <p aria-hidden="true" className="text-xs font-medium text-muted-foreground">
+          {label}
+        </p>
+        {action}
+      </div>
+      <div className="flex flex-wrap gap-2">{children}</div>
+    </div>
+  );
+}
 
-      document.body.style.removeProperty('overflow');
-      document.body.style.removeProperty('padding-right');
-    };
-  }, []);
-
-  const handleCategoryToggle = (category: string) => {
-    onCategoryToggle(category);
-  };
-
-  const handleStatusChange = (status: ProjectStatus | 'all') => {
-    onStatusChange(status);
-  };
-
-  const handleSearchChange = (searchQuery: string) => {
-    onQueryChange(searchQuery);
-  };
-
-  const handleClearFilters = () => {
-    onClearFilters();
-  };
-
-  const handleDrawerChange = (open: boolean) => {
-    if (open) {
-      setMobileDraft({
-        categories: selectedCategories,
-        status: selectedStatus,
-      });
-    }
-    setDrawerOpen(open);
-  };
-
-  const categoryActive = selectedCategories.length > 0;
-  const statusActive = selectedStatus !== 'all';
-
-  const categorySummary =
-    selectedCategories.length === 0
-      ? 'All categories'
-      : selectedCategories.length === 1
-        ? selectedCategories[0]
-        : `${selectedCategories.length} selected`;
-
-  const statusSummary = selectedStatus === 'all' ? 'All statuses' : formatStatusLabel(selectedStatus);
-
-  const applyMobileFilters = () => {
-    const sortedCategories = [...mobileDraft.categories].sort((a, b) => a.localeCompare(b));
-    const currentSorted = [...selectedCategories].sort((a, b) => a.localeCompare(b));
-    const sameCategories =
-      sortedCategories.length === currentSorted.length &&
-      sortedCategories.every((value, idx) => value === currentSorted[idx]);
-
-    if (!sameCategories) {
-      const toRemove = currentSorted.filter((item) => !sortedCategories.includes(item));
-      const toAdd = sortedCategories.filter((item) => !currentSorted.includes(item));
-      toRemove.forEach((category) => onCategoryToggle(category));
-      toAdd.forEach((category) => onCategoryToggle(category));
-    }
-
-    if (mobileDraft.status !== selectedStatus) {
-      onStatusChange(mobileDraft.status);
-    }
-
-    setDrawerOpen(false);
-  };
-
-  const clearMobileDraft = () => {
-    setMobileDraft({
-      categories: [],
-      status: 'all',
-    });
-  };
-
-  const triggerClass = (isActive: boolean) =>
-    cn(
-      'justify-between border backdrop-blur-md transition-colors',
-      isActive
-        ? 'border-primary/60 bg-primary/14 text-foreground hover:bg-primary/18'
-        : 'border-border bg-[color-mix(in_oklab,var(--card)_94%,transparent)] supports-[backdrop-filter]:bg-[color-mix(in_oklab,var(--card)_88%,transparent)] hover:bg-[color-mix(in_oklab,var(--card)_97%,var(--muted)_3%)]',
-    );
-  const activeChipClass =
-    'h-9 cursor-pointer gap-1 px-2.5 text-xs [&>svg]:size-3!';
+function FilterChip<T extends string>({
+  option,
+  selected,
+  onToggle,
+}: {
+  option: TaxonomyOption<T>;
+  selected: boolean;
+  onToggle: () => void;
+}) {
+  const Icon = option.icon;
 
   return (
-    <div className="mb-8 space-y-4">
-      <Drawer.Root open={drawerOpen} onOpenChange={handleDrawerChange}>
-      <div className="flex items-center gap-2 lg:hidden">
-        <div className="relative flex-1">
-          <Search className="pointer-events-none absolute top-1/2 left-3.5 z-10 h-4 w-4 -translate-y-1/2 text-foreground/65" />
-          <Input
-            placeholder="Search projects..."
-            value={query}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="pl-10 pr-10 bg-[color-mix(in_oklab,var(--card)_94%,transparent)] backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklab,var(--card)_88%,transparent)]"
-          />
-          {query && (
-            <button
-              onClick={() => onQueryChange('')}
-              className="absolute top-1/2 right-1 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-              aria-label="Clear search"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          )}
-        </div>
+    <Button
+      type="button"
+      variant={selected ? 'default' : 'outline'}
+      aria-pressed={selected}
+      onClick={onToggle}
+      className="rounded-full px-3.5 duration-150"
+    >
+      <Icon />
+      {option.label}
+    </Button>
+  );
+}
 
-        <Drawer.Trigger
-          aria-label="Filter projects"
-          render={
-            <Button
-              variant="outline"
-              size="lg"
-              className={cn(
-                'relative h-11 min-w-11 shrink-0 gap-2 border px-3 backdrop-blur-md transition-colors',
-                activeFilterCount > 0
-                  ? 'border-primary/60 bg-primary/14 text-foreground hover:bg-primary/18'
-                  : 'border-border bg-[color-mix(in_oklab,var(--card)_94%,transparent)] supports-[backdrop-filter]:bg-[color-mix(in_oklab,var(--card)_88%,transparent)]',
-              )}
-            />
-          }
+export function ProjectFilter({ filters, onFiltersChange }: ProjectFilterProps) {
+  const panelId = useId();
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const activeCount = getActiveFilterCount(filters);
+  const searchVisible = searchOpen || filters.query.length > 0;
+
+  useEffect(() => {
+    if (searchOpen) inputRef.current?.focus({ preventScroll: true });
+  }, [searchOpen]);
+
+  useEffect(() => {
+    if (!panelOpen) return;
+
+    const closeOnOutsidePress = (event: PointerEvent) => {
+      if (!toolbarRef.current?.contains(event.target as Node)) setPanelOpen(false);
+    };
+    document.addEventListener('pointerdown', closeOnOutsidePress);
+    return () => document.removeEventListener('pointerdown', closeOnOutsidePress);
+  }, [panelOpen]);
+
+  useEffect(() => {
+    if (!panelOpen) return;
+
+    // The pinned panel would cover the cards the user scrolls to inspect.
+    const startY = window.scrollY;
+    const closeOnScroll = () => {
+      if (Math.abs(window.scrollY - startY) > SCROLL_CLOSE_PX) setPanelOpen(false);
+    };
+    window.addEventListener('scroll', closeOnScroll, { passive: true });
+    return () => window.removeEventListener('scroll', closeOnScroll);
+  }, [panelOpen]);
+
+  const update = (patch: Partial<ProjectFilterState>) => onFiltersChange({ ...filters, ...patch });
+
+  const closeSearch = () => {
+    update({ query: '' });
+    setSearchOpen(false);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== 'Escape') return;
+    if (panelOpen) {
+      setPanelOpen(false);
+    } else if (searchVisible) {
+      closeSearch();
+    }
+  };
+
+  return (
+    <div
+      ref={toolbarRef}
+      onKeyDown={handleKeyDown}
+      className="pointer-events-none sticky top-[calc(var(--projects-filter-top-offset)+0.5rem)] z-30 mb-6 flex flex-col items-end transition-[top] duration-[240ms] ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: MOTION_DURATION.base, delay: 0.12, ease: MOTION_EASING.smoothOut }}
+        className="nav-glass pointer-events-auto flex max-w-full items-center gap-0.5 rounded-full p-1"
+      >
+        <div
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget) && !filters.query) {
+              setSearchOpen(false);
+            }
+          }}
+          className={cn(
+            'flex h-11 min-w-0 items-center rounded-full transition-[width,background-color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] has-[input:focus-visible]:ring-2 has-[input:focus-visible]:ring-ring/50 motion-reduce:transition-none sm:h-10',
+            searchVisible
+              ? 'w-[min(13rem,calc(100vw-9rem))] bg-foreground/8 sm:w-72'
+              : 'w-11 hover:bg-foreground/8 sm:w-10',
+          )}
         >
-          <Filter className="h-4 w-4" />
-          {activeFilterCount > 0 && (
-            <Badge className="h-5 min-w-5 justify-center rounded-full px-1.5 text-[10px]">
-              {activeFilterCount}
-            </Badge>
-          )}
-        </Drawer.Trigger>
-      </div>
-
-      <div className="hidden lg:flex lg:items-center lg:gap-2 lg:flex-nowrap">
-        <div className="relative w-full lg:flex-1">
-          <Search className="pointer-events-none absolute top-1/2 left-3.5 z-10 h-4 w-4 -translate-y-1/2 text-foreground/65" />
-          <Input
-            placeholder="Search projects..."
-            value={query}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="pl-10 pr-10 bg-[color-mix(in_oklab,var(--card)_94%,transparent)] backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklab,var(--card)_88%,transparent)]"
-          />
-          {query && (
-            <button
-              onClick={() => onQueryChange('')}
-              className="absolute top-1/2 right-1 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-              aria-label="Clear search"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          )}
-        </div>
-
-        <div className="flex shrink-0 items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger render={<Button variant="outline" size="default" className={triggerClass(categoryActive)} />}>
-              <span className="truncate">{categorySummary}</span>
-              <ChevronDown className="h-4 w-4 text-muted-foreground" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64">
-              <DropdownMenuGroup>
-                <DropdownMenuLabel>Categories</DropdownMenuLabel>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              {categories.map((category) => (
-                <DropdownMenuCheckboxItem
-                  key={category}
-                  checked={selectedCategories.includes(category)}
-                  onCheckedChange={() => handleCategoryToggle(category)}
-                >
-                  {category}
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger render={<Button variant="outline" size="default" className={triggerClass(statusActive)} />}>
-              <span className="truncate">{statusSummary}</span>
-              <ChevronDown className="h-4 w-4 text-muted-foreground" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuGroup>
-                <DropdownMenuLabel>Status</DropdownMenuLabel>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuRadioGroup value={selectedStatus} onValueChange={(value) => handleStatusChange(value as ProjectStatus | 'all')}>
-                <DropdownMenuRadioItem value="all">All statuses</DropdownMenuRadioItem>
-                {statuses.map((status) => (
-                  <DropdownMenuRadioItem key={status} value={status}>
-                    {formatStatusLabel(status)}
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-
-      {(selectedCategories.length > 0 || selectedStatus !== 'all') && (
-        <div className="flex flex-wrap items-center gap-2">
-          {selectedCategories.map((category) => (
-            <button
-              key={category}
-              type="button"
-              onClick={() => handleCategoryToggle(category)}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-            >
-              <Badge variant="default" className={activeChipClass}>
-                Category: {category}
-                <X className="h-3.5 w-3.5" />
-              </Badge>
-            </button>
-          ))}
-          {selectedStatus !== 'all' && (
-            <button
-              type="button"
-              onClick={() => handleStatusChange('all')}
-              className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-            >
-              <Badge variant="default" className={activeChipClass}>
-                Status: {formatStatusLabel(selectedStatus)}
-                <X className="h-3.5 w-3.5" />
-              </Badge>
-            </button>
-          )}
-          <Button variant="ghost" onClick={handleClearFilters}>
-            Clear all
-          </Button>
-        </div>
-      )}
-
-      <Drawer.Portal>
-        <Drawer.Backdrop
-          className={cn(styles.backdrop, 'fixed inset-0 z-50 bg-black lg:hidden')}
-          style={drawerMotionStyle}
-        />
-        <Drawer.Viewport className="fixed inset-0 z-50 flex items-end lg:hidden">
-          <Drawer.Popup
-            className={cn(styles.popup, 'flex max-h-[min(80dvh,calc(100dvh-env(safe-area-inset-top,0px)))] w-full flex-col rounded-t-2xl border border-border bg-background pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] shadow-2xl outline-none')}
-            style={drawerMotionStyle}
+          <button
+            type="button"
+            aria-label="Search projects"
+            aria-expanded={searchVisible}
+            onClick={() => (searchVisible ? inputRef.current?.focus() : setSearchOpen(true))}
+            className="inline-flex size-11 shrink-0 items-center justify-center rounded-full text-foreground/70 outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 sm:size-10"
           >
-            <div className="shrink-0 px-4 pt-4">
-              <div className="mx-auto mb-2 h-1.5 w-12 rounded-full bg-muted" aria-hidden="true" />
-              <div className="mb-2 flex items-center justify-between">
-                <Drawer.Title className="text-base font-semibold">Filters</Drawer.Title>
-                <Drawer.Close aria-label="Close filters" render={<Button variant="ghost" size="icon" />}>
-                  <X className="h-4 w-4" />
-                </Drawer.Close>
-              </div>
-            </div>
+            <Search className="size-4" />
+          </button>
+          <div inert={!searchVisible} className="flex min-w-0 flex-1 items-center overflow-hidden">
+            <input
+              ref={inputRef}
+              type="text"
+              enterKeyHint="search"
+              aria-label="Search projects"
+              placeholder="Search"
+              value={filters.query}
+              onChange={(event) => update({ query: event.target.value })}
+              className="h-full min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground sm:text-sm"
+            />
+            <button
+              type="button"
+              aria-label="Close search"
+              onClick={closeSearch}
+              className="inline-flex size-11 shrink-0 items-center justify-center rounded-full text-foreground/70 outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 sm:size-10"
+            >
+              <X className="size-4" />
+            </button>
+          </div>
+        </div>
 
-            <Drawer.Content className="min-h-0 space-y-4 overflow-y-auto overscroll-contain px-4 pb-4">
-              <div className="space-y-2 rounded-xl border border-border p-3">
-                <p className="text-sm font-medium">Categories</p>
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((category) => {
-                    const selected = mobileDraft.categories.includes(category);
-                    return (
-                      <Button
-                        key={category}
-                        variant={selected ? 'default' : 'outline'}
-                        aria-pressed={selected}
-                        onClick={() =>
-                          setMobileDraft((prev) => ({
-                            ...prev,
-                            categories: selected
-                              ? prev.categories.filter((item) => item !== category)
-                              : [...prev.categories, category],
-                          }))
-                        }
-                      >
-                        {selected && <Check className="h-3 w-3" />}
-                        {category}
-                      </Button>
-                    );
-                  })}
-                </div>
-              </div>
+        <button
+          type="button"
+          aria-label="Filter projects"
+          aria-expanded={panelOpen}
+          aria-controls={panelId}
+          onClick={() => setPanelOpen((open) => !open)}
+          className={cn(
+            segmentClass,
+            'aria-expanded:bg-foreground/10 aria-expanded:text-foreground',
+            activeCount > 0 && 'text-foreground',
+          )}
+        >
+          <Filter className={iconSwapClass(!panelOpen)} />
+          <X className={iconSwapClass(panelOpen)} />
+          {activeCount > 0 && (
+            <span className="absolute end-0 top-0 grid size-5 place-items-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground tabular-nums">
+              {activeCount}
+            </span>
+          )}
+        </button>
+      </motion.div>
 
-              <div className="space-y-2 rounded-xl border border-border p-3">
-                <p className="text-sm font-medium">Status</p>
-                <div className="flex flex-wrap gap-2">
-                  <Button
-                    variant={mobileDraft.status === 'all' ? 'default' : 'outline'}
-                    aria-pressed={mobileDraft.status === 'all'}
-                    onClick={() => setMobileDraft((prev) => ({ ...prev, status: 'all' }))}
-                  >
-                    All statuses
-                  </Button>
-                  {statuses.map((status) => (
-                    <Button
-                      key={status}
-                      variant={mobileDraft.status === status ? 'default' : 'outline'}
-                      aria-pressed={mobileDraft.status === status}
-                      onClick={() => setMobileDraft((prev) => ({ ...prev, status }))}
-                    >
-                      {formatStatusLabel(status)}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            </Drawer.Content>
-
-            <div className="flex shrink-0 items-center gap-2 border-t bg-background p-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
-              <Button size="lg" variant="outline" className="flex-1" onClick={clearMobileDraft}>
-                Clear
-              </Button>
-              <Button size="lg" className="flex-1" onClick={applyMobileFilters}>
-                Apply
-              </Button>
-            </div>
-          </Drawer.Popup>
-        </Drawer.Viewport>
-      </Drawer.Portal>
-      </Drawer.Root>
+      <div
+        id={panelId}
+        inert={!panelOpen}
+        className={cn(
+          'pointer-events-auto grid w-full transition-[grid-template-rows,opacity,visibility] ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-[opacity,visibility]',
+          panelOpen
+            ? 'visible grid-rows-[1fr] opacity-100 duration-200'
+            : 'invisible grid-rows-[0fr] opacity-0 duration-150',
+        )}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <div className="mt-2 flex flex-wrap gap-x-10 gap-y-5 rounded-2xl border border-border bg-card/95 p-4 backdrop-blur-xl sm:p-5">
+            <ChipGroup
+              label="Industry"
+              className="basis-full"
+              action={
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Reset filters"
+                  disabled={activeCount === 0}
+                  onClick={() => update({ industries: [], focuses: [], status: 'all' })}
+                  className="size-9 rounded-full"
+                >
+                  <RotateCcw />
+                </Button>
+              }
+            >
+              {INDUSTRY_OPTIONS.map((option) => (
+                <FilterChip
+                  key={option.value}
+                  option={option}
+                  selected={filters.industries.includes(option.value)}
+                  onToggle={() =>
+                    update({ industries: toggleValue(filters.industries, option.value) })
+                  }
+                />
+              ))}
+            </ChipGroup>
+            <ChipGroup label="Focus">
+              {FOCUS_OPTIONS.map((option) => (
+                <FilterChip
+                  key={option.value}
+                  option={option}
+                  selected={filters.focuses.includes(option.value)}
+                  onToggle={() => update({ focuses: toggleValue(filters.focuses, option.value) })}
+                />
+              ))}
+            </ChipGroup>
+            <ChipGroup label="Status">
+              {STATUS_OPTIONS.map((option) => (
+                <FilterChip
+                  key={option.value}
+                  option={option}
+                  selected={filters.status === option.value}
+                  onToggle={() =>
+                    update({ status: filters.status === option.value ? 'all' : option.value })
+                  }
+                />
+              ))}
+            </ChipGroup>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

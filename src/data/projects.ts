@@ -11,7 +11,8 @@ export const projects: Project[] = [
     tech: ['Jira', 'Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'shadcn/ui'],
     githubUrl: 'https://github.com/lyamtang/lyamtang',
     featured: true,
-    category: ['Web', 'UI/UX', 'Product Management', 'Project Management', 'Frontend'],
+    industry: 'tech',
+    focus: ['engineering', 'design', 'management'],
     status: 'in_progress',
     period: {
       startYear: 2026,
@@ -86,7 +87,8 @@ export const projects: Project[] = [
     tech: ['Jira', 'Confluence', 'Notion', 'React Native', 'Node.js', 'PostgreSQL', 'TypeScript', 'Go', 'WebSocket', 'Redis', 'Docker', 'Pencil.dev', 'MQTT', 'Rest API', 'Github', 'Expo'],
     githubUrl: '',
     featured: true,
-    category: ['Full Stack', 'Frontend', 'Backend', 'IoT', 'Product Management', 'Project Management', 'Web', 'Mobile'],
+    industry: 'healthcare',
+    focus: ['engineering', 'management'],
     status: 'completed',
     period: {
       startYear: 2025,
@@ -204,7 +206,8 @@ export const projects: Project[] = [
     tech: ['Generative AI', 'UI/UX Design', 'FPA Estimation', 'WBS'],
     githubUrl: 'https://github.com/Lyam-T/ISOM3010',
     featured: true,
-    category: ['Project Management', 'UI/UX', 'Prototype'],
+    industry: 'safety',
+    focus: ['management', 'design', 'ai_data'],
     status: 'completed',
     period: {
       startYear: 2026,
@@ -291,7 +294,8 @@ export const projects: Project[] = [
     tech: ['Svelte', 'Prompt Engineering', 'Human-Robot Interaction'],
     githubUrl: '',
     featured: true,
-    category: ['HCI','Prototype'],
+    industry: 'safety',
+    focus: ['design', 'ai_data'],
     status: 'completed',
     period: {
       startYear: 2025,
@@ -308,7 +312,8 @@ export const projects: Project[] = [
     tech: ['Generative AI', 'XR Development', 'Unity'],
     githubUrl: '',
     featured: true,
-    category: ['HCI', 'Prototype'],
+    industry: 'tourism',
+    focus: ['design', 'engineering'],
     status: 'completed',
     period: {
       startYear: 2025,
@@ -325,7 +330,8 @@ export const projects: Project[] = [
     tech: ['Machine Learning', 'Time Series Analysis', 'Python', 'Long Short Term Memory (LSTM)'],
     githubUrl: '',
     featured: true,
-    category: ['Machine Learning',  'Data Science'],
+    industry: 'finance',
+    focus: ['ai_data'],
     status: 'completed',
     period: {
       startYear: 2025,

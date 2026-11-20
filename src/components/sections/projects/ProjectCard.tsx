@@ -7,9 +7,10 @@ import { Github } from '@thesvg/react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Project } from '@/data/types';
+import { MOTION_DURATION, MOTION_EASING } from '@/lib/motion';
 import { formatStatusLabel } from '@/lib/projectFilters';
+import { FOCUS_BY_VALUE, INDUSTRY_BY_VALUE } from '@/lib/projectTaxonomy';
 
-const MAX_CATEGORIES = 2;
 const MAX_TECH = 3;
 
 function formatPeriod(project: Project): string {
@@ -20,8 +21,7 @@ function formatPeriod(project: Project): string {
 }
 
 export function ProjectCard({ project }: { project: Project }) {
-  const visibleCategories = project.category.slice(0, MAX_CATEGORIES);
-  const extraCategoryCount = Math.max(project.category.length - visibleCategories.length, 0);
+  const industry = INDUSTRY_BY_VALUE[project.industry];
   const visibleTech = project.tech.slice(0, MAX_TECH);
   const extraTechCount = Math.max(project.tech.length - visibleTech.length, 0);
   const metaChipClass = 'h-6 px-2.5 text-xs';
@@ -33,7 +33,8 @@ export function ProjectCard({ project }: { project: Project }) {
 
   return (
     <motion.div
-      whileHover={{ y: -6 }}
+      whileHover={{ y: -3 }}
+      transition={{ duration: MOTION_DURATION.fast, ease: MOTION_EASING.smoothOut }}
         className="h-full min-w-0"
     >
         <Card className="group flex h-[19rem] min-w-0 flex-col border-border/50 transition-colors hover:border-primary/50">
@@ -42,16 +43,10 @@ export function ProjectCard({ project }: { project: Project }) {
             <Badge className={`uppercase tracking-wide ${statusBadgeClass}`}>
               {formatStatusLabel(project.status)}
             </Badge>
-            {visibleCategories.map((category) => (
-              <Badge key={category} variant="outline" className={metaChipClass}>
-                {category}
-              </Badge>
-            ))}
-            {extraCategoryCount > 0 && (
-              <Badge variant="outline" className={`${metaChipClass} text-muted-foreground`}>
-                +{extraCategoryCount}
-              </Badge>
-            )}
+            <Badge variant="outline" className={metaChipClass}>
+              <industry.icon />
+              {industry.label}
+            </Badge>
           </div>
           <div className="flex items-start justify-between gap-2">
             <div>
@@ -98,12 +93,24 @@ export function ProjectCard({ project }: { project: Project }) {
               </Badge>
             )}
           </div>
-          <Link
-            href={`/projects/${project.slug}`}
-            className="mt-auto inline-flex h-10 w-fit items-center gap-1.5 rounded-md px-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-          >
-            View details <ArrowRight className="h-4 w-4" />
-          </Link>
+          <div className="mt-auto flex items-center justify-between gap-2">
+            <Link
+              href={`/projects/${project.slug}`}
+              className="inline-flex h-10 w-fit items-center gap-1.5 rounded-md px-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            >
+              View details <ArrowRight className="h-4 w-4" />
+            </Link>
+            <div className="flex items-center gap-2 text-muted-foreground">
+              {project.focus.map((value) => {
+                const { icon: Icon, label } = FOCUS_BY_VALUE[value];
+                return (
+                  <span key={value} title={label} className="inline-flex">
+                    <Icon role="img" aria-label={label} className="size-4" />
+                  </span>
+                );
+              })}
+            </div>
+          </div>
         </CardContent>
       </Card>
     </motion.div>
