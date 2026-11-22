@@ -35,12 +35,13 @@ export function Projects() {
     setFrozenHeight(active ? (resultsRef.current?.offsetHeight ?? null) : null);
   }, []);
 
-  const hasFilteredOnce = useRef(false);
+  // Keyed by the visible result set, so no-op updates (e.g. closing an empty search) never scroll.
+  const resultKey = filtered.map((project) => project.slug).join('|');
+  const lastResultKey = useRef<string | null>(null);
   useEffect(() => {
-    if (!hasFilteredOnce.current) {
-      hasFilteredOnce.current = true;
-      return;
-    }
+    const previous = lastResultKey.current;
+    lastResultKey.current = resultKey;
+    if (previous === null || previous === resultKey) return;
 
     const results = resultsRef.current;
     const toolbar = document.querySelector('[data-filter-toolbar]');
@@ -61,7 +62,7 @@ export function Projects() {
     root.dataset.headerScrollLock = 'true';
     window.addEventListener('scrollend', unlock, { once: true });
     window.scrollBy({ top: offset, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
-  }, [filters]);
+  }, [resultKey]);
 
   return (
     <section id="projects" className="min-h-dvh px-4 py-16 sm:px-6 sm:py-24 lg:px-8">

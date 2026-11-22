@@ -201,8 +201,18 @@ export function ProjectFilter({ filters, onFiltersChange, onActiveChange }: Proj
   }, [panelOpen, searchFocused, onActiveChange]);
 
   const update = (patch: Partial<ProjectFilterState>) => {
+    const next = { ...filters, ...patch };
+    const unchanged =
+      next.query === filters.query &&
+      next.status === filters.status &&
+      next.industries.length === filters.industries.length &&
+      next.focuses.length === filters.focuses.length &&
+      next.industries.every((value) => filters.industries.includes(value)) &&
+      next.focuses.every((value) => filters.focuses.includes(value));
+    if (unchanged) return;
+
     ignoreScrollUntil.current = performance.now() + PROGRAMMATIC_SCROLL_MS;
-    onFiltersChange({ ...filters, ...patch });
+    onFiltersChange(next);
   };
 
   const closeSearch = () => {
